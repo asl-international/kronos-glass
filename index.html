@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instituto Kronos · Painel (Glassmorphism)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0612;
+  --glass:rgba(255,255,255,0.04);
+  --glass-hover:rgba(255,255,255,0.07);
+  --glass-border:rgba(255,255,255,0.08);
+  --glass-border-hover:rgba(236,72,153,0.4);
+  --pink:#ec4899;--pink-soft:rgba(236,72,153,.15);--pink-glow:rgba(236,72,153,.5);
+  --purple:#a78bfa;--purple-soft:rgba(167,139,250,.15);
+  --text:#f5f5f7;--text-2:#d4d4dc;--text-dim:#9a9aac;--text-faint:#5a5a6e;
+  --blue:#60a5fa;--green:#34d399;--yellow:#fbbf24;--red:#f87171;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;font-size:14.5px;font-weight:400;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(236,72,153,0.25) 0%,transparent 40%),radial-gradient(circle at 85% 80%,rgba(139,92,246,0.22) 0%,transparent 45%),radial-gradient(circle at 50% 50%,rgba(59,130,246,0.12) 0%,transparent 60%),var(--bg);z-index:-2;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:24px 24px;z-index:-1;pointer-events:none;opacity:.6}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:rgba(236,72,153,0.3)}
+.layout-tag{position:fixed;top:16px;right:18px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--pink);background:var(--pink-soft);border:1px solid var(--pink-glow);padding:5px 12px;border-radius:20px;text-transform:uppercase;z-index:99;font-weight:500;backdrop-filter:blur(12px)}
+
+/* === TOP NAV (glass) === */
+.topnav{position:sticky;top:0;z-index:50;background:rgba(10,6,18,0.55);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--glass-border);padding:0 32px;height:64px;display:flex;align-items:center;gap:22px}
+.brand{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;display:flex;align-items:center;gap:10px;letter-spacing:-.015em}
+.brand .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--pink),var(--purple));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;box-shadow:0 4px 16px rgba(236,72,153,0.4)}
+.brand .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text-faint);text-transform:uppercase;margin-left:8px;font-weight:500}
+.navlinks{display:flex;align-items:center;gap:2px;flex:1;margin-left:14px}
+.navlinks a{font-size:13.5px;color:var(--text-dim);text-decoration:none;padding:8px 14px;border-radius:10px;transition:all .2s;font-weight:500;position:relative}
+.navlinks a:hover{color:var(--text);background:var(--glass)}
+.navlinks a.active{color:#fff;background:linear-gradient(135deg,var(--pink-soft),var(--purple-soft));border:1px solid var(--pink-glow);box-shadow:0 4px 20px rgba(236,72,153,0.25)}
+.navlinks a .ct{font-size:10px;color:var(--text-faint);margin-left:5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;opacity:.7}
+.navlinks a.active .ct{color:var(--pink);opacity:1}
+
+.project-sel{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--text-dim);background:var(--glass);border:1px solid var(--glass-border);padding:7px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;backdrop-filter:blur(8px);border-radius:10px}
+.project-sel:hover{border-color:var(--pink-glow);color:var(--text);background:var(--glass-hover)}
+.project-sel::after{content:"▾";color:var(--text-faint);font-size:9px}
+
+.search-box{position:relative;width:280px}
+.search-box input{width:100%;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);font-size:13.5px;padding:8px 12px 8px 34px;border-radius:10px;font-family:inherit;outline:none;transition:all .2s;backdrop-filter:blur(8px)}
+.search-box input::placeholder{color:var(--text-faint)}
+.search-box input:focus{border-color:var(--pink-glow);background:var(--glass-hover);box-shadow:0 0 0 3px rgba(236,72,153,0.1)}
+.search-box::before{content:"⌕";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-size:14px;pointer-events:none}
+.search-box kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--text-faint);background:var(--glass);padding:2px 5px;border-radius:4px;border:1px solid var(--glass-border)}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:rgba(20,15,30,0.95);border:1px solid var(--glass-border);border-radius:12px;max-height:420px;overflow-y:auto;z-index:60;display:none;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.search-results.open{display:block}
+.sr-item{padding:11px 16px;border-bottom:1px solid var(--glass-border);cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .15s}
+.sr-item:last-child{border-bottom:0}
+.sr-item:hover,.sr-item.selected{background:var(--pink-soft)}
+.sr-item .sr-icon{font-size:12px;width:18px;text-align:center;flex-shrink:0;font-family:'IBM Plex Mono',monospace}
+.sr-item .sr-icon.note{color:var(--purple)}.sr-item .sr-icon.link{color:var(--blue)}.sr-item .sr-icon.sheet{color:var(--green)}.sr-item .sr-icon.doc{color:var(--yellow)}
+.sr-item .sr-body{flex:1;min-width:0}
+.sr-item .sr-name{font-size:13.5px;color:var(--text);font-weight:500;line-height:1.3}
+.sr-item .sr-path{font-size:10.5px;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;margin-top:2px}
+.sr-item .sr-type{font-size:9px;letter-spacing:.14em;color:var(--text-faint);text-transform:uppercase;font-family:'IBM Plex Mono',monospace;background:rgba(255,255,255,0.05);padding:3px 6px;border-radius:4px;flex-shrink:0}
+.sr-empty{padding:28px 16px;text-align:center;color:var(--text-faint);font-size:12px;font-family:'IBM Plex Mono',monospace;letter-spacing:.04em}
+
+.resumo-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:#fff;background:linear-gradient(135deg,var(--pink),#c026d3);padding:8px 16px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;font-weight:500;border:0;border-radius:10px;box-shadow:0 4px 16px rgba(236,72,153,0.3)}
+.resumo-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,72,153,0.5)}
+
+/* === MAIN === */
+main{padding:48px 32px 100px;max-width:1280px;margin:0 auto}
+.view[hidden]{display:none}
+
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--pink);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px;font-weight:500;text-shadow:0 0 20px rgba(236,72,153,0.5)}
+.eyebrow::before{content:"";width:24px;height:1px;background:linear-gradient(90deg,var(--pink),transparent)}
+
+h1{font-family:'Space Grotesk',sans-serif;font-size:52px;font-weight:600;letter-spacing:-.03em;line-height:1.05;margin-bottom:18px;color:var(--text);background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,0.7) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h1 .l{background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.lead{font-size:17px;line-height:1.6;color:var(--text-2);max-width:680px;margin-bottom:40px;font-weight:300}
+
+h2{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:600;letter-spacing:-.02em;margin:56px 0 24px;color:var(--text);display:flex;align-items:baseline;gap:14px}
+h2 .num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--pink);font-weight:500;letter-spacing:.12em;text-shadow:0 0 12px rgba(236,72,153,0.5)}
+h2 .ct{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-faint);font-weight:500;letter-spacing:.04em;margin-left:auto}
+
+h3{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.01em;margin:36px 0 14px;color:var(--text)}
+
+.meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:var(--text-faint);display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 24px;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;margin-bottom:36px;backdrop-filter:blur(12px)}
+.meta .v{color:var(--text);font-weight:500}
+.meta .v.accent{color:var(--pink);text-shadow:0 0 12px rgba(236,72,153,0.4)}
+.meta .v.dim{color:var(--text-faint)}
+.meta .dot{color:var(--text-faint)}
+.meta .spacer{flex:1}
+.meta .updated{color:var(--text-faint);font-size:10.5px;letter-spacing:.1em}
+
+.filter{font-size:14px;color:var(--text-dim);margin-bottom:32px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text-faint);text-transform:uppercase;margin-right:6px}
+.filter a{color:var(--text-dim);text-decoration:none;padding:7px 14px;border-radius:10px;transition:all .2s;font-weight:500;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(8px);font-size:12.5px}
+.filter a:hover{color:var(--text);background:var(--glass-hover);border-color:rgba(255,255,255,0.15)}
+.filter a.active{color:#fff;background:linear-gradient(135deg,var(--pink),#c026d3);border-color:transparent;box-shadow:0 4px 16px rgba(236,72,153,0.4)}
+.filter a .ct{font-size:10px;opacity:.6;margin-left:4px;font-family:'IBM Plex Mono',monospace}
+.filter .toggle{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--text-faint);text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:10px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(8px);transition:all .2s}
+.filter .toggle::before{content:"☐";font-size:12px;color:var(--text-faint);transition:all .2s}
+.filter .toggle.on::before{content:"☑";color:var(--pink)}
+.filter .toggle:hover{border-color:var(--pink-glow);color:var(--pink)}
+
+.group{margin-bottom:48px;scroll-margin-top:80px}
+.group-head{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--text-faint);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-weight:500}
+.group-head::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--glass-border),transparent)}
+.group-head .name{color:var(--text)}
+.group-head .ct{color:var(--pink);background:var(--pink-soft);padding:2px 10px;border-radius:12px;letter-spacing:.04em;font-size:9.5px;font-weight:500;border:1px solid var(--pink-glow)}
+.group-head .add{color:var(--text-faint);font-size:9.5px;letter-spacing:.14em;padding:4px 12px;border:1px dashed var(--glass-border);border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.group-head .add:hover{color:var(--pink);border-color:var(--pink-glow);background:var(--pink-soft)}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* === GLASS ITEMS === */
+.item{display:grid;grid-template-columns:32px 1fr auto;gap:14px;padding:18px 22px;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;cursor:pointer;transition:all .25s;align-items:start;backdrop-filter:blur(12px);position:relative;overflow:hidden}
+.item::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(236,72,153,0.5),transparent);opacity:0;transition:opacity .25s}
+.item:hover{background:var(--glass-hover);border-color:var(--glass-border-hover);transform:translateY(-2px);box-shadow:0 12px 32px rgba(236,72,153,0.15)}
+.item:hover::before{opacity:1}
+.item:hover .item-name{color:var(--pink)}
+.item:hover .item-arrow{color:var(--pink);opacity:1;transform:translateX(0)}
+.item-num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--text-faint);padding-top:3px;font-weight:500}
+.item-icon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;padding-top:2px;font-family:'IBM Plex Mono',monospace;font-weight:600}
+.item-icon.note{color:var(--purple)}
+.item-icon.link{color:var(--blue)}
+.item-icon.sheet{color:var(--green)}
+.item-icon.doc{color:var(--yellow)}
+.item-icon.section{color:var(--text-faint)}
+.item-body{min-width:0;display:flex;flex-direction:column;gap:5px}
+.item-name{font-size:15.5px;font-weight:600;color:var(--text);letter-spacing:-.01em;line-height:1.3;transition:color .2s;display:flex;align-items:center;gap:10px}
+.item-name .type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--text-faint);text-transform:uppercase;font-weight:500;opacity:.7;padding:2px 7px;border:1px solid var(--glass-border);border-radius:4px}
+.item-desc{font-size:13px;line-height:1.55;color:var(--text-dim);font-weight:400}
+.item-url{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-faint);display:flex;align-items:center;gap:5px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-url::before{content:"↗";font-size:9px;flex-shrink:0}
+.item-arrow{color:var(--text-faint);font-size:14px;opacity:0;transform:translateX(-4px);transition:all .2s;padding-top:5px;align-self:start;font-family:'IBM Plex Mono',monospace}
+.item.arrow-visible .item-arrow{opacity:.5;transform:translateX(0)}
+.item-actions{position:absolute;top:12px;right:12px;display:flex;gap:3px;opacity:0;transition:opacity .2s}
+.item:hover .item-actions{opacity:1}
+.item-actions button{background:var(--glass-hover);border:1px solid var(--glass-border);color:var(--text-dim);width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;padding:0;font-family:inherit;border-radius:6px;backdrop-filter:blur(8px)}
+.item-actions button:hover{color:var(--pink);border-color:var(--pink-glow)}
+
+.item-section{cursor:default}
+.item-section .item-name{font-weight:700}
+.item-section:hover{background:var(--glass);transform:none;box-shadow:none;border-color:var(--glass-border)}
+.item-section:hover::before{opacity:0}
+.item-section:hover .item-name{color:var(--text)}
+.item-section .item-arrow{display:none}
+
+.subitems{margin:12px 0 20px 0;padding-left:24px;border-left:1px solid var(--glass-border)}
+.subitems .item{padding:14px 18px;background:rgba(255,255,255,0.02);border-radius:12px}
+
+.empty{grid-template-columns:32px 1fr auto;align-items:center;padding:14px 22px;background:var(--glass);border:1px dashed var(--glass-border);border-radius:14px;cursor:pointer;opacity:.55;transition:all .2s;backdrop-filter:blur(8px)}
+.empty:hover{opacity:.9;background:var(--pink-soft);border-color:var(--pink-glow);border-style:solid}
+.empty:hover .empty-plus{color:var(--pink);border-color:var(--pink-glow)}
+.empty-num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--text-faint);font-weight:500}
+.empty-name{font-size:14.5px;color:var(--text-dim);font-style:italic;font-weight:300}
+.empty-plus{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--text-faint);text-transform:uppercase;border:1px dashed var(--glass-border);padding:4px 10px;border-radius:6px;transition:all .2s}
+
+.note-block{margin:0 0 32px;padding:28px 32px;background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(236,72,153,0.04));border:1px solid var(--glass-border);border-radius:18px;backdrop-filter:blur(12px);cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.note-block::before{content:"";position:absolute;top:0;left:0;width:80px;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink))}
+.note-block:hover{border-color:var(--purple);box-shadow:0 8px 32px rgba(167,139,250,0.2)}
+.note-block:hover .note-title{color:var(--purple)}
+.note-head{display:flex;align-items:baseline;gap:14px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--glass-border)}
+.note-num{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--pink);letter-spacing:.12em;font-weight:600;text-shadow:0 0 12px rgba(236,72,153,0.4)}
+.note-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;letter-spacing:-.018em;color:var(--text);line-height:1.2;flex:1;transition:color .2s}
+.note-type{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:var(--purple);background:rgba(167,139,250,0.12);padding:4px 10px;border-radius:6px;text-transform:uppercase;font-weight:500;border:1px solid rgba(167,139,250,0.3)}
+.note-body{font-size:15px;line-height:1.8;color:var(--text-2);font-weight:400;max-width:760px}
+.note-body p{margin-bottom:14px}
+.note-body h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin:26px 0 12px;font-weight:600;display:flex;align-items:center;gap:10px;text-shadow:0 0 12px rgba(236,72,153,0.3)}
+.note-body h4::before{content:"//";color:var(--pink);font-weight:700}
+.note-body ul{list-style:none;padding:0;margin:8px 0 16px}
+.note-body li{padding:5px 0 5px 20px;position:relative}
+.note-body li::before{content:"·";position:absolute;left:6px;color:var(--pink);font-weight:700}
+.note-body li b{color:var(--text);font-weight:600}
+.note-body a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(96,165,250,.3);transition:all .2s}
+.note-body a:hover{color:var(--pink);border-bottom-color:var(--pink)}
+
+/* === HOME LAYER CARDS (glass) === */
+.layer-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:32px}
+.layer-card{padding:28px 30px;background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;backdrop-filter:blur(16px)}
+.layer-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pink),var(--purple));opacity:0;transition:opacity .3s}
+.layer-card:hover{background:var(--glass-hover);border-color:var(--glass-border-hover);transform:translateY(-3px);box-shadow:0 16px 48px rgba(236,72,153,0.2)}
+.layer-card:hover::before{opacity:1}
+.layer-card:hover .lc-arrow{color:var(--pink);transform:translateX(6px)}
+.layer-card:hover .lc-title{background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lc-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--pink);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-weight:500}
+.lc-eyebrow::before{content:"";width:16px;height:1px;background:var(--pink)}
+.lc-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.018em;line-height:1.15;margin-bottom:10px;transition:all .3s;color:var(--text)}
+.lc-desc{font-size:13.5px;line-height:1.55;color:var(--text-dim);margin-bottom:22px;min-height:42px}
+.lc-footer{display:flex;align-items:center;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--text-faint)}
+.lc-counts .filled{color:var(--text);font-weight:500}
+.lc-counts .sep{color:var(--text-faint);margin:0 8px}
+.lc-arrow{color:var(--text-faint);font-size:18px;transition:all .3s;font-family:'IBM Plex Mono',monospace}
+
+/* === SUBTABS === */
+.subtabs{display:flex;gap:6px;margin:0 0 28px;flex-wrap:wrap}
+.subtab{font-size:13px;color:var(--text-dim);padding:8px 16px;border-radius:10px;transition:all .2s;cursor:pointer;font-weight:500;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(8px)}
+.subtab:hover{color:var(--text);background:var(--glass-hover)}
+.subtab.active{color:#fff;background:linear-gradient(135deg,var(--pink-soft),var(--purple-soft));border-color:var(--pink-glow);box-shadow:0 4px 16px rgba(236,72,153,0.2)}
+.subtab .ct{font-size:10px;opacity:.6;margin-left:5px;font-family:'IBM Plex Mono',monospace}
+
+.add-new{margin-top:32px;padding:18px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--text-faint);text-transform:uppercase;cursor:pointer;border:1px dashed var(--glass-border);background:var(--glass);transition:all .2s;width:100%;border-radius:14px;backdrop-filter:blur(8px)}
+.add-new:hover{color:var(--pink);border-color:var(--pink-glow);background:var(--pink-soft);box-shadow:0 4px 20px rgba(236,72,153,0.15)}
+.add-new:hover .plus{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border-color:transparent}
+.plus{width:22px;height:22px;border:1px dashed var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;transition:all .2s}
+
+.danger-zone{margin-top:48px;padding:18px 24px;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-faint);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;backdrop-filter:blur(8px)}
+.danger-zone button{background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);padding:7px 14px;cursor:pointer;font-family:inherit;font-size:10.5px;letter-spacing:.06em;transition:all .2s;border-radius:8px}
+.danger-zone button:hover{border-color:var(--red);color:var(--red);background:rgba(248,113,113,0.1)}
+
+footer{margin-top:80px;padding-top:20px;border-top:1px solid var(--glass-border);font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--text-faint);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer a{color:var(--text-dim);text-decoration:none;border-bottom:1px solid var(--glass-border);padding-bottom:1px;cursor:pointer;transition:all .2s}
+footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
+
+/* === MODAL (glass) === */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-backdrop.open{display:flex}
+.modal{background:rgba(20,15,30,0.85);border:1px solid var(--glass-border);border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:32px;box-shadow:0 24px 60px rgba(0,0,0,.7);backdrop-filter:blur(24px) saturate(180%)}
+.modal h2{font-family:'Space Grotesk',sans-serif;font-size:24px;letter-spacing:-.015em;margin:0 0 8px;font-weight:600}
+.modal .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text-faint);margin-bottom:24px;text-transform:uppercase}
+.modal label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text-faint);text-transform:uppercase;display:block;margin:18px 0 8px;font-weight:500}
+.modal input,.modal textarea{width:100%;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);font-size:14px;padding:10px 14px;border-radius:10px;font-family:inherit;outline:none;transition:all .2s;backdrop-filter:blur(8px)}
+.modal input:focus,.modal textarea:focus{border-color:var(--pink-glow);background:var(--glass-hover);box-shadow:0 0 0 3px rgba(236,72,153,0.1)}
+.modal textarea{min-height:140px;resize:vertical;line-height:1.5}
+.modal .type-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.modal .type-pill{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;padding:7px 14px;border:1px solid var(--glass-border);border-radius:10px;cursor:pointer;color:var(--text-dim);background:var(--glass);transition:all .2s;backdrop-filter:blur(8px)}
+.modal .type-pill:hover{color:var(--text);border-color:rgba(255,255,255,0.15);background:var(--glass-hover)}
+.modal .type-pill.active{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--pink),#c026d3);box-shadow:0 4px 16px rgba(236,72,153,0.3)}
+.modal .actions{display:flex;gap:10px;margin-top:28px;padding-top:20px;border-top:1px solid var(--glass-border);justify-content:flex-end}
+.modal .actions button{padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;border-radius:10px;transition:all .2s;border:0}
+.modal .actions .cancel{background:var(--glass);border:1px solid var(--glass-border);color:var(--text-dim)}
+.modal .actions .cancel:hover{color:var(--text);background:var(--glass-hover)}
+.modal .actions .save{background:linear-gradient(135deg,var(--pink),#c026d3);color:#fff;box-shadow:0 4px 16px rgba(236,72,153,0.3)}
+.modal .actions .save:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(236,72,153,0.5)}
+
+.about-body{font-size:14.5px;line-height:1.8;color:var(--text-2)}
+.about-body h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);margin:22px 0 10px;font-weight:500;text-shadow:0 0 12px rgba(236,72,153,0.3)}
+.about-body p{margin-bottom:12px}
+.about-body ul{list-style:none;padding:0;margin:8px 0 14px}
+.about-body li{padding:5px 0 5px 22px;position:relative}
+.about-body li::before{content:"·";position:absolute;left:6px;color:var(--pink);font-weight:700}
+.about-body li b{color:var(--text);font-weight:600}
+
+.empty-state{padding:80px 20px;text-align:center;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em}
+.empty-state .em-title{font-family:'Space Grotesk',sans-serif;font-size:22px;color:var(--text-dim);margin-bottom:10px;font-weight:500;letter-spacing:-.01em}
+.empty-state button{margin-top:20px;background:var(--glass);border:1px solid var(--glass-border);color:var(--text-dim);padding:8px 18px;cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:10px;backdrop-filter:blur(8px)}
+.empty-state button:hover{color:var(--pink);border-color:var(--pink-glow);background:var(--pink-soft)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(20,15,30,0.95);border:1px solid var(--glass-border);border-radius:12px;padding:11px 22px;font-size:13px;color:var(--text);z-index:300;transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:0 12px 40px rgba(0,0,0,.6);backdrop-filter:blur(12px);font-family:inherit}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));margin-right:10px;vertical-align:middle;box-shadow:0 0 8px var(--pink-glow)}
+
+@media(max-width:1100px){
+  .grid,.grid-3,.layer-grid{grid-template-columns:1fr;gap:14px}
+  h1{font-size:38px}
+  h2{font-size:24px}
+  .topnav{padding:0 20px;gap:12px}
+  .navlinks{display:none}
+  main{padding:32px 20px 60px}
+  .search-box{width:200px}
+}
+@media(max-width:700px){
+  h1{font-size:30px}
+  .note-title{font-size:22px}
+  .lc-title{font-size:22px}
+  .search-box{display:none}
+  main{padding:24px 16px 50px}
+  .topnav{padding:0 14px}
+}
+</style>
+</head>
+<body>
+<div class="layout-tag">v0.13 · Layout Glass</div>
+
+<nav class="topnav">
+  <div class="brand"><div class="logo">K</div>Instituto Kronos<span class="tag">// Painel</span></div>
+  <div class="navlinks" id="navlinks"></div>
+  <div class="project-sel" data-project>KSL · Instituto Kronos</div>
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Buscar…" autocomplete="off">
+    <kbd>⌘ K</kbd>
+    <div class="search-results" id="search-results"></div>
+  </div>
+  <button class="resumo-btn" onclick="openResumo()">≡ Resumo</button>
+</nav>
+
+<main>
+  <div id="view-home" class="view"></div>
+  <div id="view-content" class="view" hidden></div>
+</main>
+
+<div class="modal-backdrop" id="modal-add-edit">
+  <div class="modal">
+    <h2 id="ae-title">Adicionar item</h2>
+    <div class="sub" id="ae-sub">// novo</div>
+    <label>Nome</label>
+    <input type="text" id="ae-nome" placeholder="Nome do item…">
+    <label>Tipo</label>
+    <div class="type-pills" id="ae-pills">
+      <button class="type-pill" data-type="note">◆ Nota</button>
+      <button class="type-pill" data-type="link">↗ Link</button>
+      <button class="type-pill" data-type="sheet">⊞ Sheet</button>
+      <button class="type-pill" data-type="doc">▤ Doc</button>
+      <button class="type-pill" data-type="section">▾ Seção</button>
+    </div>
+    <label id="ae-url-label" style="display:none">URL</label>
+    <input type="text" id="ae-url" placeholder="https://…" style="display:none">
+    <label id="ae-desc-label" style="display:none">Descrição (opcional)</label>
+    <input type="text" id="ae-desc" placeholder="Linha curta de contexto…" style="display:none">
+    <label id="ae-note-label" style="display:none">Conteúdo da nota</label>
+    <textarea id="ae-note" placeholder="Texto da nota (suporta markdown leve: #, ##, -, **)…" style="display:none"></textarea>
+    <div class="actions">
+      <button class="cancel" id="ae-cancel">Cancelar</button>
+      <button class="save" id="ae-save">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modal-resumo">
+  <div class="modal" style="max-width:960px;width:100%">
+    <h2>Resumo — Todos os links, docs e notas</h2>
+    <div class="sub">// índice completo · busca + exporta</div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
+      <input type="text" id="resumo-filter" placeholder="Filtrar…" style="flex:1;min-width:240px;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);font-size:13.5px;padding:9px 14px;border-radius:10px;font-family:inherit;outline:none;backdrop-filter:blur(8px)">
+      <button onclick="copyResumo()" style="background:var(--glass);border:1px solid var(--glass-border);color:var(--text-dim);padding:8px 16px;cursor:pointer;font-family:inherit;font-size:12px;border-radius:10px;backdrop-filter:blur(8px)">📋 Copiar</button>
+      <button onclick="downloadResumo()" style="background:var(--glass);border:1px solid var(--glass-border);color:var(--text-dim);padding:8px 16px;cursor:pointer;font-family:inherit;font-size:12px;border-radius:10px;backdrop-filter:blur(8px)">⬇ Baixar .md</button>
+    </div>
+    <div id="resumo-content" style="max-height:65vh;overflow-y:auto;padding-right:8px"></div>
+    <div class="actions">
+      <button class="save" onclick="closeResumo()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modal-about">
+  <div class="modal" style="max-width:680px">
+    <h2>Sobre esta estrutura</h2>
+    <div class="sub">// decisões de design</div>
+    <div class="about-body">
+      <h4>Conceito</h4>
+      <p>Hub agregador da operação. Não é app de aluno, não tem checkout, não tem área logada. É o índice centralizado pra achar qualquer coisa que a operação produziu, hospeda ou precisa.</p>
+      <h4>Estrutura aprovada (reunião 11/07/2026)</h4>
+      <ul>
+        <li><b>4 camadas</b> + Central de Produtos + SOPs</li>
+        <li><b>Nome "Conhecimento"</b> mantido pra 4ª camada</li>
+        <li><b>7 sub-áreas de Operação</b> todas separadas</li>
+        <li><b>Toda sub-área segue mesmo padrão</b>: dashboard / planejamento / processos / execução</li>
+        <li><b>Links externos</b> (Sheets/Docs/Drive/Looker/Zouti/Asas) — nada embutido</li>
+        <li><b>Playbooks = exceção</b> (notas internas)</li>
+      </ul>
+      <h4>Time do Instituto Kronos</h4>
+      <ul>
+        <li><b>Ju (Juliana)</b> — Expert / Estratégia</li>
+        <li><b>Roberta</b> — CS / Customer Success</li>
+        <li><b>Marina</b> — Contratos / Financeiro</li>
+        <li><b>Gabriel</b> — Acessos / TI</li>
+      </ul>
+      <h4>Visual · Layout Glassmorphism</h4>
+      <p>Frosted glass com blur forte, gradiente radial pink/purple no fundo, glow shadows no hover, bordas com luz sutil. Cada card é uma janela flutuante. Inspirado em Apple Vision Pro e produtos modernos.</p>
+    </div>
+    <div class="actions">
+      <button class="save" onclick="closeAbout()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toast-msg">Salvo</span></div>
+
+<script>
+const ESTRUTURA = { gestao:{titulo:'Gestão',eyebrow:'// GESTÃO',descricao:'O cérebro. A primeira tela que vocês olham todos os dias — indicadores, metas, planejamento.',items:[{id:'okrs',nome:'OKRs e metas'},{id:'dashboard',nome:'Dashboard geral'},{id:'kpis',nome:'KPIs'},{id:'financeiro',nome:'Financeiro'},{id:'fluxo-caixa',nome:'Fluxo de caixa'},{id:'planejamento-trimestral',nome:'Planejamento trimestral'},{id:'organograma',nome:'Organograma'},{id:'reunioes',nome:'Reuniões'},{id:'scorecard',nome:'Scorecard semanal'},{id:'track-record',nome:'Track record'},{id:'roadmap',nome:'Roadmap de projetos'}]},operacao:{titulo:'Operação',eyebrow:'// OPERAÇÃO',descricao:'Como a empresa funciona. Processos e execução por área funcional.',areas:{comercial:{titulo:'Comercial',items:[{id:'crm',nome:'CRM'},{id:'pipeline',nome:'Pipeline'},{id:'scripts',nome:'Scripts'},{id:'objecoes',nome:'Objeções'},{id:'contratos',nome:'Contratos'},{id:'diagnostico',nome:'Diagnóstico'},{id:'fechamento',nome:'Fechamento'}]},marketing:{titulo:'Marketing',items:[{id:'calendario',nome:'Calendário'},{id:'estrategia',nome:'Estratégia'},{id:'criativos',nome:'Criativos'},{id:'copy',nome:'Copy'},{id:'banco-anuncios',nome:'Banco de anúncios'},{id:'biblioteca-vsl',nome:'Biblioteca de VSL'},{id:'seo',nome:'SEO'},{id:'landing-pages',nome:'Landing Pages'}]},produto:{titulo:'Produto',items:[{id:'mentoria',nome:'Mentoria'},{id:'workshop',nome:'Workshop'},{id:'minicursos',nome:'Minicursos'},{id:'comunidade',nome:'Comunidade'},{id:'conteudo-aulas',nome:'Conteúdo das aulas'},{id:'atualizacoes',nome:'Atualizações'}]},cs:{titulo:'Sucesso do Cliente',items:[{id:'onboarding',nome:'Onboarding'},{id:'atendimento',nome:'Atendimento'},{id:'financeiro-cs',nome:'Financeiro'},{id:'cobranca',nome:'Cobrança'},{id:'suporte',nome:'Suporte'},{id:'nps',nome:'NPS'},{id:'comunidade-cs',nome:'Comunidade'},{id:'eventos',nome:'Eventos'}]},trafego:{titulo:'Tráfego',items:[{id:'meta',nome:'Meta'},{id:'google',nome:'Google'},{id:'tiktok',nome:'TikTok'},{id:'dashboards-trafego',nome:'Dashboards'},{id:'pixel',nome:'Pixel'},{id:'publicos',nome:'Públicos'},{id:'criativos-vencedores',nome:'Criativos vencedores'}]},financeiro:{titulo:'Financeiro',items:[{id:'receitas',nome:'Receitas'},{id:'custos',nome:'Custos'},{id:'pagamentos',nome:'Pagamentos'},{id:'comissao',nome:'Comissão'},{id:'relatorios',nome:'Relatórios'}]},rh:{titulo:'RH',items:[{id:'sops-rh',nome:'SOPs'},{id:'contratacoes',nome:'Contratações'},{id:'treinamentos',nome:'Treinamentos'},{id:'manual-cultura',nome:'Manual da cultura'}]}}},produtos:{titulo:'Produtos',eyebrow:'// PRODUTOS',descricao:'Tudo de cada oferta num lugar só.',items:{kairos:{titulo:'Mentoria Kairós',items:[{id:'lp-kairos',nome:'Landing Page'},{id:'oferta-kairos',nome:'Oferta'},{id:'criativos-kairos',nome:'Criativos'},{id:'produto-kairos',nome:'Produto'},{id:'dashboards-kairos',nome:'Dashboards'},{id:'pesquisa-kairos',nome:'Pesquisa'},{id:'financeiro-kairos',nome:'Financeiro'}]},workshop:{titulo:'Workshop Destrava Shopee',items:[{id:'dash-1',nome:'Dashboard 1'},{id:'dash-2',nome:'Dashboard 2'},{id:'dash-3',nome:'Dashboard 3'},{id:'assets-wds',nome:'Logo e Elementos'}]},eventos:{titulo:'Eventos Presenciais',items:[{id:'fotos-eventos',nome:'Fotos'}]},minicurso:{titulo:'Minicurso',items:[]},comunidade:{titulo:'Comunidade',items:[]}}},sops:{titulo:'Operações (SOPs)',eyebrow:'// SOPs',descricao:'Como fazer as coisas. Procedimentos passo-a-passo do time.',items:[{id:'sop-anuncio',nome:'Como subir um anúncio'},{id:'sop-campanha',nome:'Como criar uma campanha'},{id:'sop-workshop',nome:'Como lançar um workshop'},{id:'sop-carrinho',nome:'Como abrir carrinho'},{id:'sop-checkout',nome:'Como criar checkout'},{id:'sop-resposta',nome:'Como responder um aluno'},{id:'sop-boleto',nome:'Como gerar boleto'},{id:'sop-caixa',nome:'Como fechar caixa'},{id:'sop-onboarding',nome:'Como fazer onboarding'}]},biblioteca:{titulo:'Biblioteca',eyebrow:'// BIBLIOTECA',descricao:'Ativos para consulta. Brandbook, fotos, templates, jurídicos.',items:[{id:'logos',nome:'Logos'},{id:'brandbook',nome:'Brandbook'},{id:'fotos-ju',nome:'Fotos da Ju'},{id:'broll',nome:'Vídeos B-roll'},{id:'templates-canva',nome:'Templates Canva'},{id:'fontes',nome:'Fontes'},{id:'assets',nome:'Assets'},{id:'juridicos',nome:'Documentos jurídicos'},{id:'contratos',nome:'Contratos base'},{id:'certificados',nome:'Certificados'}]},conhecimento:{titulo:'Conhecimento',eyebrow:'// CONHECIMENTO',descricao:'Tudo que a empresa aprendeu. Segundo cérebro da operação.',items:[{id:'testes-anuncios',nome:'Testes de anúncios'},{id:'criativos-vencedores',nome:'Criativos vencedores'},{id:'headlines',nome:'Headlines vencedoras'},{id:'cpls',nome:'CPLs históricos'},{id:'benchmarks',nome:'Benchmarks'},{id:'aprendizados',nome:'Aprendizados de lançamentos'},{id:'relatorios',nome:'Relatórios pós-evento'},{id:'pesquisa',nome:'Pesquisa com alunos'},{id:'icp',nome:'ICP atualizado'},{id:'objecoes',nome:'Objeções novas'}]}};
+
+const PLAYBOOK = { time:{titulo:'Time',conteudo:`Quem é quem na operação. Papéis fixos: Roberta (CS), Juliana (Expert/Estratégia), Marina (Contratos/Financeiro), Gabriel (Acessos/TI). Regra de ouro da triagem de WhatsApp: operacional vai pra CS, técnico recorrente vai pra CS via FAQ, estratégico vai pra Ju em lote. Horário 9h-18h seg-sex.`},'fase-0':{titulo:'Fase 0 — Onboarding (72h)',conteudo:`O QUE O CLIENTE VIVE — Acabou de comprar, ansioso e inseguro. O QUE O TIME FAZ: 1) Disparo ManyChat 2) Contrato (Marina gera, CS confere) 3) Liberação acessos (Gabriel) 4) Cadastro CRM 5) Entrada nos grupos 6) Boas-vindas humana 7) Agendar Diagnóstico Individual de Margem em ~10 dias. CHECKLIST 8 itens da CS. CRITÉRIO AVANÇO: contrato ✓, acessos ✓, CRM ✓, grupos ✓, diagnóstico agendado ✓.`},'fase-1':{titulo:'Fase 1 — Diagnóstico e Ajuste de Margem',conteudo:`Descobre onde está perdendo dinheiro. Entregáveis: nº1 Aula Diagnóstico Margem, nº2 Planilha Precificação Segura, nº3 Oficina Correção, nº15 Diagnóstico Individual. CRITÉRIO AVANÇO: planilha preenchida ✓, precificação corrigida ✓, margem mínima definida ✓. Aluno com erro grave de margem NÃO avança.`},'fase-2':{titulo:'Fase 2 — Estruturação da Loja e Oferta',conteudo:`Escolhe os produtos certos, melhora anúncios, cria ofertas competitivas sem destruir margem. Entregáveis: nº4 Aula Seleção, nº5 Checklist Otimização, nº6 Oficina Mensal.`},'fase-3':{titulo:'Fase 3 — Crescimento de Pedidos com Controle',conteudo:`Escala com controle. Datas Shopee, anúncios com ROAS, testes de preço. Entregáveis: nº7 Aula Campanhas, nº8 Painel Indicadores, nº9 Encontro Quinzenal, nº10 Aula ROAS, nº11 Plantão.`},'fase-4':{titulo:'Fase 4 — Escala',conteudo:`Escala lucrativos, padroniza operação, negocia fornecedores, expande catálogo. Destino: R$50 mil/mês com margem. Entregáveis: nº12 Aula Alto Volume, nº13 Playbook Loja, nº14 Oficina Plano, nº16 Revisão Individual.`},'fase-5':{titulo:'Fase 5 — Encerramento e Retenção',conteudo:`Coleta resultado e depoimento. Verifica elegibilidade da garantia. Oferece próximo passo (renovação, Aceleradora, Mesa do Conselho). Registra "porquê saiu" pra melhorar retenção.`},rotina:{titulo:'Rotina operacional',conteudo:`DIÁRIO (CS): triagem WhatsApp 9-18h, atualização CRM. SEMANAL (CS): varredura sumidos, lembretes sessões. QUINZENAL (time+Ju 9h): status por fase, metas dia 10/20. MENSAL: revisão retenção.`},regua:{titulo:'Régua de saúde do aluno',conteudo:`🟢 ATIVO (participa/atualiza) · 🟡 ATENÇÃO (faltou 1 encontro/atrasado) · 🔴 RISCO (sumiu 2+sem, painel parado). Status visível no CRM. Risco sempre escala pra Ju na quinzenal.`},scripts:{titulo:'Biblioteca de Scripts (1-19)',conteudo:`SCRIPTS 1-3 onboarding privado · SCRIPT 4 planilha · 5/6 lembretes sessão · 7 margem negativa · 8/9 checklist anúncios · 10 painel · 11 cobrança · 12 encontro · 13 resgate · 14 revisão · 15 depoimento · 16 saída · 17 próximo passo · 18 fora horário · 19 encaminhamento expert. Horário 9-18h. Nunca responder fora.`}};
+
+const INITIAL_DATA = {
+  'gestao': {
+    'time': { id: 'time', nome: 'Time', type: 'note', note: 'Ju (Juliana Magalhães) — Expert / Estratégia · aulas, oficinas, análise estratégica, sessões individuais.\n\nRoberta (Roh) — CS / Customer Success · onboarding, lembretes, follow-up, triagem do WhatsApp, atualização do CRM.\n\nMarina — Contratos / Financeiro · geração e conferência de contratos e assinaturas.\n\nGabriel — Acessos / TI · liberação de Drive, Zouti, plataformas.\n\nPRÓXIMOS PASSOS\n- Revisar se o time cobre tudo (especialmente RH e Tráfego pago)\n- Adicionar plano de backup por papel' },
+    'track-record': { id: 'track-record', nome: 'Track record', type: 'note', note: '"Track record faltou. Eu fiquei chocada."\n\nO QUE É: Histórico de cases, resultados e números que validam a empresa. Prova social estruturada.\n\nPRA QUE SERVE: Vendas (argumento de fechamento), social proof (criativos/LP), memória institucional.\n\nO QUE COLOCAR: Cases de alunos com números, cases de workshops, cases de mentoria, marcas atendidas.\n\nPRÓXIMOS PASSOS: Levantar cases, definir template, coletar números reais.' }
+  },
+  'operacao.financeiro': { 'financeiro-2-niveis': { id:'financeiro-2-niveis', nome:'Financeiro em 2 níveis (geral + individual)', type:'note', note:'VISÃO 1 — GERAL: tudo que entra/sai, composição consolidada, receitas/custos/comissão.\n\nVISÃO 2 — INDIVIDUAL: cada aluno/cliente separado, workshops, sessões 1:1, mentorias, ficha financeira por aluno.\n\nPOR QUE: visão geral não mostra realidade de cada produto, visão individual mostra de onde vem cada receita.' } },
+  'operacao.cs': {
+    'acompanhamento': { id:'acompanhamento', nome:'Acompanhamento de mentorados', type:'sheet', url:'https://docs.google.com/spreadsheets/d/1MCgMng4h_Luft7Jvzc1G_yrGAMCzuxqlUmT0Wmi95kY/edit?gid=1831693487', desc:'Planilha geral de acompanhamento' },
+    'regua-saude': { id:'regua-saude', nome:'Régua de saúde do aluno', type:'note', note:'🟢 ATIVO · 🟡 ATENÇÃO · 🔴 RISCO. Status visível no CRM pra time nunca "descobrir tarde" que alguém sumiu.' },
+    'onboarding-kairos': { id:'onboarding-kairos', nome:'Onboarding Kairós v2 (Doc)', type:'doc', desc:'Sistema completo: Fase 0 Disparo → 1 Contato humano → 2 Formalização → 3 Calendário. Checklist 11 itens. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\onboarding_kairos2.docx' }
+  },
+  'produtos.kairos': {
+    'manual-participante': { id:'manual-participante', nome:'Manual do participante', type:'link', url:'https://mentoriakairos.institutokronos.com.br/manualdoparticipante', desc:'Página do manual' },
+    'avatar-kairos': { id:'avatar-kairos', nome:'Avatar Kairós', type:'doc', url:'https://docs.google.com/document/d/1sa6zjkL-FAwaycnCl49Qm4TC-06IWe2L/edit', desc:'ICP e persona' },
+    'produtos-negociacoes': { id:'produtos-negociacoes', nome:'Produtos e Negociações (Doc)', type:'doc', desc:'Tabela de preços completa, 4 Pilares, 13 entregáveis, política de migração. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Produtos e negociações.docx' }
+  },
+  'produtos.workshop': {
+    'dash-1': { id:'dash-1', nome:'Dashboard 1', type:'section', desc:'Looker + base de dados', items: { 'dash-1-link':{id:'dash-1-link',nome:'Dashboard (Looker)',type:'link',url:'https://datastudio.google.com/u/0/reporting/c8b52ebf-3ece-4410-9536-bc9326b822e1/page/XzPOF'}, 'dash-1-base':{id:'dash-1-base',nome:'Base de dados',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1pvq7dyGxUFMKD4MjCpFPEiTPDKOSQoJi4MQ3yVCG8oo/edit?gid=1800336546'} } },
+    'dash-2': { id:'dash-2', nome:'Dashboard 2', type:'section', desc:'Looker + base de dados', items: { 'dash-2-link':{id:'dash-2-link',nome:'Dashboard (Looker)',type:'link',url:'https://datastudio.google.com/u/0/reporting/4451fdca-2f27-48ed-8a8e-51023f971a0b/page/XzPOF'}, 'dash-2-base':{id:'dash-2-base',nome:'Base de dados',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1fCd4GwIS533SF_q4hJ13mgp35Xrjs6q0O7kmTzkj6X8/edit?gid=1203233720'} } },
+    'dash-3': { id:'dash-3', nome:'Dashboard 3', type:'section', desc:'Looker + base de dados', items: { 'dash-3-link':{id:'dash-3-link',nome:'Dashboard (Looker)',type:'link',url:'https://datastudio.google.com/u/0/reporting/3691b40a-7d87-4869-a789-9239385fe3bc/page/XzPOF'}, 'dash-3-base':{id:'dash-3-base',nome:'Base de dados',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1bdLRphRFvpJmkrnTqdKORhpP9h24hlFRzvm6n6mUNlo/edit?gid=1203233720'} } },
+    'assets-wds': { id:'assets-wds', nome:'Logo e Elementos', type:'section', desc:'Assets visuais do Workshop', items: { 'logo-wds':{id:'logo-wds',nome:'Logo WDS e Elementos',type:'link',url:'https://drive.google.com/drive/folders/1sA_rdXIqNIZVHYEOXzOOnEzMUv7Quq1P?usp=drive_link'}, 'elementos-paginas':{id:'elementos-paginas',nome:'Elementos das páginas',type:'link',url:'https://drive.google.com/drive/folders/16zEJaWCrMPf9Y-T4Gu8_uU9Qb-zUs3Cf?usp=drive_link'} } }
+  },
+  'produtos.eventos': { 'fotos-eventos': { id:'fotos-eventos', nome:'Fotos evento Planejando 2026', type:'link', url:'https://drive.google.com/drive/folders/17oLJwDqKMyU9a-nVWn1_CLXF2MZ0nBj4' } },
+  'biblioteca.fotos-ju': { 'galeria-1': { id:'galeria-1', nome:'Galeria 1 — Fotos da Ju', type:'link', url:'https://amarifoto.exposure.com.br/juliana' }, 'galeria-2': { id:'galeria-2', nome:'Galeria 2 — Fotos da Ju', type:'link', url:'https://amarifoto.exposure.com.br/juliana1' } },
+  'operacao.comercial': {
+    'agendamento-1-1': { id:'agendamento-1-1', nome:'Agendamento 1:1', type:'section', desc:'Funil de aplicação → sessão 1:1', items: {
+      'planilha-base':{id:'planilha-base',nome:'Planilha de agendamento',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1RbjhTOEqb4HWDAXNwAi_jG67gZBkCecE78fngLsTvVY/edit?gid=1085045508',desc:'Base de leads e reuniões marcadas'},
+      'aplicacao-respostas':{id:'aplicacao-respostas',nome:'Formulário de aplicação (respostas)',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1Gqdlrr7XULWMZlzXqVhktsJ2FEfOrObgBaT_vmBD3Go/edit?gid=187719667',desc:'Quem se inscreveu pra entrar na mentoria'},
+      'pre-analise-respostas':{id:'pre-analise-respostas',nome:'Pré-análise estratégica (respostas)',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1LJsQ4iUB6YmSsMHeXjzYUgvwGazIfwN3hkZMRtSByyE/edit?gid=740688844',desc:'Convite para sessão 1:1'},
+      'analise-contas-respostas':{id:'analise-contas-respostas',nome:'Análise de contas (respostas)',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1N_T5FYd_bhX2tpdsLCDZ9QPsbWSf8izqN6iWllKjCq8/edit?gid=654550711',desc:'Análise de contas do lead'},
+      'roteiros-sessao':{id:'roteiros-sessao',nome:'Roteiros de sessão (vários Docs)',type:'section',desc:'Scripts do time comercial. 7+ versões em C:\\Users\\bueno\\Downloads\\Documentos\\',items:{
+        'roteiro-ja-vende':{id:'roteiro-ja-vende',nome:'Roteiro — Quem já vende (v3)',type:'doc',desc:'8 blocos + check-list pós-sessão. Links de pagamento embutidos.'},
+        'roteiro-nao-vende':{id:'roteiro-nao-vende',nome:'Roteiro — Quem não vende (v3)',type:'doc',desc:'8 blocos + perguntas excludentes + objeções comuns.'},
+        'roteiro-fechamento':{id:'roteiro-fechamento',nome:'Roteiro — Fechamento (v2)',type:'doc',desc:'5 blocos + objeções + dúvidas frequentes. Pós-aplicação paga.'},
+        'kairos-central':{id:'kairos-central',nome:'Kairós Central — App de Roteiros',type:'link',url:'http://127.0.0.1:8773/downloads/kairos%20central/index.html',desc:'App interativo com todos os roteiros'}
+      }}
+    } },
+    'captacao': { id:'captacao', nome:'Captação', type:'section', desc:'Pontos de entrada de leads', items: {
+      'pre-diagnostico-pagina':{id:'pre-diagnostico-pagina',nome:'Página de pré-diagnóstico',type:'link',url:'https://int-kronos.pages.dev/',desc:'Landing page'},
+      'pre-diagnostico-form':{id:'pre-diagnostico-form',nome:'Formulário de pré-diagnóstico',type:'link',url:'https://forms.gle/qUMrv7mXbPoD4Ytd6'},
+      'live-quinta':{id:'live-quinta',nome:'Live de quinta-feira',type:'link',url:'https://paginas.institutokronos.com.br/live-quinta',desc:'Página da live semanal'},
+      'avatar-kairos':{id:'avatar-kairos',nome:'Avatar Kairós — quem qualifica (Doc)',type:'doc',desc:'Framework de qualificação. Local: C:\\Users\\bueno\\Downloads\\Documentos\\Avatar Kairós.docx. 3 gates obrigatórios + scoring.'},
+      'origem-leads':{id:'origem-leads',nome:'Origem dos leads (métrica)',type:'note',note:'VISÍVEIS no dia a dia: workshop, direto pra 1:1, live, direct, link da bio.\n\nCOMO IMPLEMENTAR: planilha de captação. Link aqui pra consulta.\n\nPRÓXIMOS PASSOS: definir critério de origem, padronizar UTM, dashboard por origem.'}
+    } },
+    'aplicacao': { id:'aplicacao', nome:'Aplicação (só evento)', type:'section', desc:'Aplicação APENAS pra evento. Pra mentoria, vai direto pra oferta.', items: {
+      'aplicacao-decisao':{id:'aplicacao-decisao',nome:'Por que só pra evento',type:'note',note:'TIRAR a aplicação da mentoria.\n\nPOR QUÊ: leads quentes DESISTEM no meio (perda de venda + desgaste). Pra mentoria, ir direto pra oferta (R$12k ancorado em R$15k). Aplicação só em evento 1-para-muitos.'},
+      'aplicacao-form-evento':{id:'aplicacao-form-evento',nome:'Formulário de aplicação (evento)',type:'link',url:'https://forms.gle/qUMrv7mXbPoD4Ytd6',desc:'Mesmo form de pré-diagnóstico hoje'}
+    } },
+    'checkouts': { id:'checkouts', nome:'Checkouts de pagamento', type:'section', desc:'Links de pagamento — em migração de Zouti para Asas', items: {
+      'aplicacao-zouti':{id:'aplicacao-zouti',nome:'Aplicação/entrada (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?poi=prod_offer_m86w42a1nayucugvh29ws0'},
+      'a-vista':{id:'a-vista',nome:'À vista (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_7bs0a37hyb3s6qq2b3ka6o'},
+      'parcelado':{id:'parcelado',nome:'Parcelado (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_cl7z0m6oaz6axusj4u5jqv'},
+      'contrato-kairos':{id:'contrato-kairos',nome:'Contrato Mentoria Kairós (PDF)',type:'doc',desc:'12 meses · R$10k à vista / R$12k parcelado · Garantia condicional. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Contrato - Mentoria Kairós.pdf'},
+      'migracao-asas':{id:'migracao-asas',nome:'Migração pra Asas',type:'note',note:'Decisão: migrar de Zouti pra Asas.\n\nPOR QUE: 3,99% + R$0,50, SEM antecipação compulsória, boleto R$1,99 FIXO, PIX R$1,99 fixo.\n\nAplicação e ingressos PERMANECEM na Zouti (Asas não funciona pra 1-para-muitos). Pra mentoria + sessão 1:1, vai pra Asas.'}
+    } },
+    'produtos-negociacao': { id:'produtos-negociacao', nome:'Produtos e negociação', type:'doc', url:'https://docs.google.com/document/d/1D2PB3mtDoua4-iXL2wQ2ONzr4RPPphiU/edit', desc:'Doc de precificação e regras de oferta' }
+  },
+  'operacao.marketing': {
+    'pesquisa-mercado': { id:'pesquisa-mercado', nome:'Pesquisa de mercado', type:'section', desc:'Raio X do avatar', items: {
+      'raio-x-vende':{id:'raio-x-vende',nome:'Raio X – quem já vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1nmfC4n7PVmOrPQfMgfqQpjwDIZT93wN3wETQ21yTXYY/edit?gid=1502063929'},
+      'raio-x-nao-vende':{id:'raio-x-nao-vende',nome:'Raio X – quem não vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1oYlderDAgK4MKWHXC9iak44BN_NNbZhCzTw5bqY8G-0/edit?gid=1502063929'}
+    } },
+    'briefing-conteudo': { id:'briefing-conteudo', nome:'Briefing de Conteúdo — Instagram (Doc)', type:'doc', desc:'Estratégia Yap content + produção intencional. Copywriters (Hormozi, Naval), lowfi, 5 gatilhos.' },
+    'relatorio-pesquisa': { id:'relatorio-pesquisa', nome:'Relatório de Pesquisa Mentoria Kairós (PDF)', type:'doc', desc:'Resumo da pesquisa com alunos — base do diagnóstico de margem' },
+    'roteiros': { id:'roteiros', nome:'Roteiros Kairós', type:'link', url:'http://127.0.0.1:8773/downloads/kairos%20central/index.html', desc:'App de roteiros (local)' },
+    'criativos': { id:'criativos', nome:'Criativos — materiais de divulgação', type:'note', note:'Banco de criativos e materiais de divulgação.\n\nMateriais:\nhttps://drive.google.com/drive/folders/1TUsyPpPdqeZ-lZ3r6URuW28pjJilPTjs', desc:'Pasta do Drive com criativos' },
+    'copy': { id:'copy', nome:'Copy — textos-base', type:'note', note:'Scripts e textos-base.\n\nRoteiros:\nhttps://docs.google.com/document/d/1vwV6hosq4veo5k96AO0OxUwPNBfChqs_DGYKo1hGQvY', desc:'Roteiros de copy e textos de criativos' }
+  }
+};
+
+let STATE = {};
+const STATE_KEY = 'kronos_state_v1';
+function loadState() { try { const raw = localStorage.getItem(STATE_KEY); if (raw) { STATE = JSON.parse(raw); return; } } catch(e) {} STATE = JSON.parse(JSON.stringify(INITIAL_DATA)); saveState(); }
+function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify(STATE)); } catch(e) {} }
+
+let currentView='home',currentScope=null,currentSubScope=null,currentFilter='all',showEmpty=false;
+function buildNav() {
+  const layers = [{key:'home',label:'Visão Geral'},{key:'gestao',label:'Gestão'},{key:'operacao',label:'Operação'},{key:'produtos',label:'Produtos'},{key:'sops',label:'SOPs'},{key:'biblioteca',label:'Biblioteca'},{key:'conhecimento',label:'Conhecimento'}];
+  const html = layers.map(l => { const ct = l.key==='home' ? '' : `<span class="ct">${getScopeCount(l.key).filled}/${getScopeCount(l.key).total}</span>`; return `<a href="#" data-nav="${l.key}">${l.label}${ct}</a>`; }).join('');
+  document.getElementById('navlinks').innerHTML = html;
+  document.querySelectorAll('.navlinks a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); navigate(a.dataset.nav); }));
+}
+function getScopeCount(scopeKey) { const all = collectAllItems(scopeKey); const filled = all.filter(i => i.type !== 'empty').length; return { filled, total: all.length }; }
+function collectAllItems(scopeKey) {
+  const out = [];
+  if (scopeKey === 'gestao') ESTRUTURA.gestao.items.forEach(it => { const s = (STATE.gestao||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
+  else if (scopeKey === 'operacao') {
+    if (!currentSubScope) { Object.entries(ESTRUTURA.operacao.areas).forEach(([sk,s]) => out.push({id:'_sub_'+sk,nome:s.titulo,type:'subhead',scopeKey,parentId:sk})); return out; }
+    ESTRUTURA.operacao.areas[currentSubScope].items.forEach(it => { const s = (STATE['operacao.'+currentSubScope]||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id,_subKey:currentSubScope}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id,_subKey:currentSubScope}); });
+  } else if (scopeKey === 'produtos') {
+    if (!currentSubScope) { Object.entries(ESTRUTURA.produtos.items).forEach(([pk,p]) => out.push({id:'_sub_'+pk,nome:p.titulo,type:'subhead',scopeKey,parentId:pk})); return out; }
+    const prod = ESTRUTURA.produtos.items[currentSubScope];
+    if (!prod.items || !prod.items.length) { out.push({id:'empty-prod',nome:'Slot vazio',type:'empty',scopeKey,parentId:currentSubScope}); return out; }
+    prod.items.forEach(it => { const s = (STATE['produtos.'+currentSubScope]||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id,_prodKey:currentSubScope}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id,_prodKey:currentSubScope}); });
+  } else if (scopeKey === 'sops') {
+    ESTRUTURA.sops.items.forEach(it => { const s = (STATE.sops||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
+    if (!currentSubScope) out.push({id:'_playbook',nome:'Playbook Mentoria Kairós (10 notas)',type:'playbook',scopeKey});
+  } else if (scopeKey === 'biblioteca') ESTRUTURA.biblioteca.items.forEach(it => { const s = (STATE.biblioteca||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
+  else if (scopeKey === 'conhecimento') ESTRUTURA.conhecimento.items.forEach(it => { const s = (STATE.conhecimento||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
+  return out;
+}
+function navigate(scopeKey, subKey) { if (scopeKey !== currentView) currentSubScope = null; currentView = scopeKey; if (subKey !== undefined) currentSubScope = subKey; document.querySelectorAll('.navlinks a').forEach(a => a.classList.toggle('active', a.dataset.nav === scopeKey)); if (scopeKey === 'home') renderHome(); else renderScope(); window.scrollTo({top:0,behavior:'smooth'}); }
+function renderHome() {
+  document.getElementById('view-home').hidden = false;
+  document.getElementById('view-content').hidden = true;
+  const layers = [
+    {key:'gestao',eyebrow:'// GESTÃO',titulo:'Gestão',desc:'O cérebro. Indicadores, metas, planejamento. A primeira tela do dia.'},
+    {key:'operacao',eyebrow:'// OPERAÇÃO',titulo:'Operação',desc:'7 áreas funcionais: Comercial, Marketing, Produto, CS, Tráfego, Financeiro, RH.'},
+    {key:'produtos',eyebrow:'// PRODUTOS',titulo:'Produtos',desc:'5 ofertas: Kairós, Workshop Destrava Shopee, Eventos, Minicurso, Comunidade.'},
+    {key:'sops',eyebrow:'// SOPs',titulo:'Operações (SOPs)',desc:'Procedimentos do time + Playbook Mentoria Kairós com 10 notas.'},
+    {key:'biblioteca',eyebrow:'// BIBLIOTECA',titulo:'Biblioteca',desc:'Ativos pra consulta: brandbook, fotos, templates, jurídicos.'},
+    {key:'conhecimento',eyebrow:'// CONHECIMENTO',titulo:'Conhecimento',desc:'O segundo cérebro: cases, aprendizados, benchmarks, ICP atualizado.'}
+  ];
+  const total = countAllTotal(), filled = countAllFilled();
+  const html = `
+    <div class="eyebrow">// Visão Geral</div>
+    <h1>Painel de <span class="l">controle</span></h1>
+    <p class="lead">Hub agregador do Instituto Kronos. Índice centralizado pra Sheets, Docs, Drive, Looker, Zouti, Asas. ${filled} de ${total} slots preenchidos.</p>
+    <div class="meta">
+      <span><span class="v">${filled}</span> preenchidos</span><span class="dot">·</span>
+      <span><span class="v">${total}</span> slots totais</span><span class="dot">·</span>
+      <span><span class="v accent">${Object.keys(PLAYBOOK).length}</span> notas playbook</span><span class="spacer"></span>
+      <span class="updated">atualizado ${new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span>
+    </div>
+    <div class="layer-grid">
+      ${layers.map(l => { const c = getScopeCount(l.key); return `<a class="layer-card" data-nav="${l.key}">
+        <div class="lc-eyebrow">${l.eyebrow}</div>
+        <div class="lc-title">${l.titulo}</div>
+        <div class="lc-desc">${l.desc}</div>
+        <div class="lc-footer">
+          <div class="lc-counts"><span class="filled">${c.filled}</span><span class="sep">/</span>${c.total} preenchidos</div>
+          <div class="lc-arrow">→</div>
+        </div>
+      </a>`; }).join('')}
+    </div>
+    <div style="margin-top:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-faint);letter-spacing:.1em">v0.13-teste · Layout Glassmorphism · 4 camadas + Central de Produtos + SOPs</div>
+      <button onclick="openAbout()" style="background:var(--glass);border:1px solid var(--glass-border);color:var(--text-dim);padding:7px 16px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;border-radius:10px;backdrop-filter:blur(8px)">Sobre esta estrutura</button>
+    </div>
+  `;
+  document.getElementById('view-home').innerHTML = html;
+  document.querySelectorAll('.layer-card').forEach(c => c.addEventListener('click', e => { e.preventDefault(); navigate(c.dataset.nav); }));
+}
+function countAllFilled() { let n=0; Object.values(STATE).forEach(scope => Object.values(scope).forEach(item => { if (item && item.type) n++; })); return n; }
+function countAllTotal() { let n=0; n+=ESTRUTURA.gestao.items.length; Object.values(ESTRUTURA.operacao.areas).forEach(s => n+=s.items.length); Object.values(ESTRUTURA.produtos.items).forEach(p => n+=(p.items||[]).length); n+=ESTRUTURA.sops.items.length; n+=ESTRUTURA.biblioteca.items.length; n+=ESTRUTURA.conhecimento.items.length; return n; }
+function renderScope() {
+  document.getElementById('view-home').hidden = true;
+  document.getElementById('view-content').hidden = false;
+  const esc = ESTRUTURA[currentView];
+  if (!esc) return;
+  let html = '';
+  html += `<div class="eyebrow">${esc.eyebrow}</div>`;
+  html += `<h1>${esc.titulo}</h1>`;
+  html += `<p class="lead">${esc.descricao}</p>`;
+  if (currentView === 'operacao') { const subs = Object.entries(ESTRUTURA.operacao.areas); html += `<div class="subtabs">${subs.map(([k,s]) => `<div class="subtab ${currentSubScope===k?'active':''}" data-sub="${k}">${s.titulo}</div>`).join('')}</div>`; }
+  else if (currentView === 'produtos') { const prods = Object.entries(ESTRUTURA.produtos.items); html += `<div class="subtabs">${prods.map(([k,p]) => `<div class="subtab ${currentSubScope===k?'active':''}" data-sub="${k}">${p.titulo}</div>`).join('')}</div>`; }
+  if (currentView === 'sops' && !currentSubScope) {
+    const items = collectAllItems('sops').filter(i => i.type !== 'playbook');
+    html += renderScopeContent('sops', items);
+    html += `<h2 style="margin-top:64px"><span class="num">// PB</span>Playbook Mentoria Kairós<span class="ct">${Object.keys(PLAYBOOK).length} notas</span></h2>
+    <div class="grid">${Object.entries(PLAYBOOK).map(([key,p],i) => `<div class="note-block" style="cursor:pointer" data-playbook="${key}">
+      <div class="note-head" style="border:0;padding:0;margin-bottom:8px">
+        <div class="note-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="note-title" style="font-size:20px">${p.titulo}</div>
+        <div class="note-type">◆ PLAYBOOK</div>
+      </div>
+      <div class="note-body" style="font-size:13px;color:var(--text-dim);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .3s">${(p.conteudo||'').substring(0,200).replace(/\n/g,' ')}…</div>
+    </div>`).join('')}</div>`;
+  } else {
+    html += renderScopeContent(currentView, collectAllItems(currentView));
+  }
+  html += `<footer><span>v0.13-teste · Layout Glassmorphism</span><span><a onclick="openAbout()">Sobre esta estrutura</a> · <a onclick="confirmClearAll()">Zona perigosa</a></span></footer>`;
+  document.getElementById('view-content').innerHTML = html;
+  document.querySelectorAll('.subtab').forEach(t => t.addEventListener('click', () => navigate(currentView, t.dataset.sub)));
+  document.querySelectorAll('[data-subnav]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); navigate(currentView, el.dataset.subnav); }));
+  bindItemActions();
+  document.querySelectorAll('[data-playbook]').forEach(el => el.addEventListener('click', () => openPlaybookNote(el.dataset.playbook)));
+}
+function renderScopeContent(scopeKey, items) {
+  const filtered = items.filter(it => { if (currentFilter==='empty') return it.type==='empty'; if (it.type==='empty') return showEmpty; if (currentFilter==='all') return true; return it.type===currentFilter; });
+  const groups = { note:{label:'Notas',items:[]}, link:{label:'Links',items:[]}, sheet:{label:'Planilhas',items:[]}, doc:{label:'Documentos',items:[]}, section:{label:'Seções',items:[]}, subhead:{label:'Áreas',items:[]}, empty:{label:'Vazios',items:[]} };
+  filtered.forEach(it => { if (groups[it.type]) groups[it.type].items.push(it); else groups.note.items.push(it); });
+  const c = getScopeCount(scopeKey);
+  const meta = `<div class="meta">
+    <span><span class="v accent">${groups.note.items.length}</span> notas</span><span class="dot">·</span>
+    <span><span class="v">${groups.link.items.length}</span> links</span><span class="dot">·</span>
+    <span><span class="v">${groups.sheet.items.length}</span> planilhas</span><span class="dot">·</span>
+    <span><span class="v">${groups.doc.items.length}</span> docs</span><span class="dot">·</span>
+    <span><span class="v dim">${groups.empty.items.length}</span> vazios</span><span class="spacer"></span>
+    <span class="updated">${c.filled}/${c.total} preenchidos</span>
+  </div>`;
+  const fhtml = `<div class="filter">
+    <span class="lbl">Filtro</span>
+    <a href="#" data-f="all" class="${currentFilter==='all'?'active':''}">todos</a>
+    <a href="#" data-f="note" class="${currentFilter==='note'?'active':''}">notas <span class="ct">${groups.note.items.length}</span></a>
+    <a href="#" data-f="link" class="${currentFilter==='link'?'active':''}">links <span class="ct">${groups.link.items.length}</span></a>
+    <a href="#" data-f="sheet" class="${currentFilter==='sheet'?'active':''}">planilhas <span class="ct">${groups.sheet.items.length}</span></a>
+    <a href="#" data-f="doc" class="${currentFilter==='doc'?'active':''}">docs <span class="ct">${groups.doc.items.length}</span></a>
+    <a href="#" data-f="empty" class="${currentFilter==='empty'?'active':''}">vazios <span class="ct">${groups.empty.items.length}</span></a>
+    <button class="toggle ${showEmpty?'on':''}" id="toggle-empty">mostrar vazios</button>
+  </div>`;
+  let body = '';
+  const order = ['note','section','link','sheet','doc','subhead','empty'];
+  const groupLabels = { note:'Notas', link:'Links', sheet:'Planilhas', doc:'Documentos', section:'Seções', subhead:'Áreas', empty:'Vazios' };
+  for (const k of order) {
+    const g = groups[k];
+    if (!g.items.length) continue;
+    body += `<div class="group">`;
+    body += `<div class="group-head"><span class="name">${groupLabels[k]}</span><span class="ct">${g.items.length}</span></div>`;
+    if (g.items[0].type === 'subhead') {
+      body += `<div class="grid">${g.items.map(it => `
+        <a class="item arrow-visible" href="#" data-subnav="${it.parentId}" style="text-decoration:none;color:inherit">
+          <div class="item-num">${g.items.indexOf(it)+1}</div>
+          <div class="item-icon section">▾</div>
+          <div class="item-body">
+            <div class="item-name">${it.nome}<span class="type">área</span></div>
+            <div class="item-desc">Clique pra abrir</div>
+          </div>
+          <div class="item-arrow">→</div>
+        </a>
+      `).join('')}</div>`;
+    } else {
+      body += `<div class="grid">${g.items.map((it, idx) => renderItem(scopeKey, it, idx+1)).join('')}</div>`;
+    }
+    body += `</div>`;
+  }
+  if (!filtered.length) body = `<div class="empty-state"><div class="em-title">Nada aqui no filtro "${currentFilter}"</div><div>Tente outro filtro ou veja todos</div><button onclick="setFilter('all')">Ver todos</button></div>`;
+  return meta + fhtml + body + `<div class="add-new" id="add-item"><div class="plus">+</div>adicionar item ${escLabel(scopeKey)}</div>
+  <div class="danger-zone"><span>// Zona perigosa · limpar custom ou restaurar padrão</span><div style="display:flex;gap:8px"><button onclick="restoreDefault()">Restaurar padrão</button><button class="danger" onclick="clearAllCustom()">Limpar custom</button></div></div>`;
+}
+function escLabel(scopeKey) { const m={gestao:'à Gestão',operacao:'à Operação',produtos:'a Produtos',sops:'a SOPs',biblioteca:'à Biblioteca',conhecimento:'a Conhecimento'}; return m[scopeKey]||''; }
+function renderItem(scopeKey, item, num) {
+  if (item.type === 'empty') return `<div class="empty" data-action="add" data-scope="${scopeKey}" data-id="${item.id}">
+    <div class="empty-num">${String(num).padStart(2,'0')}</div>
+    <div class="empty-name">${item.nome}</div>
+    <div class="empty-plus">+ adicionar</div>
+  </div>`;
+  if (item.type === 'note') return `<div class="note-block" data-action="open-note" data-scope="${scopeKey}" data-id="${item.id}">
+    <div class="note-head"><div class="note-num">${String(num).padStart(2,'0')}</div><div class="note-title">${item.nome}</div><div class="note-type">◆ NOTA</div></div>
+    <div class="note-body">${formatNoteBody(item.note||'')}</div>
+  </div>`;
+  if (item.type === 'section') {
+    let subHtml = '';
+    if (item.items) {
+      subHtml = `<div class="subitems">`;
+      Object.values(item.items).forEach((sub, i) => {
+        if (sub.type === 'note') {
+          subHtml += `<div class="note-block" data-action="open-note" data-scope="${scopeKey}" data-id="${sub.id}" data-parent="${item.id}" style="margin-bottom:14px">
+            <div class="note-head" style="border:0;padding:0;margin-bottom:8px">
+              <div class="note-num">${String(i+1).padStart(2,'0')}</div>
+              <div class="note-title" style="font-size:20px">${sub.nome}</div>
+              <div class="note-type">◆ NOTA</div>
+            </div>
+            <div class="note-body">${formatNoteBody(sub.note||'')}</div>
+          </div>`;
+        } else {
+          const subIcon = sub.type==='link'?'↗':sub.type==='sheet'?'⊞':sub.type==='doc'?'▤':'·';
+          const onclick = sub.url ? `onclick="window.open('${sub.url}','_blank')"` : '';
+          subHtml += `<a class="item arrow-visible" ${onclick} href="#" style="text-decoration:none;color:inherit">
+            <div class="item-num">${String(i+1).padStart(2,'0')}</div>
+            <div class="item-icon ${sub.type}">${subIcon}</div>
+            <div class="item-body">
+              <div class="item-name">${sub.nome}<span class="type">${sub.type}</span></div>
+              ${sub.desc ? `<div class="item-desc">${sub.desc}</div>` : ''}
+              ${sub.url ? `<div class="item-url">${sub.url.substring(0,80)}${sub.url.length>80?'…':''}</div>` : ''}
+            </div>
+            <div class="item-arrow">→</div>
+            <div class="item-actions"><button data-action="edit" data-scope="${scopeKey}" data-id="${sub.id}" data-parent="${item.id}">✎</button><button data-action="del" data-scope="${scopeKey}" data-id="${sub.id}" data-parent="${item.id}">×</button></div>
+          </a>`;
+        }
+      });
+      subHtml += `</div>`;
+    }
+    return `<div class="note-block" data-action="open-section" data-scope="${scopeKey}" data-id="${item.id}">
+      <div class="note-head"><div class="note-num">${String(num).padStart(2,'0')}</div><div class="note-title">${item.nome}</div><div class="note-type">▾ SEÇÃO</div></div>
+      ${item.desc ? `<p style="font-size:13.5px;color:var(--text-dim);margin-bottom:18px;max-width:680px;line-height:1.65">${item.desc}</p>` : ''}
+      ${subHtml}
+    </div>`;
+  }
+  const icon = item.type==='link'?'↗':item.type==='sheet'?'⊞':item.type==='doc'?'▤':'·';
+  const onclick = item.url ? `onclick="window.open('${item.url.replace(/'/g,"\\'")}','_blank')"` : '';
+  return `<a class="item arrow-visible" ${onclick} href="#" style="text-decoration:none;color:inherit">
+    <div class="item-num">${String(num).padStart(2,'0')}</div>
+    <div class="item-icon ${item.type}">${icon}</div>
+    <div class="item-body">
+      <div class="item-name">${item.nome}<span class="type">${item.type}</span></div>
+      ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+      ${item.url ? `<div class="item-url">${item.url.substring(0,80)}${item.url.length>80?'…':''}</div>` : ''}
+    </div>
+    <div class="item-arrow">→</div>
+    <div class="item-actions"><button data-action="edit" data-scope="${scopeKey}" data-id="${item.id}">✎</button><button data-action="del" data-scope="${scopeKey}" data-id="${item.id}">×</button></div>
+  </a>`;
+}
+function formatNoteBody(text) { const lines = text.split('\n'); let html = ''; let inList = false; for (let line of lines) { line = line.trim(); if (!line) { if (inList) { html += '</ul>'; inList = false; } continue; } if (line.startsWith('## ')) { if (inList) { html += '</ul>'; inList = false; } html += `<h4>${escapeHtml(line.substring(3))}</h4>`; } else if (line.startsWith('- ') || line.startsWith('• ')) { if (!inList) { html += '<ul>'; inList = true; } html += `<li>${formatInline(line.substring(2))}</li>`; } else if (line.startsWith('═══')) { if (inList) { html += '</ul>'; inList = false; } html += `<h4>${escapeHtml(line.replace(/═/g,'').trim()||'Script')}</h4>`; } else if (line.match(/^[A-Z\s]+:$/)) { if (inList) { html += '</ul>'; inList = false; } html += `<h4>${escapeHtml(line.replace(':',''))}</h4>`; } else { if (inList) { html += '</ul>'; inList = false; } html += `<p>${formatInline(line)}</p>`; } } if (inList) html += '</ul>'; return html; }
+function formatInline(text) { text = escapeHtml(text); text = text.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>'); text = text.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); return text; }
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function bindItemActions() {
+  document.querySelectorAll('[data-action]').forEach(el => el.addEventListener('click', e => {
+    const action = el.dataset.action;
+    if (action === 'add') { e.preventDefault(); e.stopPropagation(); openAddEdit('add', el.dataset.scope, el.dataset.id); }
+    else if (action === 'edit') { e.preventDefault(); e.stopPropagation(); openAddEdit('edit', el.dataset.scope, el.dataset.id, el.dataset.parent); }
+    else if (action === 'del') { e.preventDefault(); e.stopPropagation(); deleteItem(el.dataset.scope, el.dataset.id, el.dataset.parent); }
+    else if (action === 'open-note') { e.preventDefault(); e.stopPropagation(); openNoteView(el.dataset.scope, el.dataset.id, el.dataset.parent); }
+    else if (action === 'subnav') { e.preventDefault(); navigate(currentView, el.dataset.subnav); }
+  }));
+  document.querySelectorAll('[data-f]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setFilter(a.dataset.f); }));
+  const tog = document.getElementById('toggle-empty'); if (tog) tog.addEventListener('click', () => { showEmpty = !showEmpty; setFilter(currentFilter); });
+  const addBtn = document.getElementById('add-item'); if (addBtn) addBtn.addEventListener('click', () => openAddEdit('add', currentView));
+}
+function setFilter(f) { currentFilter = f; renderScope(); }
+
+let editContext = null;
+function openAddEdit(mode, scopeKey, itemId, parentId) { editContext = { mode, scopeKey, itemId, parentId }; const m = document.getElementById('modal-add-edit'); const isEdit = mode === 'edit'; document.getElementById('ae-title').textContent = isEdit ? 'Editar item' : 'Adicionar item'; document.getElementById('ae-sub').textContent = `// ${scopeKey}${itemId ? ' · ' + itemId : ''}`; document.getElementById('ae-nome').value = ''; let existing = null; if (isEdit) { if (parentId) { const parent = (STATE[scopeKey]||{})[parentId]; if (parent && parent.items) existing = parent.items[itemId]; } else existing = (STATE[scopeKey]||{})[itemId]; } const type = existing ? existing.type : 'note'; if (existing) document.getElementById('ae-nome').value = existing.nome || ''; setAeType(type); m.classList.add('open'); setTimeout(() => document.getElementById('ae-nome').focus(), 50); }
+function setAeType(type) { document.querySelectorAll('.type-pill').forEach(p => p.classList.toggle('active', p.dataset.type === type)); const showUrl = ['link','sheet','doc'].includes(type); const showNote = type === 'note'; const showDesc = ['link','sheet','doc','section'].includes(type); document.getElementById('ae-url-label').style.display = showUrl ? 'block' : 'none'; document.getElementById('ae-url').style.display = showUrl ? 'block' : 'none'; document.getElementById('ae-note-label').style.display = showNote ? 'block' : 'none'; document.getElementById('ae-note').style.display = showNote ? 'block' : 'none'; document.getElementById('ae-desc-label').style.display = showDesc ? 'block' : 'none'; document.getElementById('ae-desc').style.display = showDesc ? 'block' : 'none'; if (editContext && editContext.mode === 'edit') { const { scopeKey, itemId, parentId } = editContext; let existing = null; if (parentId) { const parent = (STATE[scopeKey]||{})[parentId]; if (parent && parent.items) existing = parent.items[itemId]; } else existing = (STATE[scopeKey]||{})[itemId]; if (existing) { document.getElementById('ae-url').value = existing.url || ''; document.getElementById('ae-desc').value = existing.desc || ''; document.getElementById('ae-note').value = existing.note || ''; } } else { document.getElementById('ae-url').value = ''; document.getElementById('ae-desc').value = ''; document.getElementById('ae-note').value = ''; } }
+function saveAddEdit() { if (!editContext) return; const type = document.querySelector('.type-pill.active')?.dataset.type || 'note'; const nome = document.getElementById('ae-nome').value.trim(); if (!nome) { toast('Nome obrigatório'); return; } const url = document.getElementById('ae-url').value.trim(); const desc = document.getElementById('ae-desc').value.trim(); const note = document.getElementById('ae-note').value; const id = nome.toLowerCase().replace(/[^a-z0-9]+/g,'-').substring(0,40) + '-' + Date.now().toString(36).slice(-4); const item = { id, nome, type, ...(url && {url}), ...(desc && {desc}), ...(type==='note' && note && {note}) }; const { scopeKey, itemId, parentId, mode } = editContext; if (mode === 'edit' && itemId) { if (parentId) { const parent = STATE[scopeKey]?.[parentId]; if (parent && parent.items) { item.id = itemId; parent.items[itemId] = item; } } else { item.id = itemId; STATE[scopeKey] = STATE[scopeKey] || {}; STATE[scopeKey][itemId] = item; } toast('Atualizado'); } else { if (parentId) { const parent = STATE[scopeKey]?.[parentId]; if (parent && parent.items) parent.items[id] = item; else { STATE[scopeKey] = STATE[scopeKey] || {}; STATE[scopeKey][parentId] = { id: parentId, nome: parentId, type: 'section', items: { [id]: item } }; } } else { STATE[scopeKey] = STATE[scopeKey] || {}; STATE[scopeKey][id] = item; } toast('Salvo'); } saveState(); closeModal(); renderScope(); buildNav(); }
+function deleteItem(scopeKey, itemId, parentId) { if (!confirm('Apagar este item?')) return; if (parentId) { const parent = STATE[scopeKey]?.[parentId]; if (parent && parent.items && parent.items[itemId]) delete parent.items[itemId]; } else delete (STATE[scopeKey]||{})[itemId]; saveState(); renderScope(); buildNav(); toast('Apagado'); }
+function confirmClearAll() { if (!confirm('Apagar TODOS os items custom?')) return; clearAllCustom(); }
+function clearAllCustom() { STATE = JSON.parse(JSON.stringify(INITIAL_DATA)); saveState(); renderScope(); buildNav(); toast('Restaurado'); }
+function restoreDefault() { if (!confirm('Restaurar padrão?')) return; clearAllCustom(); }
+function closeModal() { document.getElementById('modal-add-edit').classList.remove('open'); editContext = null; }
+document.getElementById('ae-cancel').addEventListener('click', closeModal);
+document.getElementById('ae-save').addEventListener('click', saveAddEdit);
+document.querySelectorAll('.type-pill').forEach(p => p.addEventListener('click', () => setAeType(p.dataset.type)));
+
+function openNoteView(scopeKey, itemId, parentId) { let item = null; if (parentId) { const parent = (STATE[scopeKey]||{})[parentId]; if (parent && parent.items) item = parent.items[itemId]; } else item = (STATE[scopeKey]||{})[itemId]; if (!item || !item.note) return; const m = document.createElement('div'); m.className = 'modal-backdrop open'; m.innerHTML = `<div class="modal" style="max-width:780px" onclick="event.stopPropagation()"><h2>${item.nome}</h2><div class="sub">// ${scopeKey} · ${itemId}</div><div class="note-body" style="max-height:60vh;overflow-y:auto">${formatNoteBody(item.note)}</div><div class="actions"><button class="cancel" onclick="this.closest('.modal-backdrop').remove()">Fechar</button></div></div>`; m.addEventListener('click', () => m.remove()); document.body.appendChild(m); }
+function openPlaybookNote(key) { const p = PLAYBOOK[key]; if (!p) return; const m = document.createElement('div'); m.className = 'modal-backdrop open'; m.innerHTML = `<div class="modal" style="max-width:780px" onclick="event.stopPropagation()"><h2>${p.titulo}</h2><div class="sub">// Playbook Mentoria Kairós</div><div class="note-body" style="max-height:65vh;overflow-y:auto">${formatNoteBody(p.conteudo)}</div><div class="actions"><button class="cancel" onclick="this.closest('.modal-backdrop').remove()">Fechar</button></div></div>`; m.addEventListener('click', () => m.remove()); document.body.appendChild(m); }
+function openAbout() { document.getElementById('modal-about').classList.add('open'); }
+function closeAbout() { document.getElementById('modal-about').classList.remove('open'); }
+document.getElementById('modal-about').addEventListener('click', e => { if (e.target.id === 'modal-about') closeAbout(); });
+
+const SYNONYMS = { 'mentoria':'kairós aluno mentorado','mentorado':'aluno cliente','kairós':'mentoria kairós','kairos':'mentoria kairós','aluno':'mentorado cliente','cliente':'aluno mentorado','workshop':'encontro evento live','encontro':'workshop evento','evento':'workshop presencial','presencial':'evento','online':'remoto','live':'workshop','zouti':'plataforma membros','asas':'checkout pagamento','hotmart':'checkout','zapi':'whatsapp wpp zap','whatsapp':'wpp zap zapi','wpp':'whatsapp zap','criativ':'criativo material','criativo':'criativ material','copy':'texto script','roas':'roi retorno','roi':'roas retorno','cpl':'custo lead','cpm':'custo mil','ctr':'clique taxa','meta':'facebook ads','facebook':'meta ads','google':'ads','manychat':'automação','drive':'arquivo','docs':'documento','sheets':'planilha','planilha':'sheet','doc':'documento','looker':'dashboard datastudio','datastudio':'looker dashboard','kpi':'indicador métrica','meta':'objetivo okr','okr':'meta objetivo' };
+function stem(word) { word = word.toLowerCase(); if (word.length <= 3) return word; if (word.endsWith('amente')) word = word.slice(0,-5); if (word.endsWith('ando') || word.endsWith('endo') || word.endsWith('indo')) word = word.slice(0,-4)+'ar'; if (word.endsWith('ado') || word.endsWith('ido')) word = word.slice(0,-3); if (word.endsWith('oes')) word = word.slice(0,-3)+'ao'; if (word.endsWith('ais')) word = word.slice(0,-3)+'al'; if (word.endsWith('es')) word = word.slice(0,-2); if (word.endsWith('s')) word = word.slice(0,-1); return word; }
+function tokenizeStem(s) { if (!s) return []; return s.toLowerCase().split(/\W+/).filter(w => w.length > 1).map(stem); }
+let searchResults = [], searchSelected = 0;
+function runSearch(q) { const results = []; const qStems = tokenizeStem(q); if (!qStems.length) return results; const expandedStems = new Set(qStems); qStems.forEach(s => { if (SYNONYMS[s]) SYNONYMS[s].split(/\s+/).forEach(x => expandedStems.add(stem(x))); }); function scoreItem(text) { const tokens = tokenizeStem(text); let s = 0; for (const q of expandedStems) { if (tokens.some(t => t === q || t.startsWith(q) || q.startsWith(t))) s += 2; else if (tokens.some(t => t.includes(q))) s += 1; } return s; } Object.entries(STATE).forEach(([scopeKey, scope]) => { Object.entries(scope).forEach(([itemId, item]) => { if (!item || !item.nome) return; const text = [item.nome, item.desc || '', item.note || '', item.url || ''].join(' '); const sc = scoreItem(text); if (sc > 0) results.push({ ...item, scope: scopeKey, _path: scopeKey, _score: sc }); }); }); Object.entries(PLAYBOOK).forEach(([key, p]) => { const text = [p.titulo, p.conteudo || ''].join(' '); const sc = scoreItem(text); if (sc > 0) results.push({ id: '_pb_'+key, nome: p.titulo, type: 'playbook', _path: 'Playbook Kairós', _score: sc }); }); Object.entries(ESTRUTURA).forEach(([scopeKey, scope]) => { if (scope.titulo) { const sc = scoreItem(scope.titulo + ' ' + (scope.descricao || '')); if (sc > 0) results.push({ id: '_nav_'+scopeKey, nome: scope.titulo, type: 'nav', _path: 'Ir para camada', _score: sc + 0.5 }); } }); results.sort((a, b) => b._score - a._score); return results.slice(0, 12); }
+function renderSearchResults(results) { const box = document.getElementById('search-results'); if (!results.length) { box.innerHTML = `<div class="sr-empty">Nada encontrado</div>`; return; } box.innerHTML = results.map((r, i) => { const iconMap = { note: '◆', link: '↗', sheet: '⊞', doc: '▤', section: '▾', playbook: '◆', nav: '→' }; const cls = r.type === 'playbook' ? 'note' : r.type; return `<div class="sr-item ${i===searchSelected?'selected':''}" data-idx="${i}"><div class="sr-icon ${cls}">${iconMap[r.type] || '·'}</div><div class="sr-body"><div class="sr-name">${r.nome}</div><div class="sr-path">${r._path || ''}</div></div><div class="sr-type">${r.type}</div></div>`; }).join(''); box.querySelectorAll('.sr-item').forEach(el => { el.addEventListener('click', () => { const idx = parseInt(el.dataset.idx); openSearchResult(results[idx]); }); el.addEventListener('mouseenter', () => { searchSelected = parseInt(el.dataset.idx); box.querySelectorAll('.sr-item').forEach(e => e.classList.toggle('selected', parseInt(e.dataset.idx) === searchSelected)); }); }); }
+function openSearchResult(r) { document.getElementById('search-results').classList.remove('open'); document.getElementById('search-input').value = ''; if (r.type === 'nav') { navigate(r.id.replace('_nav_', '')); return; } if (r.type === 'playbook') { openPlaybookNote(r.id.replace('_pb_', '')); return; } const scope = r.scope || ''; if (scope.startsWith('operacao.')) navigate('operacao', scope.split('.')[1]); else if (scope.startsWith('produtos.')) navigate('produtos', scope.split('.')[1]); else navigate(scope); setTimeout(() => { if (r.type === 'note') openNoteView(scope, r.id); }, 100); }
+document.getElementById('search-input').addEventListener('input', e => { const q = e.target.value; const box = document.getElementById('search-results'); if (!q || q.length < 2) { box.classList.remove('open'); box.innerHTML = ''; return; } searchResults = runSearch(q); searchSelected = 0; renderSearchResults(searchResults); box.classList.add('open'); });
+document.getElementById('search-input').addEventListener('focus', e => { if (e.target.value.length >= 2) document.getElementById('search-results').classList.add('open'); });
+document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Escape') { document.getElementById('search-results').classList.remove('open'); document.getElementById('search-input').blur(); } if (e.key === 'ArrowDown') { e.preventDefault(); searchSelected = Math.min(searchSelected+1, searchResults.length-1); renderSearchResults(searchResults); } if (e.key === 'ArrowUp') { e.preventDefault(); searchSelected = Math.max(searchSelected-1, 0); renderSearchResults(searchResults); } if (e.key === 'Enter' && searchResults.length) { e.preventDefault(); openSearchResult(searchResults[searchSelected]); } });
+document.addEventListener('click', e => { if (!e.target.closest('.search-box')) document.getElementById('search-results').classList.remove('open'); });
+document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search-input').focus(); } });
+
+function buildResumo() { const out = []; out.push('## Gestão'); ESTRUTURA.gestao.items.forEach(it => { const s = (STATE.gestao||{})[it.id]; out.push(buildResumoItem('Gestão > ' + it.nome, s)); }); out.push('\n## Operação'); Object.entries(ESTRUTURA.operacao.areas).forEach(([subK, sub]) => { out.push('\n### ' + sub.titulo); sub.items.forEach(it => { const s = (STATE['operacao.' + subK]||{})[it.id]; out.push(buildResumoItem(sub.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## Produtos'); Object.entries(ESTRUTURA.produtos.items).forEach(([prodK, prod]) => { out.push('\n### ' + prod.titulo); (prod.items || []).forEach(it => { const s = (STATE['produtos.' + prodK]||{})[it.id]; out.push(buildResumoItem(prod.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## SOPs'); ESTRUTURA.sops.items.forEach(it => { const s = (STATE.sops||{})[it.id]; out.push(buildResumoItem('SOP > ' + it.nome, s)); }); out.push('\n## Biblioteca'); ESTRUTURA.biblioteca.items.forEach(it => { const s = (STATE.biblioteca||{})[it.id]; out.push(buildResumoItem('Biblioteca > ' + it.nome, s)); }); out.push('\n## Conhecimento'); ESTRUTURA.conhecimento.items.forEach(it => { const s = (STATE.conhecimento||{})[it.id]; out.push(buildResumoItem('Conhecimento > ' + it.nome, s)); }); out.push('\n## Playbook Mentoria Kairós'); Object.entries(PLAYBOOK).forEach(([k, p]) => { out.push(`\n### ${p.titulo}`); out.push('_(nota interna)_'); }); return out.join('\n'); }
+function buildResumoItem(path, item) { if (!item) return `- _(vazio)_ **${path}**`; if (item.type === 'note') return `- ◆ **${item.nome || path}** _(nota)_ — ${path}`; if (item.type === 'section') { let sub = ''; if (item.items) Object.values(item.items).forEach(c => { sub += '\n  ' + buildResumoItem(path + ' > ' + (c.nome || ''), c); }); return `- ▾ **${item.nome || path}** _(seção)_ — ${path}${sub}`; } const typeIcon = { link: '↗', sheet: '⊞', doc: '▤' }[item.type] || '·'; const url = item.url || (item.note && (item.note.match(/https?:\/\/\S+/) || [])[0]); const urlTxt = url ? ` → ${url}` : ''; return `- ${typeIcon} **${item.nome || path}** _(${item.type})_ — ${path}${urlTxt}`; }
+function renderResumo(filter) { const content = document.getElementById('resumo-content'); const text = buildResumo(); const lines = text.split('\n'); const filtered = filter ? lines.filter(l => l.toLowerCase().includes(filter.toLowerCase())) : lines; let html = filtered.map(l => { if (l.startsWith('## ')) return `<h3 style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">${escapeHtml(l.slice(3))}</h3>`; if (l.startsWith('### ')) return `<h4 style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin:14px 0 6px;font-weight:500">${escapeHtml(l.slice(4))}</h4>`; if (l.startsWith('  ')) return `<div style="font-size:12px;color:var(--text-dim);padding:2px 0 2px 24px;line-height:1.5">${formatResumoLine(l.trim())}</div>`; if (l.trim() === '') return '<div style="height:6px"></div>'; return `<div style="font-size:12.5px;color:var(--text);padding:3px 0;line-height:1.5">${formatResumoLine(l)}</div>`; }).join(''); content.innerHTML = html; }
+function formatResumoLine(l) { return escapeHtml(l).replace(/\*\*(.+?)\*\*/g, '<b style="color:var(--text);font-weight:600">$1</b>').replace(/_(.+?)_/g, '<span style="color:var(--text-faint);font-style:italic;font-family:\'IBM Plex Mono\',monospace;font-size:10.5px">$1</span>').replace(/→\s*(https?:\/\/[^\s]+)/g, '→ <a href="$1" target="_blank" style="color:var(--blue);font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;text-decoration:none;border-bottom:1px solid rgba(96,165,250,.3);word-break:break-all">$1</a>').replace(/_(vazio)_/g, '<span style="color:var(--text-faint);font-style:italic">vazio</span>'); }
+function openResumo() { renderResumo(''); document.getElementById('modal-resumo').classList.add('open'); }
+function closeResumo() { document.getElementById('modal-resumo').classList.remove('open'); }
+document.getElementById('modal-resumo').addEventListener('click', e => { if (e.target.id === 'modal-resumo') closeResumo(); });
+document.getElementById('resumo-filter').addEventListener('input', e => renderResumo(e.target.value));
+function copyResumo() { const text = buildResumo(); navigator.clipboard.writeText(text).then(() => toast('Resumo copiado')); }
+function downloadResumo() { const text = buildResumo(); const blob = new Blob([text], { type: 'text/markdown' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'kronos-resumo-glass.md'; a.click(); URL.revokeObjectURL(url); toast('Baixado'); }
+
+function toast(msg) { const t = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); }
+
+loadState();
+buildNav();
+renderHome();
+</script>
+</body>
+</html>
