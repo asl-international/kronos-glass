@@ -383,8 +383,7 @@ const INITIAL_DATA = {
   'operacao.cs': {
     'acompanhamento': { id:'acompanhamento', nome:'Acompanhamento de mentorados', type:'sheet', url:'https://docs.google.com/spreadsheets/d/1MCgMng4h_Luft7Jvzc1G_yrGAMCzuxqlUmT0Wmi95kY/edit?gid=1831693487', desc:'Planilha geral de acompanhamento' },
     'regua-saude': { id:'regua-saude', nome:'Régua de saúde do aluno', type:'note', note:'🟢 ATIVO · 🟡 ATENÇÃO · 🔴 RISCO. Status visível no CRM pra time nunca "descobrir tarde" que alguém sumiu.' },
-    'onboarding-kairos': { id:'onboarding-kairos', nome:'Onboarding Kairós v2 (Doc)', type:'doc', desc:'Sistema completo: Fase 0 Disparo → 1 Contato humano → 2 Formalização → 3 Calendário. Checklist 11 itens. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\onboarding_kairos2.docx' }
-  },
+    'onboarding-kairos':{id:'onboarding-kairos',nome:'Onboarding Kairós v2 (Doc)',type:'doc',desc:'Sistema completo: Fase 0 Disparo → 1 Contato humano → 2 Formalização → 3 Calendário. Checklist oficial 11 itens. Canal WhatsApp 9h-18h seg-sex. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\onboarding_kairos2.docx'},},
   'produtos.kairos': {
     'manual-participante': { id:'manual-participante', nome:'Manual do participante', type:'link', url:'https://mentoriakairos.institutokronos.com.br/manualdoparticipante', desc:'Página do manual' },
     'avatar-kairos': { id:'avatar-kairos', nome:'Avatar Kairós', type:'doc', url:'https://docs.google.com/document/d/1sa6zjkL-FAwaycnCl49Qm4TC-06IWe2L/edit', desc:'ICP e persona' },
@@ -426,7 +425,7 @@ const INITIAL_DATA = {
       'aplicacao-zouti':{id:'aplicacao-zouti',nome:'Aplicação/entrada (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?poi=prod_offer_m86w42a1nayucugvh29ws0'},
       'a-vista':{id:'a-vista',nome:'À vista (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_7bs0a37hyb3s6qq2b3ka6o'},
       'parcelado':{id:'parcelado',nome:'Parcelado (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_cl7z0m6oaz6axusj4u5jqv'},
-      'contrato-kairos':{id:'contrato-kairos',nome:'Contrato Mentoria Kairós (PDF)',type:'doc',desc:'12 meses · R$10k à vista / R$12k parcelado · Garantia condicional. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Contrato - Mentoria Kairós.pdf'},
+      'contrato-kairos':{id:'contrato-kairos',nome:'Contrato Mentoria Kairós (PDF)',type:'doc',url:'https://drive.google.com/file/d/1q_0e-iJt4_NIueOv-Ie2hxzB4DbOX7yz/view?usp=sharing',desc:'12 meses · R$10k à vista / R$12k parcelado · Garantia condicional. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Contrato - Mentoria Kairós.pdf'},
       'migracao-asas':{id:'migracao-asas',nome:'Migração pra Asas',type:'note',note:'Decisão: migrar de Zouti pra Asas.\n\nPOR QUE: 3,99% + R$0,50, SEM antecipação compulsória, boleto R$1,99 FIXO, PIX R$1,99 fixo.\n\nAplicação e ingressos PERMANECEM na Zouti (Asas não funciona pra 1-para-muitos). Pra mentoria + sessão 1:1, vai pra Asas.'}
     } },
     'produtos-negociacao': { id:'produtos-negociacao', nome:'Produtos e negociação', type:'doc', url:'https://docs.google.com/document/d/1D2PB3mtDoua4-iXL2wQ2ONzr4RPPphiU/edit', desc:'Doc de precificação e regras de oferta' }
@@ -436,8 +435,8 @@ const INITIAL_DATA = {
       'raio-x-vende':{id:'raio-x-vende',nome:'Raio X – quem já vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1nmfC4n7PVmOrPQfMgfqQpjwDIZT93wN3wETQ21yTXYY/edit?gid=1502063929'},
       'raio-x-nao-vende':{id:'raio-x-nao-vende',nome:'Raio X – quem não vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1oYlderDAgK4MKWHXC9iak44BN_NNbZhCzTw5bqY8G-0/edit?gid=1502063929'}
     } },
-    'briefing-conteudo': { id:'briefing-conteudo', nome:'Briefing de Conteúdo — Instagram (Doc)', type:'doc', desc:'Estratégia Yap content + produção intencional. Copywriters (Hormozi, Naval), lowfi, 5 gatilhos.' },
-    'relatorio-pesquisa': { id:'relatorio-pesquisa', nome:'Relatório de Pesquisa Mentoria Kairós (PDF)', type:'doc', desc:'Resumo da pesquisa com alunos — base do diagnóstico de margem' },
+    'briefing-conteudo':{id:'briefing-conteudo',nome:'Briefing de Conteúdo — Instagram (Doc)',type:'doc',desc:'Estratégia Yap content + produção intencional. Temas, copywriters referência (Hormozi, Naval), estética lowfi, regra dos 5 gatilhos.'},
+    'relatorio-pesquisa':{id:'relatorio-pesquisa',nome:'Relatório de Pesquisa Mentoria Kairós (PDF)',type:'doc',desc:'Resumo da pesquisa com alunos — base do diagnóstico de margem'},
     'roteiros': { id:'roteiros', nome:'Roteiros Kairós', type:'link', url:'http://127.0.0.1:8773/downloads/kairos%20central/index.html', desc:'App de roteiros (local)' },
     'criativos': { id:'criativos', nome:'Criativos — materiais de divulgação', type:'note', note:'Banco de criativos e materiais de divulgação.\n\nMateriais:\nhttps://drive.google.com/drive/folders/1TUsyPpPdqeZ-lZ3r6URuW28pjJilPTjs', desc:'Pasta do Drive com criativos' },
     'copy': { id:'copy', nome:'Copy — textos-base', type:'note', note:'Scripts e textos-base.\n\nRoteiros:\nhttps://docs.google.com/document/d/1vwV6hosq4veo5k96AO0OxUwPNBfChqs_DGYKo1hGQvY', desc:'Roteiros de copy e textos de criativos' }
