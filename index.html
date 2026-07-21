@@ -273,12 +273,12 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
 </style>
 </head>
 <body>
-<div class="layout-tag">v0.13 · Layout Glass</div>
+
 
 <nav class="topnav">
-  <div class="brand"><div class="logo">K</div>Instituto Kronos<span class="tag">// Painel</span></div>
+  <div class="brand">Instituto Kronos<span class="tag">// Painel</span></div>
   <div class="navlinks" id="navlinks"></div>
-  <div class="project-sel" data-project>KSL · Instituto Kronos</div>
+  
   <div class="search-box">
     <input type="text" id="search-input" placeholder="Buscar…" autocomplete="off">
     <kbd>⌘ K</kbd>
@@ -382,8 +382,7 @@ const INITIAL_DATA = {
   'operacao.financeiro': { 'financeiro-2-niveis': { id:'financeiro-2-niveis', nome:'Financeiro em 2 níveis (geral + individual)', type:'note', note:'VISÃO 1 — GERAL: tudo que entra/sai, composição consolidada, receitas/custos/comissão.\n\nVISÃO 2 — INDIVIDUAL: cada aluno/cliente separado, workshops, sessões 1:1, mentorias, ficha financeira por aluno.\n\nPOR QUE: visão geral não mostra realidade de cada produto, visão individual mostra de onde vem cada receita.' } },
   'operacao.cs': {
     'acompanhamento': { id:'acompanhamento', nome:'Acompanhamento de mentorados', type:'sheet', url:'https://docs.google.com/spreadsheets/d/1MCgMng4h_Luft7Jvzc1G_yrGAMCzuxqlUmT0Wmi95kY/edit?gid=1831693487', desc:'Planilha geral de acompanhamento' },
-    'regua-saude': { id:'regua-saude', nome:'Régua de saúde do aluno', type:'note', note:'🟢 ATIVO · 🟡 ATENÇÃO · 🔴 RISCO. Status visível no CRM pra time nunca "descobrir tarde" que alguém sumiu.' },
-    'onboarding-kairos':{id:'onboarding-kairos',nome:'Onboarding Kairós v2 (Doc)',type:'doc',desc:'Sistema completo: Fase 0 Disparo → 1 Contato humano → 2 Formalização → 3 Calendário. Checklist oficial 11 itens. Canal WhatsApp 9h-18h seg-sex. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\onboarding_kairos2.docx'},},
+    'regua-saude': { id:'regua-saude', nome:'Régua de saúde do aluno', type:'note', note:'🟢 ATIVO · 🟡 ATENÇÃO · 🔴 RISCO. Status visível no CRM pra time nunca "descobrir tarde" que alguém sumiu.' },},
   'produtos.kairos': {
     'manual-participante': { id:'manual-participante', nome:'Manual do participante', type:'link', url:'https://mentoriakairos.institutokronos.com.br/manualdoparticipante', desc:'Página do manual' },
     'avatar-kairos': { id:'avatar-kairos', nome:'Avatar Kairós', type:'doc', url:'https://docs.google.com/document/d/1sa6zjkL-FAwaycnCl49Qm4TC-06IWe2L/edit', desc:'ICP e persona' },
@@ -435,8 +434,6 @@ const INITIAL_DATA = {
       'raio-x-vende':{id:'raio-x-vende',nome:'Raio X – quem já vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1nmfC4n7PVmOrPQfMgfqQpjwDIZT93wN3wETQ21yTXYY/edit?gid=1502063929'},
       'raio-x-nao-vende':{id:'raio-x-nao-vende',nome:'Raio X – quem não vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1oYlderDAgK4MKWHXC9iak44BN_NNbZhCzTw5bqY8G-0/edit?gid=1502063929'}
     } },
-    'briefing-conteudo':{id:'briefing-conteudo',nome:'Briefing de Conteúdo — Instagram (Doc)',type:'doc',desc:'Estratégia Yap content + produção intencional. Temas, copywriters referência (Hormozi, Naval), estética lowfi, regra dos 5 gatilhos.'},
-    'relatorio-pesquisa':{id:'relatorio-pesquisa',nome:'Relatório de Pesquisa Mentoria Kairós (PDF)',type:'doc',desc:'Resumo da pesquisa com alunos — base do diagnóstico de margem'},
     'roteiros': { id:'roteiros', nome:'Roteiros Kairós', type:'link', url:'http://127.0.0.1:8773/downloads/kairos%20central/index.html', desc:'App de roteiros (local)' },
     'criativos': { id:'criativos', nome:'Criativos — materiais de divulgação', type:'note', note:'Banco de criativos e materiais de divulgação.\n\nMateriais:\nhttps://drive.google.com/drive/folders/1TUsyPpPdqeZ-lZ3r6URuW28pjJilPTjs', desc:'Pasta do Drive com criativos' },
     'copy': { id:'copy', nome:'Copy — textos-base', type:'note', note:'Scripts e textos-base.\n\nRoteiros:\nhttps://docs.google.com/document/d/1vwV6hosq4veo5k96AO0OxUwPNBfChqs_DGYKo1hGQvY', desc:'Roteiros de copy e textos de criativos' }
