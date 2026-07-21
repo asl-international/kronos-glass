@@ -506,7 +506,7 @@ function renderHome() {
       </a>`; }).join('')}
     </div>
     <div style="margin-top:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-faint);letter-spacing:.1em">v0.13-teste · Layout Glassmorphism · 4 camadas + Central de Produtos + SOPs</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-faint);letter-spacing:.1em">Layout Glassmorphism · 4 camadas + Central de Produtos + SOPs</div>
       <button onclick="openAbout()" style="background:var(--glass);border:1px solid var(--glass-border);color:var(--text-dim);padding:7px 16px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;border-radius:10px;backdrop-filter:blur(8px)">Sobre esta estrutura</button>
     </div>
   `;
@@ -541,7 +541,7 @@ function renderScope() {
   } else {
     html += renderScopeContent(currentView, collectAllItems(currentView));
   }
-  html += `<footer><span>v0.13-teste · Layout Glassmorphism</span><span><a onclick="openAbout()">Sobre esta estrutura</a> · <a onclick="confirmClearAll()">Zona perigosa</a></span></footer>`;
+  html += `<footer><span>Layout Glassmorphism</span><span><a onclick="openAbout()">Sobre esta estrutura</a> · <a onclick="confirmClearAll()">Zona perigosa</a></span></footer>`;
   document.getElementById('view-content').innerHTML = html;
   document.querySelectorAll('.subtab').forEach(t => t.addEventListener('click', () => navigate(currentView, t.dataset.sub)));
   document.querySelectorAll('[data-subnav]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); navigate(currentView, el.dataset.subnav); }));
