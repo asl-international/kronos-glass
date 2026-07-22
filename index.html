@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -341,7 +341,7 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
     <div class="sub">// decisões de design</div>
     <div class="about-body">
       <h4>Conceito</h4>
-      <p>Hub agregador da operação. Não é app de aluno, não tem checkout, não tem área logada. É o índice centralizado pra achar qualquer coisa que a operação produziu, hospeda ou precisa.</p>
+      <p>Hub agregador da operação. Não é app de aluno, não tem checkout, não tem área logada. É o hub pra achar qualquer coisa que a operação produziu, hospeda ou precisa.</p>
       <h4>Estrutura aprovada (reunião 11/07/2026)</h4>
       <ul>
         <li><b>4 camadas</b> + Central de Produtos + SOPs</li>
@@ -370,73 +370,133 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
 <div class="toast" id="toast"><span class="dot"></span><span id="toast-msg">Salvo</span></div>
 
 <script>
-const ESTRUTURA = { gestao:{titulo:'Gestão',eyebrow:'// GESTÃO',descricao:'O cérebro. A primeira tela que vocês olham todos os dias — indicadores, metas, planejamento.',items:[{id:'okrs',nome:'OKRs e metas'},{id:'dashboard',nome:'Dashboard geral'},{id:'kpis',nome:'KPIs'},{id:'financeiro',nome:'Financeiro'},{id:'fluxo-caixa',nome:'Fluxo de caixa'},{id:'planejamento-trimestral',nome:'Planejamento trimestral'},{id:'organograma',nome:'Organograma'},{id:'reunioes',nome:'Reuniões'},{id:'scorecard',nome:'Scorecard semanal'},{id:'track-record',nome:'Track record'},{id:'roadmap',nome:'Roadmap de projetos'}]},operacao:{titulo:'Operação',eyebrow:'// OPERAÇÃO',descricao:'Como a empresa funciona. Processos e execução por área funcional.',areas:{comercial:{titulo:'Comercial',items:[{id:'crm',nome:'CRM'},{id:'pipeline',nome:'Pipeline'},{id:'scripts',nome:'Scripts'},{id:'objecoes',nome:'Objeções'},{id:'contratos',nome:'Contratos'},{id:'diagnostico',nome:'Diagnóstico'},{id:'fechamento',nome:'Fechamento'}]},marketing:{titulo:'Marketing',items:[{id:'calendario',nome:'Calendário'},{id:'estrategia',nome:'Estratégia'},{id:'criativos',nome:'Criativos'},{id:'copy',nome:'Copy'},{id:'banco-anuncios',nome:'Banco de anúncios'},{id:'biblioteca-vsl',nome:'Biblioteca de VSL'},{id:'seo',nome:'SEO'},{id:'landing-pages',nome:'Landing Pages'}]},produto:{titulo:'Produto',items:[{id:'mentoria',nome:'Mentoria'},{id:'workshop',nome:'Workshop'},{id:'minicursos',nome:'Minicursos'},{id:'comunidade',nome:'Comunidade'},{id:'conteudo-aulas',nome:'Conteúdo das aulas'},{id:'atualizacoes',nome:'Atualizações'}]},cs:{titulo:'Sucesso do Cliente',items:[{id:'onboarding',nome:'Onboarding'},{id:'atendimento',nome:'Atendimento'},{id:'financeiro-cs',nome:'Financeiro'},{id:'cobranca',nome:'Cobrança'},{id:'suporte',nome:'Suporte'},{id:'nps',nome:'NPS'},{id:'comunidade-cs',nome:'Comunidade'},{id:'eventos',nome:'Eventos'}]},trafego:{titulo:'Tráfego',items:[{id:'meta',nome:'Meta'},{id:'google',nome:'Google'},{id:'tiktok',nome:'TikTok'},{id:'dashboards-trafego',nome:'Dashboards'},{id:'pixel',nome:'Pixel'},{id:'publicos',nome:'Públicos'},{id:'criativos-vencedores',nome:'Criativos vencedores'}]},financeiro:{titulo:'Financeiro',items:[{id:'receitas',nome:'Receitas'},{id:'custos',nome:'Custos'},{id:'pagamentos',nome:'Pagamentos'},{id:'comissao',nome:'Comissão'},{id:'relatorios',nome:'Relatórios'}]},rh:{titulo:'RH',items:[{id:'sops-rh',nome:'SOPs'},{id:'contratacoes',nome:'Contratações'},{id:'treinamentos',nome:'Treinamentos'},{id:'manual-cultura',nome:'Manual da cultura'}]}}},produtos:{titulo:'Produtos',eyebrow:'// PRODUTOS',descricao:'Tudo de cada oferta num lugar só.',items:{kairos:{titulo:'Mentoria Kairós',items:[{id:'lp-kairos',nome:'Landing Page'},{id:'oferta-kairos',nome:'Oferta'},{id:'criativos-kairos',nome:'Criativos'},{id:'produto-kairos',nome:'Produto'},{id:'dashboards-kairos',nome:'Dashboards'},{id:'pesquisa-kairos',nome:'Pesquisa'},{id:'financeiro-kairos',nome:'Financeiro'}]},workshop:{titulo:'Workshop Destrava Shopee',items:[{id:'dash-1',nome:'Dashboard 1'},{id:'dash-2',nome:'Dashboard 2'},{id:'dash-3',nome:'Dashboard 3'},{id:'assets-wds',nome:'Logo e Elementos'}]},eventos:{titulo:'Eventos Presenciais',items:[{id:'fotos-eventos',nome:'Fotos'}]},minicurso:{titulo:'Minicurso',items:[]},comunidade:{titulo:'Comunidade',items:[]}}},sops:{titulo:'Operações (SOPs)',eyebrow:'// SOPs',descricao:'Como fazer as coisas. Procedimentos passo-a-passo do time.',items:[{id:'sop-anuncio',nome:'Como subir um anúncio'},{id:'sop-campanha',nome:'Como criar uma campanha'},{id:'sop-workshop',nome:'Como lançar um workshop'},{id:'sop-carrinho',nome:'Como abrir carrinho'},{id:'sop-checkout',nome:'Como criar checkout'},{id:'sop-resposta',nome:'Como responder um aluno'},{id:'sop-boleto',nome:'Como gerar boleto'},{id:'sop-caixa',nome:'Como fechar caixa'},{id:'sop-onboarding',nome:'Como fazer onboarding'}]},biblioteca:{titulo:'Biblioteca',eyebrow:'// BIBLIOTECA',descricao:'Ativos para consulta. Brandbook, fotos, templates, jurídicos.',items:[{id:'logos',nome:'Logos'},{id:'brandbook',nome:'Brandbook'},{id:'fotos-ju',nome:'Fotos da Ju'},{id:'broll',nome:'Vídeos B-roll'},{id:'templates-canva',nome:'Templates Canva'},{id:'fontes',nome:'Fontes'},{id:'assets',nome:'Assets'},{id:'juridicos',nome:'Documentos jurídicos'},{id:'contratos',nome:'Contratos base'},{id:'certificados',nome:'Certificados'}]},conhecimento:{titulo:'Conhecimento',eyebrow:'// CONHECIMENTO',descricao:'Tudo que a empresa aprendeu. Segundo cérebro da operação.',items:[{id:'testes-anuncios',nome:'Testes de anúncios'},{id:'criativos-vencedores',nome:'Criativos vencedores'},{id:'headlines',nome:'Headlines vencedoras'},{id:'cpls',nome:'CPLs históricos'},{id:'benchmarks',nome:'Benchmarks'},{id:'aprendizados',nome:'Aprendizados de lançamentos'},{id:'relatorios',nome:'Relatórios pós-evento'},{id:'pesquisa',nome:'Pesquisa com alunos'},{id:'icp',nome:'ICP atualizado'},{id:'objecoes',nome:'Objeções novas'}]}};
-
-const PLAYBOOK = { time:{titulo:'Time',conteudo:`Quem é quem na operação. Papéis fixos: Roberta (CS), Juliana (Expert/Estratégia), Marina (Contratos/Financeiro), Gabriel (Acessos/TI). Regra de ouro da triagem de WhatsApp: operacional vai pra CS, técnico recorrente vai pra CS via FAQ, estratégico vai pra Ju em lote. Horário 9h-18h seg-sex.`},'fase-0':{titulo:'Fase 0 — Onboarding (72h)',conteudo:`O QUE O CLIENTE VIVE — Acabou de comprar, ansioso e inseguro. O QUE O TIME FAZ: 1) Disparo ManyChat 2) Contrato (Marina gera, CS confere) 3) Liberação acessos (Gabriel) 4) Cadastro CRM 5) Entrada nos grupos 6) Boas-vindas humana 7) Agendar Diagnóstico Individual de Margem em ~10 dias. CHECKLIST 8 itens da CS. CRITÉRIO AVANÇO: contrato ✓, acessos ✓, CRM ✓, grupos ✓, diagnóstico agendado ✓.`},'fase-1':{titulo:'Fase 1 — Diagnóstico e Ajuste de Margem',conteudo:`Descobre onde está perdendo dinheiro. Entregáveis: nº1 Aula Diagnóstico Margem, nº2 Planilha Precificação Segura, nº3 Oficina Correção, nº15 Diagnóstico Individual. CRITÉRIO AVANÇO: planilha preenchida ✓, precificação corrigida ✓, margem mínima definida ✓. Aluno com erro grave de margem NÃO avança.`},'fase-2':{titulo:'Fase 2 — Estruturação da Loja e Oferta',conteudo:`Escolhe os produtos certos, melhora anúncios, cria ofertas competitivas sem destruir margem. Entregáveis: nº4 Aula Seleção, nº5 Checklist Otimização, nº6 Oficina Mensal.`},'fase-3':{titulo:'Fase 3 — Crescimento de Pedidos com Controle',conteudo:`Escala com controle. Datas Shopee, anúncios com ROAS, testes de preço. Entregáveis: nº7 Aula Campanhas, nº8 Painel Indicadores, nº9 Encontro Quinzenal, nº10 Aula ROAS, nº11 Plantão.`},'fase-4':{titulo:'Fase 4 — Escala',conteudo:`Escala lucrativos, padroniza operação, negocia fornecedores, expande catálogo. Destino: R$50 mil/mês com margem. Entregáveis: nº12 Aula Alto Volume, nº13 Playbook Loja, nº14 Oficina Plano, nº16 Revisão Individual.`},'fase-5':{titulo:'Fase 5 — Encerramento e Retenção',conteudo:`Coleta resultado e depoimento. Verifica elegibilidade da garantia. Oferece próximo passo (renovação, Aceleradora, Mesa do Conselho). Registra "porquê saiu" pra melhorar retenção.`},rotina:{titulo:'Rotina operacional',conteudo:`DIÁRIO (CS): triagem WhatsApp 9-18h, atualização CRM. SEMANAL (CS): varredura sumidos, lembretes sessões. QUINZENAL (time+Ju 9h): status por fase, metas dia 10/20. MENSAL: revisão retenção.`},regua:{titulo:'Régua de saúde do aluno',conteudo:`🟢 ATIVO (participa/atualiza) · 🟡 ATENÇÃO (faltou 1 encontro/atrasado) · 🔴 RISCO (sumiu 2+sem, painel parado). Status visível no CRM. Risco sempre escala pra Ju na quinzenal.`},scripts:{titulo:'Biblioteca de Scripts (1-19)',conteudo:`SCRIPTS 1-3 onboarding privado · SCRIPT 4 planilha · 5/6 lembretes sessão · 7 margem negativa · 8/9 checklist anúncios · 10 painel · 11 cobrança · 12 encontro · 13 resgate · 14 revisão · 15 depoimento · 16 saída · 17 próximo passo · 18 fora horário · 19 encaminhamento expert. Horário 9-18h. Nunca responder fora.`}};
-
-const INITIAL_DATA = {
-  'gestao': {
-    'time': { id: 'time', nome: 'Time', type: 'note', note: 'Ju (Juliana Magalhães) — Expert / Estratégia · aulas, oficinas, análise estratégica, sessões individuais.\n\nRoberta (Roh) — CS / Customer Success · onboarding, lembretes, follow-up, triagem do WhatsApp, atualização do CRM.\n\nMarina — Contratos / Financeiro · geração e conferência de contratos e assinaturas.\n\nGabriel — Acessos / TI · liberação de Drive, Zouti, plataformas.\n\nPRÓXIMOS PASSOS\n- Revisar se o time cobre tudo (especialmente RH e Tráfego pago)\n- Adicionar plano de backup por papel' },
-    'track-record': { id: 'track-record', nome: 'Track record', type: 'note', note: '"Track record faltou. Eu fiquei chocada."\n\nO QUE É: Histórico de cases, resultados e números que validam a empresa. Prova social estruturada.\n\nPRA QUE SERVE: Vendas (argumento de fechamento), social proof (criativos/LP), memória institucional.\n\nO QUE COLOCAR: Cases de alunos com números, cases de workshops, cases de mentoria, marcas atendidas.\n\nPRÓXIMOS PASSOS: Levantar cases, definir template, coletar números reais.' }
+const ESTRUTURA = {
+  gestao: {
+    titulo: 'Gestão', eyebrow: '// GESTÃO',
+    descricao: 'O cérebro. A primeira tela que vocês olham todos os dias — indicadores, metas, planejamento.',
+    items: [
+      { id: 'okrs', nome: 'OKRs e metas' },
+      { id: 'dashboard', nome: 'Dashboard geral' },
+      { id: 'kpis', nome: 'KPIs' },
+      { id: 'financeiro', nome: 'Financeiro' },
+      { id: 'fluxo-caixa', nome: 'Fluxo de caixa' },
+      { id: 'planejamento-trimestral', nome: 'Planejamento trimestral' },
+      { id: 'organograma', nome: 'Organograma' },
+      { id: 'reunioes', nome: 'Reuniões' },
+      { id: 'scorecard', nome: 'Scorecard semanal' },
+      { id: 'roadmap', nome: 'Roadmap de projetos' }
+    ]
   },
-  'operacao.financeiro': { 'financeiro-2-niveis': { id:'financeiro-2-niveis', nome:'Financeiro em 2 níveis (geral + individual)', type:'note', note:'VISÃO 1 — GERAL: tudo que entra/sai, composição consolidada, receitas/custos/comissão.\n\nVISÃO 2 — INDIVIDUAL: cada aluno/cliente separado, workshops, sessões 1:1, mentorias, ficha financeira por aluno.\n\nPOR QUE: visão geral não mostra realidade de cada produto, visão individual mostra de onde vem cada receita.' } },
-  'operacao.cs': {
-    'acompanhamento': { id:'acompanhamento', nome:'Acompanhamento de mentorados', type:'sheet', url:'https://docs.google.com/spreadsheets/d/1MCgMng4h_Luft7Jvzc1G_yrGAMCzuxqlUmT0Wmi95kY/edit?gid=1831693487', desc:'Planilha geral de acompanhamento' },
-    'regua-saude': { id:'regua-saude', nome:'Régua de saúde do aluno', type:'note', note:'🟢 ATIVO · 🟡 ATENÇÃO · 🔴 RISCO. Status visível no CRM pra time nunca "descobrir tarde" que alguém sumiu.' },},
-  'produtos.kairos': {
-    'manual-participante': { id:'manual-participante', nome:'Manual do participante', type:'link', url:'https://mentoriakairos.institutokronos.com.br/manualdoparticipante', desc:'Página do manual' },
-    'avatar-kairos': { id:'avatar-kairos', nome:'Avatar Kairós', type:'doc', url:'https://docs.google.com/document/d/1sa6zjkL-FAwaycnCl49Qm4TC-06IWe2L/edit', desc:'ICP e persona' },
-    'produtos-negociacoes': { id:'produtos-negociacoes', nome:'Produtos e Negociações (Doc)', type:'doc', desc:'Tabela de preços completa, 4 Pilares, 13 entregáveis, política de migração. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Produtos e negociações.docx' }
+  operacao: {
+    titulo: 'Operação', eyebrow: '// OPERAÇÃO',
+    descricao: 'Como a empresa funciona. Processos e execução por área funcional.',
+    areas: {
+      comercial: { titulo: 'Comercial', items: [
+        { id: 'crm', nome: 'CRM' }, { id: 'pipeline', nome: 'Pipeline' },
+        { id: 'scripts', nome: 'Scripts' }, { id: 'objecoes', nome: 'Objeções' },
+        { id: 'contratos', nome: 'Contratos' }, { id: 'diagnostico', nome: 'Diagnóstico' },
+        { id: 'fechamento', nome: 'Fechamento' }
+      ] },
+      marketing: { titulo: 'Marketing', items: [
+        { id: 'calendario', nome: 'Calendário' }, { id: 'estrategia', nome: 'Estratégia' },
+        { id: 'criativos', nome: 'Criativos' }, { id: 'copy', nome: 'Copy' },
+        { id: 'banco-anuncios', nome: 'Banco de anúncios' },
+        { id: 'biblioteca-vsl', nome: 'Biblioteca de VSL' },
+        { id: 'seo', nome: 'SEO' }, { id: 'landing-pages', nome: 'Landing Pages' }
+      ] },
+      produto: { titulo: 'Produto', items: [
+        { id: 'mentoria', nome: 'Mentoria' }, { id: 'workshop', nome: 'Workshop' },
+        { id: 'minicursos', nome: 'Minicursos' }, { id: 'comunidade', nome: 'Comunidade' },
+        { id: 'conteudo-aulas', nome: 'Conteúdo das aulas' },
+        { id: 'atualizacoes', nome: 'Atualizações' }
+      ] },
+      cs: { titulo: 'Sucesso do Cliente', items: [
+        { id: 'onboarding', nome: 'Onboarding' }, { id: 'atendimento', nome: 'Atendimento' },
+        { id: 'financeiro-cs', nome: 'Financeiro' }, { id: 'cobranca', nome: 'Cobrança' },
+        { id: 'suporte', nome: 'Suporte' }, { id: 'nps', nome: 'NPS' },
+        { id: 'comunidade-cs', nome: 'Comunidade' }, { id: 'eventos', nome: 'Eventos' }
+      ] },
+      trafego: { titulo: 'Tráfego', items: [
+        { id: 'meta', nome: 'Meta' }, { id: 'google', nome: 'Google' },
+        { id: 'tiktok', nome: 'TikTok' }, { id: 'dashboards-trafego', nome: 'Dashboards' },
+        { id: 'pixel', nome: 'Pixel' }, { id: 'publicos', nome: 'Públicos' },
+        { id: 'criativos-vencedores', nome: 'Criativos vencedores' }
+      ] },
+      financeiro: { titulo: 'Financeiro', items: [
+        { id: 'receitas', nome: 'Receitas' }, { id: 'custos', nome: 'Custos' },
+        { id: 'pagamentos', nome: 'Pagamentos' }, { id: 'comissao', nome: 'Comissão' },
+        { id: 'relatorios', nome: 'Relatórios' }
+      ] },
+      rh: { titulo: 'RH', items: [
+        { id: 'sops-rh', nome: 'SOPs' }, { id: 'contratacoes', nome: 'Contratações' },
+        { id: 'treinamentos', nome: 'Treinamentos' }, { id: 'manual-cultura', nome: 'Manual da cultura' }
+      ] }
+    }
   },
-  'produtos.workshop': {
-    'dash-1': { id:'dash-1', nome:'Dashboard 1', type:'section', desc:'Looker + base de dados', items: { 'dash-1-link':{id:'dash-1-link',nome:'Dashboard (Looker)',type:'link',url:'https://datastudio.google.com/u/0/reporting/c8b52ebf-3ece-4410-9536-bc9326b822e1/page/XzPOF'}, 'dash-1-base':{id:'dash-1-base',nome:'Base de dados',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1pvq7dyGxUFMKD4MjCpFPEiTPDKOSQoJi4MQ3yVCG8oo/edit?gid=1800336546'} } },
-    'dash-2': { id:'dash-2', nome:'Dashboard 2', type:'section', desc:'Looker + base de dados', items: { 'dash-2-link':{id:'dash-2-link',nome:'Dashboard (Looker)',type:'link',url:'https://datastudio.google.com/u/0/reporting/4451fdca-2f27-48ed-8a8e-51023f971a0b/page/XzPOF'}, 'dash-2-base':{id:'dash-2-base',nome:'Base de dados',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1fCd4GwIS533SF_q4hJ13mgp35Xrjs6q0O7kmTzkj6X8/edit?gid=1203233720'} } },
-    'dash-3': { id:'dash-3', nome:'Dashboard 3', type:'section', desc:'Looker + base de dados', items: { 'dash-3-link':{id:'dash-3-link',nome:'Dashboard (Looker)',type:'link',url:'https://datastudio.google.com/u/0/reporting/3691b40a-7d87-4869-a789-9239385fe3bc/page/XzPOF'}, 'dash-3-base':{id:'dash-3-base',nome:'Base de dados',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1bdLRphRFvpJmkrnTqdKORhpP9h24hlFRzvm6n6mUNlo/edit?gid=1203233720'} } },
-    'assets-wds': { id:'assets-wds', nome:'Logo e Elementos', type:'section', desc:'Assets visuais do Workshop', items: { 'logo-wds':{id:'logo-wds',nome:'Logo WDS e Elementos',type:'link',url:'https://drive.google.com/drive/folders/1sA_rdXIqNIZVHYEOXzOOnEzMUv7Quq1P?usp=drive_link'}, 'elementos-paginas':{id:'elementos-paginas',nome:'Elementos das páginas',type:'link',url:'https://drive.google.com/drive/folders/16zEJaWCrMPf9Y-T4Gu8_uU9Qb-zUs3Cf?usp=drive_link'} } }
+  produtos: {
+    titulo: 'Produtos', eyebrow: '// PRODUTOS',
+    descricao: 'Tudo de cada oferta num lugar só.',
+    items: {
+      kairos: { titulo: 'Mentoria Kairós', items: [
+        { id: 'lp-kairos', nome: 'Landing Page' }, { id: 'oferta-kairos', nome: 'Oferta' },
+        { id: 'criativos-kairos', nome: 'Criativos' }, { id: 'produto-kairos', nome: 'Produto' },
+        { id: 'dashboards-kairos', nome: 'Dashboards' }, { id: 'pesquisa-kairos', nome: 'Pesquisa' },
+        { id: 'financeiro-kairos', nome: 'Financeiro' }
+      ] },
+      workshop: { titulo: 'Workshop Destrava Shopee', items: [
+        { id: 'dash-1', nome: 'Dashboard 1' }, { id: 'dash-2', nome: 'Dashboard 2' },
+        { id: 'dash-3', nome: 'Dashboard 3' }, { id: 'assets-wds', nome: 'Logo e Elementos' }
+      ] },
+      eventos: { titulo: 'Eventos Presenciais', items: [
+        { id: 'fotos-eventos', nome: 'Fotos' }
+      ] },
+      minicurso: { titulo: 'Minicurso', items: [] },
+      comunidade: { titulo: 'Comunidade', items: [] }
+    }
   },
-  'produtos.eventos': { 'fotos-eventos': { id:'fotos-eventos', nome:'Fotos evento Planejando 2026', type:'link', url:'https://drive.google.com/drive/folders/17oLJwDqKMyU9a-nVWn1_CLXF2MZ0nBj4' } },
-  'biblioteca.fotos-ju': { 'galeria-1': { id:'galeria-1', nome:'Galeria 1 — Fotos da Ju', type:'link', url:'https://amarifoto.exposure.com.br/juliana' }, 'galeria-2': { id:'galeria-2', nome:'Galeria 2 — Fotos da Ju', type:'link', url:'https://amarifoto.exposure.com.br/juliana1' } },
-  'operacao.comercial': {
-    'agendamento-1-1': { id:'agendamento-1-1', nome:'Agendamento 1:1', type:'section', desc:'Funil de aplicação → sessão 1:1', items: {
-      'planilha-base':{id:'planilha-base',nome:'Planilha de agendamento',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1RbjhTOEqb4HWDAXNwAi_jG67gZBkCecE78fngLsTvVY/edit?gid=1085045508',desc:'Base de leads e reuniões marcadas'},
-      'aplicacao-respostas':{id:'aplicacao-respostas',nome:'Formulário de aplicação (respostas)',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1Gqdlrr7XULWMZlzXqVhktsJ2FEfOrObgBaT_vmBD3Go/edit?gid=187719667',desc:'Quem se inscreveu pra entrar na mentoria'},
-      'pre-analise-respostas':{id:'pre-analise-respostas',nome:'Pré-análise estratégica (respostas)',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1LJsQ4iUB6YmSsMHeXjzYUgvwGazIfwN3hkZMRtSByyE/edit?gid=740688844',desc:'Convite para sessão 1:1'},
-      'analise-contas-respostas':{id:'analise-contas-respostas',nome:'Análise de contas (respostas)',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1N_T5FYd_bhX2tpdsLCDZ9QPsbWSf8izqN6iWllKjCq8/edit?gid=654550711',desc:'Análise de contas do lead'},
-      'roteiros-sessao':{id:'roteiros-sessao',nome:'Roteiros de sessão (vários Docs)',type:'section',desc:'Scripts do time comercial. 7+ versões em C:\\Users\\bueno\\Downloads\\Documentos\\',items:{
-        'roteiro-ja-vende':{id:'roteiro-ja-vende',nome:'Roteiro — Quem já vende (v3)',type:'doc',desc:'8 blocos + check-list pós-sessão. Links de pagamento embutidos.'},
-        'roteiro-nao-vende':{id:'roteiro-nao-vende',nome:'Roteiro — Quem não vende (v3)',type:'doc',desc:'8 blocos + perguntas excludentes + objeções comuns.'},
-        'roteiro-fechamento':{id:'roteiro-fechamento',nome:'Roteiro — Fechamento (v2)',type:'doc',desc:'5 blocos + objeções + dúvidas frequentes. Pós-aplicação paga.'},
-        'kairos-central':{id:'kairos-central',nome:'Kairós Central — App de Roteiros',type:'link',url:'http://127.0.0.1:8773/downloads/kairos%20central/index.html',desc:'App interativo com todos os roteiros'}
-      }}
-    } },
-    'captacao': { id:'captacao', nome:'Captação', type:'section', desc:'Pontos de entrada de leads', items: {
-      'pre-diagnostico-pagina':{id:'pre-diagnostico-pagina',nome:'Página de pré-diagnóstico',type:'link',url:'https://int-kronos.pages.dev/',desc:'Landing page'},
-      'pre-diagnostico-form':{id:'pre-diagnostico-form',nome:'Formulário de pré-diagnóstico',type:'link',url:'https://forms.gle/qUMrv7mXbPoD4Ytd6'},
-      'live-quinta':{id:'live-quinta',nome:'Live de quinta-feira',type:'link',url:'https://paginas.institutokronos.com.br/live-quinta',desc:'Página da live semanal'},
-      'avatar-kairos':{id:'avatar-kairos',nome:'Avatar Kairós — quem qualifica (Doc)',type:'doc',desc:'Framework de qualificação. Local: C:\\Users\\bueno\\Downloads\\Documentos\\Avatar Kairós.docx. 3 gates obrigatórios + scoring.'},
-      'origem-leads':{id:'origem-leads',nome:'Origem dos leads (métrica)',type:'note',note:'VISÍVEIS no dia a dia: workshop, direto pra 1:1, live, direct, link da bio.\n\nCOMO IMPLEMENTAR: planilha de captação. Link aqui pra consulta.\n\nPRÓXIMOS PASSOS: definir critério de origem, padronizar UTM, dashboard por origem.'}
-    } },
-    'aplicacao': { id:'aplicacao', nome:'Aplicação (só evento)', type:'section', desc:'Aplicação APENAS pra evento. Pra mentoria, vai direto pra oferta.', items: {
-      'aplicacao-decisao':{id:'aplicacao-decisao',nome:'Por que só pra evento',type:'note',note:'TIRAR a aplicação da mentoria.\n\nPOR QUÊ: leads quentes DESISTEM no meio (perda de venda + desgaste). Pra mentoria, ir direto pra oferta (R$12k ancorado em R$15k). Aplicação só em evento 1-para-muitos.'},
-      'aplicacao-form-evento':{id:'aplicacao-form-evento',nome:'Formulário de aplicação (evento)',type:'link',url:'https://forms.gle/qUMrv7mXbPoD4Ytd6',desc:'Mesmo form de pré-diagnóstico hoje'}
-    } },
-    'checkouts': { id:'checkouts', nome:'Checkouts de pagamento', type:'section', desc:'Links de pagamento — em migração de Zouti para Asas', items: {
-      'aplicacao-zouti':{id:'aplicacao-zouti',nome:'Aplicação/entrada (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?poi=prod_offer_m86w42a1nayucugvh29ws0'},
-      'a-vista':{id:'a-vista',nome:'À vista (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_7bs0a37hyb3s6qq2b3ka6o'},
-      'parcelado':{id:'parcelado',nome:'Parcelado (Zouti)',type:'link',url:'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_cl7z0m6oaz6axusj4u5jqv'},
-      'contrato-kairos':{id:'contrato-kairos',nome:'Contrato Mentoria Kairós (PDF)',type:'doc',url:'https://drive.google.com/file/d/1q_0e-iJt4_NIueOv-Ie2hxzB4DbOX7yz/view?usp=sharing',desc:'12 meses · R$10k à vista / R$12k parcelado · Garantia condicional. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Contrato - Mentoria Kairós.pdf'},
-      'migracao-asas':{id:'migracao-asas',nome:'Migração pra Asas',type:'note',note:'Decisão: migrar de Zouti pra Asas.\n\nPOR QUE: 3,99% + R$0,50, SEM antecipação compulsória, boleto R$1,99 FIXO, PIX R$1,99 fixo.\n\nAplicação e ingressos PERMANECEM na Zouti (Asas não funciona pra 1-para-muitos). Pra mentoria + sessão 1:1, vai pra Asas.'}
-    } },
-    'produtos-negociacao': { id:'produtos-negociacao', nome:'Produtos e negociação', type:'doc', url:'https://docs.google.com/document/d/1D2PB3mtDoua4-iXL2wQ2ONzr4RPPphiU/edit', desc:'Doc de precificação e regras de oferta' }
+  sops: {
+    titulo: 'SOPs', eyebrow: '// SOPs',
+    descricao: 'Como fazer as coisas. Procedimentos passo-a-passo do time.',
+    items: [
+      { id: 'sop-anuncio', nome: 'Como subir um anúncio' },
+      { id: 'sop-campanha', nome: 'Como criar uma campanha' },
+      { id: 'sop-workshop', nome: 'Como lançar um workshop' },
+      { id: 'sop-carrinho', nome: 'Como abrir carrinho' },
+      { id: 'sop-checkout', nome: 'Como criar checkout' },
+      { id: 'sop-resposta', nome: 'Como responder um aluno' },
+      { id: 'sop-boleto', nome: 'Como gerar boleto' },
+      { id: 'sop-caixa', nome: 'Como fechar caixa' },
+      { id: 'sop-onboarding', nome: 'Como fazer onboarding' }
+    ]
   },
-  'operacao.marketing': {
-    'pesquisa-mercado': { id:'pesquisa-mercado', nome:'Pesquisa de mercado', type:'section', desc:'Raio X do avatar', items: {
-      'raio-x-vende':{id:'raio-x-vende',nome:'Raio X – quem já vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1nmfC4n7PVmOrPQfMgfqQpjwDIZT93wN3wETQ21yTXYY/edit?gid=1502063929'},
-      'raio-x-nao-vende':{id:'raio-x-nao-vende',nome:'Raio X – quem não vende',type:'sheet',url:'https://docs.google.com/spreadsheets/d/1oYlderDAgK4MKWHXC9iak44BN_NNbZhCzTw5bqY8G-0/edit?gid=1502063929'}
-    } },
-    'roteiros': { id:'roteiros', nome:'Roteiros Kairós', type:'link', url:'http://127.0.0.1:8773/downloads/kairos%20central/index.html', desc:'App de roteiros (local)' },
-    'criativos': { id:'criativos', nome:'Criativos — materiais de divulgação', type:'note', note:'Banco de criativos e materiais de divulgação.\n\nMateriais:\nhttps://drive.google.com/drive/folders/1TUsyPpPdqeZ-lZ3r6URuW28pjJilPTjs', desc:'Pasta do Drive com criativos' },
-    'copy': { id:'copy', nome:'Copy — textos-base', type:'note', note:'Scripts e textos-base.\n\nRoteiros:\nhttps://docs.google.com/document/d/1vwV6hosq4veo5k96AO0OxUwPNBfChqs_DGYKo1hGQvY', desc:'Roteiros de copy e textos de criativos' }
+  biblioteca: {
+    titulo: 'Biblioteca', eyebrow: '// BIBLIOTECA',
+    descricao: 'Ativos para consulta. Brandbook, fotos, templates, jurídicos.',
+    items: [
+      { id: 'logos', nome: 'Logos' }, { id: 'brandbook', nome: 'Brandbook' },
+      { id: 'fotos-ju', nome: 'Fotos da Ju' }, { id: 'broll', nome: 'Vídeos B-roll' },
+      { id: 'templates-canva', nome: 'Templates Canva' },
+      { id: 'fontes', nome: 'Fontes' }, { id: 'assets', nome: 'Assets' },
+      { id: 'juridicos', nome: 'Documentos jurídicos' },
+      { id: 'contratos', nome: 'Contratos base' },
+      { id: 'certificados', nome: 'Certificados' }
+    ]
+  },
+  conhecimento: {
+    titulo: 'Conhecimento', eyebrow: '// CONHECIMENTO',
+    descricao: 'Tudo que a empresa aprendeu. Segundo cérebro da operação.',
+    items: [
+      { id: 'testes-anuncios', nome: 'Testes de anúncios' },
+      { id: 'criativos-vencedores', nome: 'Criativos vencedores' },
+      { id: 'headlines', nome: 'Headlines vencedoras' },
+      { id: 'cpls', nome: 'CPLs históricos' },
+      { id: 'benchmarks', nome: 'Benchmarks' },
+      { id: 'aprendizados', nome: 'Aprendizados de lançamentos' },
+      { id: 'relatorios', nome: 'Relatórios pós-evento' },
+      { id: 'pesquisa', nome: 'Pesquisa com alunos' },
+      { id: 'icp', nome: 'ICP atualizado' },
+      { id: 'objecoes', nome: 'Objeções novas' }
+    ]
   }
 };
 
@@ -455,20 +515,60 @@ function buildNav() {
 function getScopeCount(scopeKey) { const all = collectAllItems(scopeKey); const filled = all.filter(i => i.type !== 'empty').length; return { filled, total: all.length }; }
 function collectAllItems(scopeKey) {
   const out = [];
-  if (scopeKey === 'gestao') ESTRUTURA.gestao.items.forEach(it => { const s = (STATE.gestao||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
-  else if (scopeKey === 'operacao') {
-    if (!currentSubScope) { Object.entries(ESTRUTURA.operacao.areas).forEach(([sk,s]) => out.push({id:'_sub_'+sk,nome:s.titulo,type:'subhead',scopeKey,parentId:sk})); return out; }
-    ESTRUTURA.operacao.areas[currentSubScope].items.forEach(it => { const s = (STATE['operacao.'+currentSubScope]||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id,_subKey:currentSubScope}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id,_subKey:currentSubScope}); });
+  if (scopeKey === 'gestao') {
+    ESTRUTURA.gestao.items.forEach(it => {
+      const s = (STATE.gestao || {})[it.id];
+      if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome });
+      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+    });
+  } else if (scopeKey === 'operacao') {
+    if (!currentSubScope) {
+      Object.entries(ESTRUTURA.operacao.areas).forEach(([subKey, sub]) => {
+        out.push({ id: '_sub_'+subKey, nome: sub.titulo, type: 'subhead', scopeKey, parentId: subKey });
+      });
+      return out;
+    }
+    const sub = ESTRUTURA.operacao.areas[currentSubScope];
+    sub.items.forEach(it => {
+      const fullKey = `operacao.${currentSubScope}`;
+      const s = (STATE[fullKey] || {})[it.id];
+      if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome, _subKey: currentSubScope });
+      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _subKey: currentSubScope });
+    });
   } else if (scopeKey === 'produtos') {
-    if (!currentSubScope) { Object.entries(ESTRUTURA.produtos.items).forEach(([pk,p]) => out.push({id:'_sub_'+pk,nome:p.titulo,type:'subhead',scopeKey,parentId:pk})); return out; }
+    if (!currentSubScope) {
+      Object.entries(ESTRUTURA.produtos.items).forEach(([prodKey, prod]) => {
+        out.push({ id: '_sub_'+prodKey, nome: prod.titulo, type: 'subhead', scopeKey, parentId: prodKey });
+      });
+      return out;
+    }
     const prod = ESTRUTURA.produtos.items[currentSubScope];
-    if (!prod.items || !prod.items.length) { out.push({id:'empty-prod',nome:'Slot vazio',type:'empty',scopeKey,parentId:currentSubScope}); return out; }
-    prod.items.forEach(it => { const s = (STATE['produtos.'+currentSubScope]||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id,_prodKey:currentSubScope}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id,_prodKey:currentSubScope}); });
+    if (!prod.items || !prod.items.length) { out.push({ id: 'empty-prod', nome: 'Slot vazio', type: 'empty', scopeKey, parentId: currentSubScope }); return out; }
+    prod.items.forEach(it => {
+      const fullKey = `produtos.${currentSubScope}`;
+      const s = (STATE[fullKey] || {})[it.id];
+      if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome, _prodKey: currentSubScope });
+      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _prodKey: currentSubScope });
+    });
   } else if (scopeKey === 'sops') {
-    ESTRUTURA.sops.items.forEach(it => { const s = (STATE.sops||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
-    if (!currentSubScope) out.push({id:'_playbook',nome:'Playbook Mentoria Kairós (10 notas)',type:'playbook',scopeKey});
-  } else if (scopeKey === 'biblioteca') ESTRUTURA.biblioteca.items.forEach(it => { const s = (STATE.biblioteca||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
-  else if (scopeKey === 'conhecimento') ESTRUTURA.conhecimento.items.forEach(it => { const s = (STATE.conhecimento||{})[it.id]; if (s) out.push({...s,scopeKey,parentId:it.id}); else out.push({id:it.id,nome:it.nome,type:'empty',scopeKey,parentId:it.id}); });
+    ESTRUTURA.sops.items.forEach(it => {
+      const s = (STATE.sops || {})[it.id];
+      if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome });
+      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+    });
+  } else if (scopeKey === 'biblioteca') {
+    ESTRUTURA.biblioteca.items.forEach(it => {
+      const s = (STATE.biblioteca || {})[it.id];
+      if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome });
+      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+    });
+  } else if (scopeKey === 'conhecimento') {
+    ESTRUTURA.conhecimento.items.forEach(it => {
+      const s = (STATE.conhecimento || {})[it.id];
+      if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome });
+      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+    });
+  }
   return out;
 }
 function navigate(scopeKey, subKey) { if (scopeKey !== currentView) currentSubScope = null; currentView = scopeKey; if (subKey !== undefined) currentSubScope = subKey; document.querySelectorAll('.navlinks a').forEach(a => a.classList.toggle('active', a.dataset.nav === scopeKey)); if (scopeKey === 'home') renderHome(); else renderScope(); window.scrollTo({top:0,behavior:'smooth'}); }
@@ -487,11 +587,11 @@ function renderHome() {
   const html = `
     <div class="eyebrow">// Visão Geral</div>
     <h1>Painel de <span class="l">controle</span></h1>
-    <p class="lead">Hub agregador do Instituto Kronos. Índice centralizado pra Sheets, Docs, Drive, Looker, Zouti, Asas. ${filled} de ${total} slots preenchidos.</p>
+    <p class="lead">Hub agregador do Instituto Kronos. Tudo é link externo pra Sheets, Docs, Drive, Looker, Zouti, Asas. ${filled} de ${total} slots preenchidos.</p>
     <div class="meta">
       <span><span class="v">${filled}</span> preenchidos</span><span class="dot">·</span>
       <span><span class="v">${total}</span> slots totais</span><span class="dot">·</span>
-      <span><span class="v accent">${Object.keys(PLAYBOOK).length}</span> notas playbook</span><span class="spacer"></span>
+      <span><span class="v accent">${0}</span> notas playbook</span><span class="spacer"></span>
       <span class="updated">atualizado ${new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span>
     </div>
     <div class="layer-grid">
@@ -514,39 +614,15 @@ function renderHome() {
   document.querySelectorAll('.layer-card').forEach(c => c.addEventListener('click', e => { e.preventDefault(); navigate(c.dataset.nav); }));
 }
 function countAllFilled() { let n=0; Object.values(STATE).forEach(scope => Object.values(scope).forEach(item => { if (item && item.type) n++; })); return n; }
-function countAllTotal() { let n=0; n+=ESTRUTURA.gestao.items.length; Object.values(ESTRUTURA.operacao.areas).forEach(s => n+=s.items.length); Object.values(ESTRUTURA.produtos.items).forEach(p => n+=(p.items||[]).length); n+=ESTRUTURA.sops.items.length; n+=ESTRUTURA.biblioteca.items.length; n+=ESTRUTURA.conhecimento.items.length; return n; }
-function renderScope() {
-  document.getElementById('view-home').hidden = true;
-  document.getElementById('view-content').hidden = false;
-  const esc = ESTRUTURA[currentView];
-  if (!esc) return;
-  let html = '';
-  html += `<div class="eyebrow">${esc.eyebrow}</div>`;
-  html += `<h1>${esc.titulo}</h1>`;
-  html += `<p class="lead">${esc.descricao}</p>`;
-  if (currentView === 'operacao') { const subs = Object.entries(ESTRUTURA.operacao.areas); html += `<div class="subtabs">${subs.map(([k,s]) => `<div class="subtab ${currentSubScope===k?'active':''}" data-sub="${k}">${s.titulo}</div>`).join('')}</div>`; }
-  else if (currentView === 'produtos') { const prods = Object.entries(ESTRUTURA.produtos.items); html += `<div class="subtabs">${prods.map(([k,p]) => `<div class="subtab ${currentSubScope===k?'active':''}" data-sub="${k}">${p.titulo}</div>`).join('')}</div>`; }
-  if (currentView === 'sops' && !currentSubScope) {
-    const items = collectAllItems('sops').filter(i => i.type !== 'playbook');
-    html += renderScopeContent('sops', items);
-    html += `<h2 style="margin-top:64px"><span class="num">// PB</span>Playbook Mentoria Kairós<span class="ct">${Object.keys(PLAYBOOK).length} notas</span></h2>
-    <div class="grid">${Object.entries(PLAYBOOK).map(([key,p],i) => `<div class="note-block" style="cursor:pointer" data-playbook="${key}">
-      <div class="note-head" style="border:0;padding:0;margin-bottom:8px">
-        <div class="note-num">${String(i+1).padStart(2,'0')}</div>
-        <div class="note-title" style="font-size:20px">${p.titulo}</div>
-        <div class="note-type">◆ PLAYBOOK</div>
-      </div>
-      <div class="note-body" style="font-size:13px;color:var(--text-dim);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .3s">${(p.conteudo||'').substring(0,200).replace(/\n/g,' ')}…</div>
-    </div>`).join('')}</div>`;
-  } else {
-    html += renderScopeContent(currentView, collectAllItems(currentView));
-  }
-  html += `<footer><span>Layout Glassmorphism</span><span><a onclick="openAbout()">Sobre esta estrutura</a> · <a onclick="confirmClearAll()">Zona perigosa</a></span></footer>`;
-  document.getElementById('view-content').innerHTML = html;
-  document.querySelectorAll('.subtab').forEach(t => t.addEventListener('click', () => navigate(currentView, t.dataset.sub)));
-  document.querySelectorAll('[data-subnav]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); navigate(currentView, el.dataset.subnav); }));
-  bindItemActions();
-  document.querySelectorAll('[data-playbook]').forEach(el => el.addEventListener('click', () => openPlaybookNote(el.dataset.playbook)));
+function countAllTotal() {
+  let n = 0;
+  n += ESTRUTURA.gestao.items.length;
+  Object.values(ESTRUTURA.operacao.areas).forEach(s => n += s.items.length);
+  Object.values(ESTRUTURA.produtos.items).forEach(p => n += (p.items || []).length);
+  n += ESTRUTURA.sops.items.length;
+  n += ESTRUTURA.biblioteca.items.length;
+  n += ESTRUTURA.conhecimento.items.length;
+  return n;
 }
 function renderScopeContent(scopeKey, items) {
   const filtered = items.filter(it => { if (currentFilter==='empty') return it.type==='empty'; if (it.type==='empty') return showEmpty; if (currentFilter==='all') return true; return it.type===currentFilter; });
@@ -695,7 +771,6 @@ document.getElementById('ae-save').addEventListener('click', saveAddEdit);
 document.querySelectorAll('.type-pill').forEach(p => p.addEventListener('click', () => setAeType(p.dataset.type)));
 
 function openNoteView(scopeKey, itemId, parentId) { let item = null; if (parentId) { const parent = (STATE[scopeKey]||{})[parentId]; if (parent && parent.items) item = parent.items[itemId]; } else item = (STATE[scopeKey]||{})[itemId]; if (!item || !item.note) return; const m = document.createElement('div'); m.className = 'modal-backdrop open'; m.innerHTML = `<div class="modal" style="max-width:780px" onclick="event.stopPropagation()"><h2>${item.nome}</h2><div class="sub">// ${scopeKey} · ${itemId}</div><div class="note-body" style="max-height:60vh;overflow-y:auto">${formatNoteBody(item.note)}</div><div class="actions"><button class="cancel" onclick="this.closest('.modal-backdrop').remove()">Fechar</button></div></div>`; m.addEventListener('click', () => m.remove()); document.body.appendChild(m); }
-function openPlaybookNote(key) { const p = PLAYBOOK[key]; if (!p) return; const m = document.createElement('div'); m.className = 'modal-backdrop open'; m.innerHTML = `<div class="modal" style="max-width:780px" onclick="event.stopPropagation()"><h2>${p.titulo}</h2><div class="sub">// Playbook Mentoria Kairós</div><div class="note-body" style="max-height:65vh;overflow-y:auto">${formatNoteBody(p.conteudo)}</div><div class="actions"><button class="cancel" onclick="this.closest('.modal-backdrop').remove()">Fechar</button></div></div>`; m.addEventListener('click', () => m.remove()); document.body.appendChild(m); }
 function openAbout() { document.getElementById('modal-about').classList.add('open'); }
 function closeAbout() { document.getElementById('modal-about').classList.remove('open'); }
 document.getElementById('modal-about').addEventListener('click', e => { if (e.target.id === 'modal-about') closeAbout(); });
@@ -704,16 +779,16 @@ const SYNONYMS = { 'mentoria':'kairós aluno mentorado','mentorado':'aluno clien
 function stem(word) { word = word.toLowerCase(); if (word.length <= 3) return word; if (word.endsWith('amente')) word = word.slice(0,-5); if (word.endsWith('ando') || word.endsWith('endo') || word.endsWith('indo')) word = word.slice(0,-4)+'ar'; if (word.endsWith('ado') || word.endsWith('ido')) word = word.slice(0,-3); if (word.endsWith('oes')) word = word.slice(0,-3)+'ao'; if (word.endsWith('ais')) word = word.slice(0,-3)+'al'; if (word.endsWith('es')) word = word.slice(0,-2); if (word.endsWith('s')) word = word.slice(0,-1); return word; }
 function tokenizeStem(s) { if (!s) return []; return s.toLowerCase().split(/\W+/).filter(w => w.length > 1).map(stem); }
 let searchResults = [], searchSelected = 0;
-function runSearch(q) { const results = []; const qStems = tokenizeStem(q); if (!qStems.length) return results; const expandedStems = new Set(qStems); qStems.forEach(s => { if (SYNONYMS[s]) SYNONYMS[s].split(/\s+/).forEach(x => expandedStems.add(stem(x))); }); function scoreItem(text) { const tokens = tokenizeStem(text); let s = 0; for (const q of expandedStems) { if (tokens.some(t => t === q || t.startsWith(q) || q.startsWith(t))) s += 2; else if (tokens.some(t => t.includes(q))) s += 1; } return s; } Object.entries(STATE).forEach(([scopeKey, scope]) => { Object.entries(scope).forEach(([itemId, item]) => { if (!item || !item.nome) return; const text = [item.nome, item.desc || '', item.note || '', item.url || ''].join(' '); const sc = scoreItem(text); if (sc > 0) results.push({ ...item, scope: scopeKey, _path: scopeKey, _score: sc }); }); }); Object.entries(PLAYBOOK).forEach(([key, p]) => { const text = [p.titulo, p.conteudo || ''].join(' '); const sc = scoreItem(text); if (sc > 0) results.push({ id: '_pb_'+key, nome: p.titulo, type: 'playbook', _path: 'Playbook Kairós', _score: sc }); }); Object.entries(ESTRUTURA).forEach(([scopeKey, scope]) => { if (scope.titulo) { const sc = scoreItem(scope.titulo + ' ' + (scope.descricao || '')); if (sc > 0) results.push({ id: '_nav_'+scopeKey, nome: scope.titulo, type: 'nav', _path: 'Ir para camada', _score: sc + 0.5 }); } }); results.sort((a, b) => b._score - a._score); return results.slice(0, 12); }
+function runSearch(q) { const results = []; const qStems = tokenizeStem(q); if (!qStems.length) return results; const expandedStems = new Set(qStems); qStems.forEach(s => { if (SYNONYMS[s]) SYNONYMS[s].split(/\s+/).forEach(x => expandedStems.add(stem(x))); }); function scoreItem(text) { const tokens = tokenizeStem(text); let s = 0; for (const q of expandedStems) { if (tokens.some(t => t === q || t.startsWith(q) || q.startsWith(t))) s += 2; else if (tokens.some(t => t.includes(q))) s += 1; } return s; } Object.entries(STATE).forEach(([scopeKey, scope]) => { Object.entries(scope).forEach(([itemId, item]) => { if (!item || !item.nome) return; const text = [item.nome, item.desc || '', item.note || '', item.url || ''].join(' '); const sc = scoreItem(text); if (sc > 0) results.push({ ...item, scope: scopeKey, _path: scopeKey, _score: sc }); }); }); /* removed */ results.sort((a, b) => b._score - a._score); return results.slice(0, 12); }
 function renderSearchResults(results) { const box = document.getElementById('search-results'); if (!results.length) { box.innerHTML = `<div class="sr-empty">Nada encontrado</div>`; return; } box.innerHTML = results.map((r, i) => { const iconMap = { note: '◆', link: '↗', sheet: '⊞', doc: '▤', section: '▾', playbook: '◆', nav: '→' }; const cls = r.type === 'playbook' ? 'note' : r.type; return `<div class="sr-item ${i===searchSelected?'selected':''}" data-idx="${i}"><div class="sr-icon ${cls}">${iconMap[r.type] || '·'}</div><div class="sr-body"><div class="sr-name">${r.nome}</div><div class="sr-path">${r._path || ''}</div></div><div class="sr-type">${r.type}</div></div>`; }).join(''); box.querySelectorAll('.sr-item').forEach(el => { el.addEventListener('click', () => { const idx = parseInt(el.dataset.idx); openSearchResult(results[idx]); }); el.addEventListener('mouseenter', () => { searchSelected = parseInt(el.dataset.idx); box.querySelectorAll('.sr-item').forEach(e => e.classList.toggle('selected', parseInt(e.dataset.idx) === searchSelected)); }); }); }
-function openSearchResult(r) { document.getElementById('search-results').classList.remove('open'); document.getElementById('search-input').value = ''; if (r.type === 'nav') { navigate(r.id.replace('_nav_', '')); return; } if (r.type === 'playbook') { openPlaybookNote(r.id.replace('_pb_', '')); return; } const scope = r.scope || ''; if (scope.startsWith('operacao.')) navigate('operacao', scope.split('.')[1]); else if (scope.startsWith('produtos.')) navigate('produtos', scope.split('.')[1]); else navigate(scope); setTimeout(() => { if (r.type === 'note') openNoteView(scope, r.id); }, 100); }
+function openSearchResult(r) { document.getElementById('search-results').classList.remove('open'); document.getElementById('search-input').value = ''; if (r.type === 'nav') { navigate(r.id.replace('_nav_', '')); return; } const scope = r.scope || ''; if (scope.startsWith('operacao.')) navigate('operacao', scope.split('.')[1]); else if (scope.startsWith('produtos.')) navigate('produtos', scope.split('.')[1]); else navigate(scope); setTimeout(() => { if (r.type === 'note') openNoteView(scope, r.id); }, 100); }
 document.getElementById('search-input').addEventListener('input', e => { const q = e.target.value; const box = document.getElementById('search-results'); if (!q || q.length < 2) { box.classList.remove('open'); box.innerHTML = ''; return; } searchResults = runSearch(q); searchSelected = 0; renderSearchResults(searchResults); box.classList.add('open'); });
 document.getElementById('search-input').addEventListener('focus', e => { if (e.target.value.length >= 2) document.getElementById('search-results').classList.add('open'); });
 document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Escape') { document.getElementById('search-results').classList.remove('open'); document.getElementById('search-input').blur(); } if (e.key === 'ArrowDown') { e.preventDefault(); searchSelected = Math.min(searchSelected+1, searchResults.length-1); renderSearchResults(searchResults); } if (e.key === 'ArrowUp') { e.preventDefault(); searchSelected = Math.max(searchSelected-1, 0); renderSearchResults(searchResults); } if (e.key === 'Enter' && searchResults.length) { e.preventDefault(); openSearchResult(searchResults[searchSelected]); } });
 document.addEventListener('click', e => { if (!e.target.closest('.search-box')) document.getElementById('search-results').classList.remove('open'); });
 document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search-input').focus(); } });
 
-function buildResumo() { const out = []; out.push('## Gestão'); ESTRUTURA.gestao.items.forEach(it => { const s = (STATE.gestao||{})[it.id]; out.push(buildResumoItem('Gestão > ' + it.nome, s)); }); out.push('\n## Operação'); Object.entries(ESTRUTURA.operacao.areas).forEach(([subK, sub]) => { out.push('\n### ' + sub.titulo); sub.items.forEach(it => { const s = (STATE['operacao.' + subK]||{})[it.id]; out.push(buildResumoItem(sub.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## Produtos'); Object.entries(ESTRUTURA.produtos.items).forEach(([prodK, prod]) => { out.push('\n### ' + prod.titulo); (prod.items || []).forEach(it => { const s = (STATE['produtos.' + prodK]||{})[it.id]; out.push(buildResumoItem(prod.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## SOPs'); ESTRUTURA.sops.items.forEach(it => { const s = (STATE.sops||{})[it.id]; out.push(buildResumoItem('SOP > ' + it.nome, s)); }); out.push('\n## Biblioteca'); ESTRUTURA.biblioteca.items.forEach(it => { const s = (STATE.biblioteca||{})[it.id]; out.push(buildResumoItem('Biblioteca > ' + it.nome, s)); }); out.push('\n## Conhecimento'); ESTRUTURA.conhecimento.items.forEach(it => { const s = (STATE.conhecimento||{})[it.id]; out.push(buildResumoItem('Conhecimento > ' + it.nome, s)); }); out.push('\n## Playbook Mentoria Kairós'); Object.entries(PLAYBOOK).forEach(([k, p]) => { out.push(`\n### ${p.titulo}`); out.push('_(nota interna)_'); }); return out.join('\n'); }
+function buildResumo() { const out = []; out.push('## Gestão'); ESTRUTURA.gestao.items.forEach(it => { const s = (STATE.gestao||{})[it.id]; out.push(buildResumoItem('Gestão > ' + it.nome, s)); }); out.push('\n## Operação'); Object.entries(ESTRUTURA.operacao.areas).forEach(([subK, sub]) => { out.push('\n### ' + sub.titulo); sub.items.forEach(it => { const s = (STATE['operacao.' + subK]||{})[it.id]; out.push(buildResumoItem(sub.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## Produtos'); Object.entries(ESTRUTURA.produtos.items).forEach(([prodK, prod]) => { out.push('\n### ' + prod.titulo); (prod.items || []).forEach(it => { const s = (STATE['produtos.' + prodK]||{})[it.id]; out.push(buildResumoItem(prod.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## SOPs'); ESTRUTURA.sops.items.forEach(it => { const s = (STATE.sops||{})[it.id]; out.push(buildResumoItem('SOP > ' + it.nome, s)); }); out.push('\n## Biblioteca'); ESTRUTURA.biblioteca.items.forEach(it => { const s = (STATE.biblioteca||{})[it.id]; out.push(buildResumoItem('Biblioteca > ' + it.nome, s)); }); out.push('\n## Conhecimento'); ESTRUTURA.conhecimento.items.forEach(it => { const s = (STATE.conhecimento||{})[it.id]; out.push(buildResumoItem('Conhecimento > ' + it.nome, s)); });   return out.join('\n'); }
 function buildResumoItem(path, item) { if (!item) return `- _(vazio)_ **${path}**`; if (item.type === 'note') return `- ◆ **${item.nome || path}** _(nota)_ — ${path}`; if (item.type === 'section') { let sub = ''; if (item.items) Object.values(item.items).forEach(c => { sub += '\n  ' + buildResumoItem(path + ' > ' + (c.nome || ''), c); }); return `- ▾ **${item.nome || path}** _(seção)_ — ${path}${sub}`; } const typeIcon = { link: '↗', sheet: '⊞', doc: '▤' }[item.type] || '·'; const url = item.url || (item.note && (item.note.match(/https?:\/\/\S+/) || [])[0]); const urlTxt = url ? ` → ${url}` : ''; return `- ${typeIcon} **${item.nome || path}** _(${item.type})_ — ${path}${urlTxt}`; }
 function renderResumo(filter) { const content = document.getElementById('resumo-content'); const text = buildResumo(); const lines = text.split('\n'); const filtered = filter ? lines.filter(l => l.toLowerCase().includes(filter.toLowerCase())) : lines; let html = filtered.map(l => { if (l.startsWith('## ')) return `<h3 style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">${escapeHtml(l.slice(3))}</h3>`; if (l.startsWith('### ')) return `<h4 style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin:14px 0 6px;font-weight:500">${escapeHtml(l.slice(4))}</h4>`; if (l.startsWith('  ')) return `<div style="font-size:12px;color:var(--text-dim);padding:2px 0 2px 24px;line-height:1.5">${formatResumoLine(l.trim())}</div>`; if (l.trim() === '') return '<div style="height:6px"></div>'; return `<div style="font-size:12.5px;color:var(--text);padding:3px 0;line-height:1.5">${formatResumoLine(l)}</div>`; }).join(''); content.innerHTML = html; }
 function formatResumoLine(l) { return escapeHtml(l).replace(/\*\*(.+?)\*\*/g, '<b style="color:var(--text);font-weight:600">$1</b>').replace(/_(.+?)_/g, '<span style="color:var(--text-faint);font-style:italic;font-family:\'IBM Plex Mono\',monospace;font-size:10.5px">$1</span>').replace(/→\s*(https?:\/\/[^\s]+)/g, '→ <a href="$1" target="_blank" style="color:var(--blue);font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;text-decoration:none;border-bottom:1px solid rgba(96,165,250,.3);word-break:break-all">$1</a>').replace(/_(vazio)_/g, '<span style="color:var(--text-faint);font-style:italic">vazio</span>'); }
