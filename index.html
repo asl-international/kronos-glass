@@ -500,6 +500,88 @@ const ESTRUTURA = {
   }
 };
 
+const INITIAL_DATA = {
+  'gestao': {},
+  'operacao.financeiro': {},
+  'operacao.cs': {
+    'acompanhamento': { id: 'acompanhamento', nome: 'Acompanhamento de mentorados', type: 'sheet',
+      url: 'https://docs.google.com/spreadsheets/d/1MCgMng4h_Luft7Jvzc1G_yrGAMCzuxqlUmT0Wmi95kY/edit?gid=1831693487',
+      desc: 'Planilha geral de acompanhamento'
+    }
+  },
+  'produtos.kairos': {
+    'manual-participante': { id: 'manual-participante', nome: 'Manual do participante', type: 'link',
+      url: 'https://mentoriakairos.institutokronos.com.br/manualdoparticipante',
+      desc: 'Página do manual'
+    },
+    'avatar-kairos': { id: 'avatar-kairos', nome: 'Avatar Kairós', type: 'doc',
+      url: 'https://docs.google.com/document/d/1sa6zjkL-FAawaycnCl49Qm4TC-06IWe2L/edit',
+      desc: 'ICP e persona'
+    },
+    'produtos-negociacoes': { id: 'produtos-negociacoes', nome: 'Produtos e Negociações (Doc)', type: 'doc',
+      desc: 'Tabela de preços completa, 4 Pilares, 13 entregáveis, política de migração. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Produtos e negociações.docx'
+    }
+  },
+  'produtos.workshop': {
+    'dash-1': { id: 'dash-1', nome: 'Dashboard 1', type: 'section', desc: 'Looker + base de dados', items: {
+      'dash-1-link': { id: 'dash-1-link', nome: 'Dashboard (Looker)', type: 'link', url: 'https://datastudio.google.com/u/0/reporting/c8b52ebf-3ece-4410-9536-bc9326b822e1/page/XzPOF' },
+      'dash-1-base': { id: 'dash-1-base', nome: 'Base de dados', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1pvq7dyGxUFMKD4MjCpFPEiTPDKOSQoJi4MQ3yVCG8oo/edit?gid=1800336546' }
+    } },
+    'dash-2': { id: 'dash-2', nome: 'Dashboard 2', type: 'section', desc: 'Looker + base de dados', items: {
+      'dash-2-link': { id: 'dash-2-link', nome: 'Dashboard (Looker)', type: 'link', url: 'https://datastudio.google.com/u/0/reporting/4451fdca-2f27-48ed-8a8e-51023f971a0b/page/XzPOF' },
+      'dash-2-base': { id: 'dash-2-base', nome: 'Base de dados', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1fCd4GwIS533SF_q4hJ13mgp35Xrjs6q0O7kmTzkj6X8/edit?gid=1203233720' }
+    } },
+    'dash-3': { id: 'dash-3', nome: 'Dashboard 3', type: 'section', desc: 'Looker + base de dados', items: {
+      'dash-3-link': { id: 'dash-3-link', nome: 'Dashboard (Looker)', type: 'link', url: 'https://datastudio.google.com/u/0/reporting/3691b40a-7d87-4869-a789-9239385fe3bc/page/XzPOF' },
+      'dash-3-base': { id: 'dash-3-base', nome: 'Base de dados', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1bdLRphRFvpJmkrnTqdKORhpP9h24hlFRzvm6n6mUNlo/edit?gid=1203233720' }
+    } },
+    'assets-wds': { id: 'assets-wds', nome: 'Logo e Elementos', type: 'section', desc: 'Assets visuais do Workshop', items: {
+      'logo-wds': { id: 'logo-wds', nome: 'Logo WDS e Elementos', type: 'link', url: 'https://drive.google.com/drive/folders/1sA_rdXIqNIZVHYEOXzOOnEzMUv7Quq1P?usp=drive_link' },
+      'elementos-paginas': { id: 'elementos-paginas', nome: 'Elementos das páginas', type: 'link', url: 'https://drive.google.com/drive/folders/16zEJaWCrMPf9Y-T4Gu8_uU9Qb-zUs3Cf?usp=drive_link' }
+    } }
+  },
+  'produtos.eventos': { 'fotos-eventos': { id: 'fotos-eventos', nome: 'Fotos evento Planejando 2026', type: 'link', url: 'https://drive.google.com/drive/folders/17oLJwDqKMyU9a-nVWn1_CLXF2MZ0nBj4' } },
+  'biblioteca.fotos-ju': { 'galeria-1': { id: 'galeria-1', nome: 'Galeria 1 — Fotos da Ju', type: 'link', url: 'https://amarifoto.exposure.com.br/juliana' }, 'galeria-2': { id: 'galeria-2', nome: 'Galeria 2 — Fotos da Ju', type: 'link', url: 'https://amarifoto.exposure.com.br/juliana1' } },
+  'operacao.comercial': {
+    'agendamento-1-1': { id: 'agendamento-1-1', nome: 'Agendamento 1:1', type: 'section', desc: 'Funil de aplicação → sessão 1:1', items: {
+      'planilha-base': { id: 'planilha-base', nome: 'Planilha de agendamento', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1RbjhTOEqb4HWDAXNwAi_jG67gZBkCecE78fngLsTvVY/edit?gid=1085045508', desc: 'Base de leads e reuniões marcadas' },
+      'aplicacao-respostas': { id: 'aplicacao-respostas', nome: 'Formulário de aplicação (respostas)', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1Gqdlrr7XULWMZlzXqVhktsJ2FEfOrObgBaT_vmBD3Go/edit?gid=187719667', desc: 'Quem se inscreveu pra entrar na mentoria' },
+      'pre-analise-respostas': { id: 'pre-analise-respostas', nome: 'Pré-análise estratégica (respostas)', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1LJsQ4iUB6YmSsMHeXjzYUgvwGazIfwN3hkZMRtSByyE/edit?gid=740688844', desc: 'Convite para sessão 1:1' },
+      'analise-contas-respostas': { id: 'analise-contas-respostas', nome: 'Análise de contas (respostas)', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1N_T5FYd_bhX2tpdsLCDZ9QPsbWSf8izqN6iWllKjCq8/edit?gid=654550711', desc: 'Análise de contas do lead' },
+      'roteiros-sessao': { id: 'roteiros-sessao', nome: 'Roteiros de sessão (vários Docs)', type: 'section', desc: 'Scripts do time comercial. 7+ versões em C:\\Users\\bueno\\Downloads\\Documentos\\', items: {
+        'roteiro-ja-vende': { id: 'roteiro-ja-vende', nome: 'Roteiro — Quem já vende (v3)', type: 'doc', desc: '8 blocos + check-list pós-sessão. Links de pagamento embutidos.' },
+        'roteiro-nao-vende': { id: 'roteiro-nao-vende', nome: 'Roteiro — Quem não vende (v3)', type: 'doc', desc: '8 blocos + perguntas excludentes + objeções comuns.' },
+        'roteiro-fechamento': { id: 'roteiro-fechamento', nome: 'Roteiro — Fechamento (v2)', type: 'doc', desc: '5 blocos + objeções + dúvidas frequentes. Pós-aplicação paga.' },
+        'kairos-central': { id: 'kairos-central', nome: 'Kairós Central — App de Roteiros', type: 'link', url: 'http://127.0.0.1:8773/downloads/kairos%20central/index.html', desc: 'App interativo com todos os roteiros' }
+      } }
+    } },
+    'captacao': { id: 'captacao', nome: 'Captação', type: 'section', desc: 'Pontos de entrada de leads', items: {
+      'pre-diagnostico-pagina': { id: 'pre-diagnostico-pagina', nome: 'Página de pré-diagnóstico', type: 'link', url: 'https://int-kronos.pages.dev/', desc: 'Landing page' },
+      'pre-diagnostico-form': { id: 'pre-diagnostico-form', nome: 'Formulário de pré-diagnóstico', type: 'link', url: 'https://forms.gle/qUMrv7mXbPoD4Ytd6' },
+      'live-quinta': { id: 'live-quinta', nome: 'Live de quinta-feira', type: 'link', url: 'https://paginas.institutokronos.com.br/live-quinta', desc: 'Página da live semanal' },
+      'avatar-kairos': { id: 'avatar-kairos', nome: 'Avatar Kairós — quem qualifica (Doc)', type: 'doc', desc: 'Framework de qualificação. Local: C:\\Users\\bueno\\Downloads\\Documentos\\Avatar Kairós.docx. 3 gates obrigatórios + scoring.' }
+    } },
+    'aplicacao': { id: 'aplicacao', nome: 'Aplicação (só evento)', type: 'section', desc: 'Aplicação APENAS pra evento. Pra mentoria, vai direto pra oferta.', items: {
+      'aplicacao-form-evento': { id: 'aplicacao-form-evento', nome: 'Formulário de aplicação (evento)', type: 'link', url: 'https://forms.gle/qUMrv7mXbPoD4Ytd6', desc: 'Mesmo form de pré-diagnóstico hoje' }
+    } },
+    'checkouts': { id: 'checkouts', nome: 'Checkouts de pagamento', type: 'section', desc: 'Links de pagamento — em migração de Zouti para Asas', items: {
+      'aplicacao-zouti': { id: 'aplicacao-zouti', nome: 'Aplicação/entrada (Zouti)', type: 'link', url: 'https://pay.zouti.com.br/checkout?poi=prod_offer_m86w42a1nayucugvh29ws0' },
+      'a-vista': { id: 'a-vista', nome: 'À vista (Zouti)', type: 'link', url: 'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_7bs0a37hyb3s6qq2b3ka6o' },
+      'parcelado': { id: 'parcelado', nome: 'Parcelado (Zouti)', type: 'link', url: 'https://pay.zouti.com.br/checkout?product_offer_id=prod_offer_cl7z0m6oaz6axusj4u5jqv' },
+      'contrato-kairos': { id: 'contrato-kairos', nome: 'Contrato Mentoria Kairós (PDF)', type: 'doc', url: 'https://drive.google.com/file/d/1q_0e-iJt4_NIueOv-Ie2hxzB4DbOX7yz/view?usp=sharing', desc: '12 meses · R$10k à vista / R$12k parcelado · Garantia condicional. PDF local: C:\\Users\\bueno\\Downloads\\Documentos\\Contrato - Mentoria Kairós.pdf' }
+    } },
+    'produtos-negociacao': { id: 'produtos-negociacao', nome: 'Produtos e negociação', type: 'doc', url: 'https://docs.google.com/document/d/1D2PB3mtDoua4-iXL2wQ2ONzr4RPPphiU/edit', desc: 'Doc de precificação e regras de oferta' }
+  },
+  'operacao.marketing': {
+    'pesquisa-mercado': { id: 'pesquisa-mercado', nome: 'Pesquisa de mercado', type: 'section', desc: 'Raio X do avatar', items: {
+      'raio-x-vende': { id: 'raio-x-vende', nome: 'Raio X – quem já vende', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1nmfC4n7PVmOrPQfMgfqQpjwDIZT93wN3wETQ21yTXYY/edit?gid=1502063929' },
+      'raio-x-nao-vende': { id: 'raio-x-nao-vende', nome: 'Raio X – quem não vende', type: 'sheet', url: 'https://docs.google.com/spreadsheets/d/1oYlderDAgK4MKWHXC9iak44BN_NNbZhCzTw5bqY8G-0/edit?gid=1502063929' }
+    } },
+    'roteiros': { id: 'roteiros', nome: 'Roteiros Kairós', type: 'link', url: 'http://127.0.0.1:8773/downloads/kairos%20central/index.html', desc: 'App de roteiros (local)' },
+    'criativos': { id: 'criativos', nome: 'Criativos — materiais de divulgação', type: 'note', note: 'Banco de criativos e materiais de divulgação.\n\nMateriais:\nhttps://drive.google.com/drive/folders/1TUsyPpPdqeZ-lZ3r6URuW28pjJilPTjs', desc: 'Pasta do Drive com criativos' },
+    'copy': { id: 'copy', nome: 'Copy — textos-base', type: 'note', note: 'Scripts e textos-base.\n\nRoteiros:\nhttps://docs.google.com/document/d/1vwV6hosq4veo5k96AO0OxUwPNBfChqs_DGYKo1hGQvY', desc: 'Roteiros de copy e textos de criativos' }
+  }
+};
 let STATE = {};
 const STATE_KEY = 'kronos_state_v1';
 function loadState() { try { const raw = localStorage.getItem(STATE_KEY); if (raw) { STATE = JSON.parse(raw); return; } } catch(e) {} STATE = JSON.parse(JSON.stringify(INITIAL_DATA)); saveState(); }
