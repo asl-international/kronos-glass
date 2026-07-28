@@ -253,6 +253,34 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));margin-right:10px;vertical-align:middle;box-shadow:0 0 8px var(--pink-glow)}
 
+/* === TOC lateral (indice) === */
+.toc-toggle{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:80;width:30px;height:46px;background:rgba(20,15,30,.55);border:1px solid var(--glass-border);border-radius:8px;color:var(--text-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transition:all .2s;opacity:.35}
+.toc-toggle:hover{opacity:1;color:var(--pink);border-color:var(--pink-glow);background:rgba(236,72,153,.1)}
+.toc-panel{position:fixed;left:0;top:0;bottom:0;width:300px;z-index:90;background:rgba(10,6,18,.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-right:1px solid var(--glass-border);transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;display:flex;flex-direction:column}
+.toc-panel:not([hidden]){transform:translateX(0)}
+.toc-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--glass-border)}
+.toc-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--pink);text-transform:uppercase;font-weight:500}
+.toc-close{background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;padding:0;line-height:1;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all .15s}
+.toc-close:hover{color:var(--pink);background:var(--pink-soft)}
+.toc-body{flex:1;overflow-y:auto;padding:10px 0 20px}
+.toc-body::-webkit-scrollbar{width:4px}
+.toc-body::-webkit-scrollbar-thumb{background:rgba(236,72,153,.25);border-radius:2px}
+.toc-tree{list-style:none;padding:0;margin:0;font-size:12.5px}
+.toc-tree ul{list-style:none;padding:0;margin:0}
+.toc-tree li{position:relative}
+.toc-tree .lbl{display:flex;align-items:center;gap:6px;padding:5px 14px 5px 14px;color:var(--text);text-decoration:none;cursor:pointer;border-left:2px solid transparent;transition:all .15s;line-height:1.4}
+.toc-tree .lbl:hover{color:var(--pink);background:rgba(236,72,153,.05);border-left-color:var(--pink)}
+.toc-tree .lbl .nm{flex:1}
+.toc-tree .lbl .ct{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text-faint);opacity:.7}
+.toc-tree .lvl0 > .lbl{font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim);padding-top:14px;padding-bottom:6px}
+.toc-tree .lvl1 > .lbl{padding-left:24px}
+.toc-tree .lvl2 > .lbl{padding-left:38px;font-size:11.5px;color:var(--text-dim)}
+.toc-tree .lvl2 > .lbl .nm::before{content:'– ';color:var(--text-faint);opacity:.5}
+.toc-tree .lvl1.collapsed > ul{display:none}
+.toc-tree .lvl1 > .lbl .tw{width:12px;color:var(--text-faint);font-size:9px;transition:transform .15s;display:inline-block}
+.toc-tree .lvl1.collapsed > .lbl .tw{transform:rotate(-90deg)}
+.toc-empty{padding:14px 20px;color:var(--text-faint);font-size:11.5px;font-style:italic}
+
 @media(max-width:1100px){
   .grid,.grid-3,.layer-grid{grid-template-columns:1fr;gap:14px}
   h1{font-size:38px}
@@ -356,6 +384,18 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
     </div>
   </div>
 </div>
+
+<button id="toc-toggle" class="toc-toggle" aria-label="Abrir indice" title="Indice">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>
+</button>
+
+<aside id="toc-panel" class="toc-panel" hidden>
+  <div class="toc-header">
+    <span class="toc-title">// INDICE</span>
+    <button id="toc-close" class="toc-close" aria-label="Fechar">&times;</button>
+  </div>
+  <div class="toc-body" id="toc-body"></div>
+</aside>
 
 <div class="toast" id="toast"><span class="dot"></span><span id="toast-msg">Salvo</span></div>
 
@@ -498,6 +538,127 @@ let STATE = {};
 const STATE_KEY = 'kronos_state_v1';
 function loadState() { try { const raw = localStorage.getItem(STATE_KEY); if (raw) { STATE = JSON.parse(raw); return; } } catch(e) {} STATE = JSON.parse(JSON.stringify(INITIAL_DATA)); saveState(); }
 function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify(STATE)); } catch(e) {} }
+
+// === TOC lateral ===
+function buildToc() {
+  const body = document.getElementById('toc-body');
+  if (!body) return;
+  const layerLabels = { gestao:'Gestao', operacao:'Operacao', produtos:'Produtos', sops:'SOPs', biblioteca:'Biblioteca', conhecimento:'Conhecimento' };
+  const html = ['<ul class="toc-tree">'];
+  // Visao Geral
+  html.push('<li class="lvl0"><a class="lbl" data-toc-nav="home"><span class="nm">Visao Geral</span></a></li>');
+  for (const layerKey of Object.keys(layerLabels)) {
+    const layer = ESTRUTURA[layerKey];
+    if (!layer) continue;
+    html.push('<li class="lvl0"><a class="lbl" data-toc-nav="'+layerKey+'"><span class="nm">'+layerLabels[layerKey]+'</span><span class="ct">'+getScopeTotal(layerKey)+'</span></a>');
+    if (layer.areas) {
+      // Operation
+      html.push('<ul>');
+      for (const [subKey, sub] of Object.entries(layer.areas)) {
+        const total = (sub.items || []).length;
+        const filled = (sub.items || []).filter(i => (STATE[layerKey+'.'+subKey] || {})[i.id]).length;
+        html.push('<li class="lvl1" data-toc-l1><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+subKey+'"><span class="tw">&#9662;</span><span class="nm">'+sub.titulo+'</span><span class="ct">'+filled+'/'+total+'</span></a>');
+        if ((sub.items || []).length) {
+          html.push('<ul>');
+          for (const it of (sub.items || [])) {
+            const s = (STATE[layerKey+'.'+subKey] || {})[it.id];
+            const has = s ? '●' : '○';
+            html.push('<li class="lvl2"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+subKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span><span class="ct">'+has+'</span></a></li>');
+          }
+          html.push('</ul>');
+        }
+        html.push('</li>');
+      }
+      html.push('</ul>');
+    } else if (layer.items) {
+      // Items diretos (Gestao, SOPs, Biblioteca, Conhecimento)
+      if (layer.items.length) {
+        html.push('<ul>');
+        for (const it of layer.items) {
+          const s = (STATE[layerKey] || {})[it.id];
+          const has = s ? '●' : '○';
+          html.push('<li class="lvl1"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span><span class="ct">'+has+'</span></a></li>');
+        }
+        html.push('</ul>');
+      } else {
+        html.push('<div class="toc-empty">// nenhum item</div>');
+      }
+    } else if (layer.items && Object.keys(layer.items).length) {
+      // Produtos (com sub-areas)
+      html.push('<ul>');
+      for (const [prodKey, prod] of Object.entries(layer.items)) {
+        const total = (prod.items || []).length;
+        const filled = (prod.items || []).filter(i => (STATE[layerKey+'.'+prodKey] || {})[i.id]).length;
+        html.push('<li class="lvl1" data-toc-l1><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+prodKey+'"><span class="tw">&#9662;</span><span class="nm">'+prod.titulo+'</span><span class="ct">'+filled+'/'+total+'</span></a>');
+        if ((prod.items || []).length) {
+          html.push('<ul>');
+          for (const it of prod.items) {
+            const s = (STATE[layerKey+'.'+prodKey] || {})[it.id];
+            const has = s ? '●' : '○';
+            html.push('<li class="lvl2"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+prodKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span><span class="ct">'+has+'</span></a></li>');
+          }
+          html.push('</ul>');
+        }
+        html.push('</li>');
+      }
+      html.push('</ul>');
+    }
+    html.push('</li>');
+  }
+  html.push('</ul>');
+  body.innerHTML = html.join('');
+  // Collapsar/expandir lvl1
+  body.querySelectorAll('[data-toc-l1] > .lbl').forEach(a => {
+    a.addEventListener('click', e => {
+      if (e.target.closest('.lvl2')) return; // deixa propagar
+      e.preventDefault();
+      a.parentElement.classList.toggle('collapsed');
+    });
+  });
+  // Click em qualquer link
+  body.querySelectorAll('.lbl').forEach(a => {
+    a.addEventListener('click', e => {
+      const nav = a.dataset.tocNav;
+      if (!nav) return;
+      e.preventDefault();
+      if (nav === 'home') { navigate('home'); }
+      else if (a.dataset.tocSub) { navigate(nav, a.dataset.tocSub); }
+      else { navigate(nav); }
+      if (a.dataset.tocItem) {
+        setTimeout(() => {
+          const el = document.querySelector('[data-item-id="'+a.dataset.tocItem+'"]');
+          if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+        }, 250);
+      }
+      // fechar painel
+      document.getElementById('toc-panel').setAttribute('hidden', '');
+    });
+  });
+}
+function getScopeTotal(layerKey) {
+  const layer = ESTRUTURA[layerKey];
+  if (!layer) return 0;
+  let n = 0;
+  if (layer.items) {
+    if (Array.isArray(layer.items)) n += layer.items.length;
+    else { for (const k of Object.keys(layer.items)) { n += (layer.items[k].items || []).length; } }
+  }
+  if (layer.areas) { for (const k of Object.keys(layer.areas)) n += (layer.areas[k].items || []).length; }
+  return n;
+}
+function openToc() {
+  buildToc();
+  document.getElementById('toc-panel').removeAttribute('hidden');
+}
+function closeToc() {
+  document.getElementById('toc-panel').setAttribute('hidden', '');
+}
+document.getElementById('toc-toggle').addEventListener('click', () => {
+  const p = document.getElementById('toc-panel');
+  if (p.hasAttribute('hidden')) openToc(); else closeToc();
+});
+document.getElementById('toc-close').addEventListener('click', closeToc);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeToc(); });
 
 let currentView='home',currentScope=null,currentSubScope=null,currentFilter='all',showEmpty=false;
 function buildNav() {
