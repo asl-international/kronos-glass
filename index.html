@@ -550,55 +550,52 @@ function buildToc() {
   for (const layerKey of Object.keys(layerLabels)) {
     const layer = ESTRUTURA[layerKey];
     if (!layer) continue;
-    html.push('<li class="lvl0"><a class="lbl" data-toc-nav="'+layerKey+'"><span class="nm">'+layerLabels[layerKey]+'</span><span class="ct">'+getScopeTotal(layerKey)+'</span></a>');
+    html.push('<li class="lvl0"><a class="lbl" data-toc-nav="'+layerKey+'"><span class="nm">'+layerLabels[layerKey]+'</span></a>');
     if (layer.areas) {
-      // Operation
       html.push('<ul>');
       for (const [subKey, sub] of Object.entries(layer.areas)) {
-        const total = (sub.items || []).length;
-        const filled = (sub.items || []).filter(i => (STATE[layerKey+'.'+subKey] || {})[i.id]).length;
-        html.push('<li class="lvl1" data-toc-l1><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+subKey+'"><span class="tw">&#9662;</span><span class="nm">'+sub.titulo+'</span><span class="ct">'+filled+'/'+total+'</span></a>');
-        if ((sub.items || []).length) {
-          html.push('<ul>');
-          for (const it of (sub.items || [])) {
-            const s = (STATE[layerKey+'.'+subKey] || {})[it.id];
-            const has = s ? '●' : '○';
-            html.push('<li class="lvl2"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+subKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span><span class="ct">'+has+'</span></a></li>');
-          }
-          html.push('</ul>');
+        // só mostra sub que tem pelo menos 1 item com URL
+        const itemsComUrl = (sub.items || []).filter(it => (STATE[layerKey+'.'+subKey] || {})[it.id] && (STATE[layerKey+'.'+subKey] || {})[it.id].url);
+        if (!itemsComUrl.length) continue;
+        html.push('<li class="lvl1" data-toc-l1><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+subKey+'"><span class="tw">&#9662;</span><span class="nm">'+sub.titulo+'</span></a>');
+        html.push('<ul>');
+        for (const it of (sub.items || [])) {
+          const s = (STATE[layerKey+'.'+subKey] || {})[it.id];
+          if (!s || !s.url) continue;
+          html.push('<li class="lvl2"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+subKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span></a></li>');
         }
+        html.push('</ul>');
         html.push('</li>');
       }
       html.push('</ul>');
-    } else if (layer.items) {
-      // Items diretos (Gestao, SOPs, Biblioteca, Conhecimento)
-      if (layer.items.length) {
+    } else if (Array.isArray(layer.items)) {
+      // Items diretos (SOPs, Biblioteca, Conhecimento)
+      const itemsComUrl = layer.items.filter(it => (STATE[layerKey] || {})[it.id] && (STATE[layerKey] || {})[it.id].url);
+      if (itemsComUrl.length) {
         html.push('<ul>');
         for (const it of layer.items) {
           const s = (STATE[layerKey] || {})[it.id];
-          const has = s ? '●' : '○';
-          html.push('<li class="lvl1"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span><span class="ct">'+has+'</span></a></li>');
+          if (!s || !s.url) continue;
+          html.push('<li class="lvl1"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span></a></li>');
         }
         html.push('</ul>');
       } else {
-        html.push('<div class="toc-empty">// nenhum item</div>');
+        html.push('<div class="toc-empty">// nenhum item com URL</div>');
       }
     } else if (layer.items && Object.keys(layer.items).length) {
       // Produtos (com sub-areas)
       html.push('<ul>');
       for (const [prodKey, prod] of Object.entries(layer.items)) {
-        const total = (prod.items || []).length;
-        const filled = (prod.items || []).filter(i => (STATE[layerKey+'.'+prodKey] || {})[i.id]).length;
-        html.push('<li class="lvl1" data-toc-l1><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+prodKey+'"><span class="tw">&#9662;</span><span class="nm">'+prod.titulo+'</span><span class="ct">'+filled+'/'+total+'</span></a>');
-        if ((prod.items || []).length) {
-          html.push('<ul>');
-          for (const it of prod.items) {
-            const s = (STATE[layerKey+'.'+prodKey] || {})[it.id];
-            const has = s ? '●' : '○';
-            html.push('<li class="lvl2"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+prodKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span><span class="ct">'+has+'</span></a></li>');
-          }
-          html.push('</ul>');
+        const itemsComUrl = (prod.items || []).filter(it => (STATE[layerKey+'.'+prodKey] || {})[it.id] && (STATE[layerKey+'.'+prodKey] || {})[it.id].url);
+        if (!itemsComUrl.length) continue;
+        html.push('<li class="lvl1" data-toc-l1><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+prodKey+'"><span class="tw">&#9662;</span><span class="nm">'+prod.titulo+'</span></a>');
+        html.push('<ul>');
+        for (const it of prod.items) {
+          const s = (STATE[layerKey+'.'+prodKey] || {})[it.id];
+          if (!s || !s.url) continue;
+          html.push('<li class="lvl2"><a class="lbl" data-toc-nav="'+layerKey+'" data-toc-sub="'+prodKey+'" data-toc-item="'+it.id+'"><span class="nm">'+it.nome+'</span></a></li>');
         }
+        html.push('</ul>');
         html.push('</li>');
       }
       html.push('</ul>');
@@ -610,7 +607,7 @@ function buildToc() {
   // Collapsar/expandir lvl1
   body.querySelectorAll('[data-toc-l1] > .lbl').forEach(a => {
     a.addEventListener('click', e => {
-      if (e.target.closest('.lvl2')) return; // deixa propagar
+      if (e.target.closest('.lvl2')) return;
       e.preventDefault();
       a.parentElement.classList.toggle('collapsed');
     });
@@ -630,7 +627,6 @@ function buildToc() {
           if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
         }, 250);
       }
-      // fechar painel
       document.getElementById('toc-panel').setAttribute('hidden', '');
     });
   });
@@ -670,11 +666,12 @@ function buildNav() {
 function getScopeCount(scopeKey) { const all = collectAllItems(scopeKey); const filled = all.filter(i => i.type !== 'empty').length; return { filled, total: all.length }; }
 function collectAllItems(scopeKey) {
   const out = [];
+  const skipEmpty = !showEmpty;
   if (scopeKey === 'gestao') {
     ESTRUTURA.gestao.items.forEach(it => {
       const s = (STATE.gestao || {})[it.id];
       if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome });
-      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
   } else if (scopeKey === 'operacao') {
     if (!currentSubScope) {
@@ -688,7 +685,7 @@ function collectAllItems(scopeKey) {
       const fullKey = `operacao.${currentSubScope}`;
       const s = (STATE[fullKey] || {})[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome, _subKey: currentSubScope });
-      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _subKey: currentSubScope });
+      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _subKey: currentSubScope });
     });
   } else if (scopeKey === 'produtos') {
     if (!currentSubScope) {
@@ -698,30 +695,30 @@ function collectAllItems(scopeKey) {
       return out;
     }
     const prod = ESTRUTURA.produtos.items[currentSubScope];
-    if (!prod.items || !prod.items.length) { out.push({ id: 'empty-prod', nome: 'Slot vazio', type: 'empty', scopeKey, parentId: currentSubScope }); return out; }
+    if (!prod.items || !prod.items.length) { return out; }
     prod.items.forEach(it => {
       const fullKey = `produtos.${currentSubScope}`;
       const s = (STATE[fullKey] || {})[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome, _prodKey: currentSubScope });
-      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _prodKey: currentSubScope });
+      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _prodKey: currentSubScope });
     });
   } else if (scopeKey === 'sops') {
     ESTRUTURA.sops.items.forEach(it => {
       const s = (STATE.sops || {})[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome });
-      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
   } else if (scopeKey === 'biblioteca') {
     ESTRUTURA.biblioteca.items.forEach(it => {
       const s = (STATE.biblioteca || {})[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome });
-      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
   } else if (scopeKey === 'conhecimento') {
     ESTRUTURA.conhecimento.items.forEach(it => {
       const s = (STATE.conhecimento || {})[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome });
-      else out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
+      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
   }
   return out;
@@ -813,6 +810,89 @@ function countAllTotal() {
   n += ESTRUTURA.conhecimento.items.length;
   return n;
 }
+
+// === Resumo (popup) ===
+function buildResumo() {
+  const lines = [];
+  const layerLabels = { gestao:'Gestao', operacao:'Operacao', produtos:'Produtos', sops:'SOPs', biblioteca:'Biblioteca', conhecimento:'Conhecimento' };
+  // varre cada layer e cada sub-escopo
+  for (const layerKey of Object.keys(layerLabels)) {
+    const layer = ESTRUTURA[layerKey];
+    if (!layer) continue;
+    const collected = [];
+    if (layer.areas) {
+      for (const [subKey, sub] of Object.entries(layer.areas)) {
+        for (const it of (sub.items || [])) {
+          const s = (STATE[layerKey+'.'+subKey] || {})[it.id];
+          if (s && s.url) collected.push({ sub: sub.titulo, nome: it.nome, url: s.url, type: s.type || it.type || 'doc' });
+        }
+      }
+    } else if (Array.isArray(layer.items)) {
+      for (const it of layer.items) {
+        const s = (STATE[layerKey] || {})[it.id];
+        if (s && s.url) collected.push({ sub: null, nome: it.nome, url: s.url, type: s.type || it.type || 'doc' });
+      }
+    } else if (layer.items) {
+      for (const [prodKey, prod] of Object.entries(layer.items)) {
+        for (const it of (prod.items || [])) {
+          const s = (STATE[layerKey+'.'+prodKey] || {})[it.id];
+          if (s && s.url) collected.push({ sub: prod.titulo, nome: it.nome, url: s.url, type: s.type || it.type || 'doc' });
+        }
+      }
+    }
+    if (collected.length === 0) continue;
+    lines.push('## ' + layerLabels[layerKey] + ' (' + collected.length + ')');
+    if (layer.areas) {
+      // agrupar por sub
+      const bySub = {};
+      collected.forEach(c => { (bySub[c.sub] = bySub[c.sub] || []).push(c); });
+      for (const [sub, arr] of Object.entries(bySub)) {
+        lines.push('### ' + sub);
+        arr.forEach(c => lines.push('- [' + c.nome + '](' + c.url + ')'));
+      }
+    } else if (layer.items && !Array.isArray(layer.items)) {
+      const bySub = {};
+      collected.forEach(c => { (bySub[c.sub] = bySub[c.sub] || []).push(c); });
+      for (const [sub, arr] of Object.entries(bySub)) {
+        lines.push('### ' + sub);
+        arr.forEach(c => lines.push('- [' + c.nome + '](' + c.url + ')'));
+      }
+    } else {
+      collected.forEach(c => lines.push('- [' + c.nome + '](' + c.url + ')'));
+    }
+  }
+  return lines.join('\n');
+}
+function openResumo() {
+  const md = buildResumo();
+  const el = document.getElementById('resumo-content');
+  // render como HTML escapado + links
+  const html = md.split('\n').map(line => {
+    if (line.startsWith('## ')) return '<h3 style="margin:18px 0 8px;font-size:14px;color:var(--pink)">// '+escapeHtml(line.substring(3))+'</h3>';
+    if (line.startsWith('### ')) return '<h4 style="margin:12px 0 6px;font-size:12.5px;color:var(--text)">'+escapeHtml(line.substring(4))+'</h4>';
+    if (line.startsWith('- [')) {
+      const m = line.match(/^\- \[(.+?)\]\((.+?)\)$/);
+      if (m) return '<div style="padding:3px 0 3px 12px;font-size:13px"><a href="'+m[2]+'" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none;border-bottom:1px solid var(--glass-border)">'+escapeHtml(m[1])+'</a> <span style="color:var(--text-faint);font-size:11px">↗</span></div>';
+    }
+    return '';
+  }).join('');
+  el.innerHTML = html || '<div style="color:var(--text-faint);padding:20px 0">nenhum item com URL ainda</div>';
+  document.getElementById('modal-resumo').classList.add('show');
+}
+function closeResumo() { document.getElementById('modal-resumo').classList.remove('show'); }
+function copyResumo() {
+  const md = buildResumo();
+  const ta = document.createElement('textarea'); ta.value = md; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast('Resumo copiado'); } catch(e) { toast('falha ao copiar'); }
+  document.body.removeChild(ta);
+}
+function downloadResumo() {
+  const md = buildResumo();
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'kronos-resumo.md'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Resumo baixado');
+}
 function renderScopeContent(scopeKey, items) {
   const filtered = items.filter(it => { if (currentFilter==='empty') return it.type==='empty'; if (it.type==='empty') return showEmpty; if (currentFilter==='all') return true; return it.type===currentFilter; });
   const groups = { note:{label:'Notas',items:[]}, link:{label:'Links',items:[]}, sheet:{label:'Planilhas',items:[]}, doc:{label:'Documentos',items:[]}, section:{label:'Seções',items:[]}, subhead:{label:'Áreas',items:[]}, empty:{label:'Vazios',items:[]} };
@@ -822,8 +902,8 @@ function renderScopeContent(scopeKey, items) {
     <span><span class="v accent">${groups.note.items.length}</span> notas</span><span class="dot">·</span>
     <span><span class="v">${groups.link.items.length}</span> links</span><span class="dot">·</span>
     <span><span class="v">${groups.sheet.items.length}</span> planilhas</span><span class="dot">·</span>
-    <span><span class="v">${groups.doc.items.length}</span> docs</span><span class="dot">·</span>
-    <span><span class="v dim">${groups.empty.items.length}</span> vazios</span><span class="spacer"></span>
+    <span><span class="v">${groups.doc.items.length}</span> docs</span>
+    <span class="spacer"></span>
     <span class="updated">${c.filled}/${c.total} preenchidos</span>
   </div>`;
   const fhtml = `<div class="filter">
@@ -833,12 +913,10 @@ function renderScopeContent(scopeKey, items) {
     <a href="#" data-f="link" class="${currentFilter==='link'?'active':''}">links <span class="ct">${groups.link.items.length}</span></a>
     <a href="#" data-f="sheet" class="${currentFilter==='sheet'?'active':''}">planilhas <span class="ct">${groups.sheet.items.length}</span></a>
     <a href="#" data-f="doc" class="${currentFilter==='doc'?'active':''}">docs <span class="ct">${groups.doc.items.length}</span></a>
-    <a href="#" data-f="empty" class="${currentFilter==='empty'?'active':''}">vazios <span class="ct">${groups.empty.items.length}</span></a>
-    <button class="toggle ${showEmpty?'on':''}" id="toggle-empty">mostrar vazios</button>
   </div>`;
   let body = '';
-  const order = ['note','section','link','sheet','doc','subhead','empty'];
-  const groupLabels = { note:'Notas', link:'Links', sheet:'Planilhas', doc:'Documentos', section:'Seções', subhead:'Áreas', empty:'Vazios' };
+  const order = ['note','section','link','sheet','doc','subhead'];
+  const groupLabels = { note:'Notas', link:'Links', sheet:'Planilhas', doc:'Documentos', section:'Seções', subhead:'Áreas' };
   for (const k of order) {
     const g = groups[k];
     if (!g.items.length) continue;
@@ -976,17 +1054,6 @@ document.getElementById('search-input').addEventListener('focus', e => { if (e.t
 document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Escape') { document.getElementById('search-results').classList.remove('open'); document.getElementById('search-input').blur(); } if (e.key === 'ArrowDown') { e.preventDefault(); searchSelected = Math.min(searchSelected+1, searchResults.length-1); renderSearchResults(searchResults); } if (e.key === 'ArrowUp') { e.preventDefault(); searchSelected = Math.max(searchSelected-1, 0); renderSearchResults(searchResults); } if (e.key === 'Enter' && searchResults.length) { e.preventDefault(); openSearchResult(searchResults[searchSelected]); } });
 document.addEventListener('click', e => { if (!e.target.closest('.search-box')) document.getElementById('search-results').classList.remove('open'); });
 document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search-input').focus(); } });
-
-function buildResumo() { const out = []; out.push('## Gestão'); ESTRUTURA.gestao.items.forEach(it => { const s = (STATE.gestao||{})[it.id]; out.push(buildResumoItem('Gestão > ' + it.nome, s)); }); out.push('\n## Operação'); Object.entries(ESTRUTURA.operacao.areas).forEach(([subK, sub]) => { out.push('\n### ' + sub.titulo); sub.items.forEach(it => { const s = (STATE['operacao.' + subK]||{})[it.id]; out.push(buildResumoItem(sub.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## Produtos'); Object.entries(ESTRUTURA.produtos.items).forEach(([prodK, prod]) => { out.push('\n### ' + prod.titulo); (prod.items || []).forEach(it => { const s = (STATE['produtos.' + prodK]||{})[it.id]; out.push(buildResumoItem(prod.titulo + ' > ' + it.nome, s)); }); }); out.push('\n## SOPs'); ESTRUTURA.sops.items.forEach(it => { const s = (STATE.sops||{})[it.id]; out.push(buildResumoItem('SOP > ' + it.nome, s)); }); out.push('\n## Biblioteca'); ESTRUTURA.biblioteca.items.forEach(it => { const s = (STATE.biblioteca||{})[it.id]; out.push(buildResumoItem('Biblioteca > ' + it.nome, s)); }); out.push('\n## Conhecimento'); ESTRUTURA.conhecimento.items.forEach(it => { const s = (STATE.conhecimento||{})[it.id]; out.push(buildResumoItem('Conhecimento > ' + it.nome, s)); });   return out.join('\n'); }
-function buildResumoItem(path, item) { if (!item) return `- _(vazio)_ **${path}**`; if (item.type === 'note') return `- ◆ **${item.nome || path}** _(nota)_ — ${path}`; if (item.type === 'section') { let sub = ''; if (item.items) Object.values(item.items).forEach(c => { sub += '\n  ' + buildResumoItem(path + ' > ' + (c.nome || ''), c); }); return `- ▾ **${item.nome || path}** _(seção)_ — ${path}${sub}`; } const typeIcon = { link: '↗', sheet: '⊞', doc: '▤' }[item.type] || '·'; const url = item.url || (item.note && (item.note.match(/https?:\/\/\S+/) || [])[0]); const urlTxt = url ? ` → ${url}` : ''; return `- ${typeIcon} **${item.nome || path}** _(${item.type})_ — ${path}${urlTxt}`; }
-function renderResumo(filter) { const content = document.getElementById('resumo-content'); const text = buildResumo(); const lines = text.split('\n'); const filtered = filter ? lines.filter(l => l.toLowerCase().includes(filter.toLowerCase())) : lines; let html = filtered.map(l => { if (l.startsWith('## ')) return `<h3 style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">${escapeHtml(l.slice(3))}</h3>`; if (l.startsWith('### ')) return `<h4 style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin:14px 0 6px;font-weight:500">${escapeHtml(l.slice(4))}</h4>`; if (l.startsWith('  ')) return `<div style="font-size:12px;color:var(--text-dim);padding:2px 0 2px 24px;line-height:1.5">${formatResumoLine(l.trim())}</div>`; if (l.trim() === '') return '<div style="height:6px"></div>'; return `<div style="font-size:12.5px;color:var(--text);padding:3px 0;line-height:1.5">${formatResumoLine(l)}</div>`; }).join(''); content.innerHTML = html; }
-function formatResumoLine(l) { return escapeHtml(l).replace(/\*\*(.+?)\*\*/g, '<b style="color:var(--text);font-weight:600">$1</b>').replace(/_(.+?)_/g, '<span style="color:var(--text-faint);font-style:italic;font-family:\'IBM Plex Mono\',monospace;font-size:10.5px">$1</span>').replace(/→\s*(https?:\/\/[^\s]+)/g, '→ <a href="$1" target="_blank" style="color:var(--blue);font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;text-decoration:none;border-bottom:1px solid rgba(96,165,250,.3);word-break:break-all">$1</a>').replace(/_(vazio)_/g, '<span style="color:var(--text-faint);font-style:italic">vazio</span>'); }
-function openResumo() { renderResumo(''); document.getElementById('modal-resumo').classList.add('open'); }
-function closeResumo() { document.getElementById('modal-resumo').classList.remove('open'); }
-document.getElementById('modal-resumo').addEventListener('click', e => { if (e.target.id === 'modal-resumo') closeResumo(); });
-document.getElementById('resumo-filter').addEventListener('input', e => renderResumo(e.target.value));
-function copyResumo() { const text = buildResumo(); navigator.clipboard.writeText(text).then(() => toast('Resumo copiado')); }
-function downloadResumo() { const text = buildResumo(); const blob = new Blob([text], { type: 'text/markdown' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'kronos-resumo-glass.md'; a.click(); URL.revokeObjectURL(url); toast('Baixado'); }
 
 function toast(msg) { const t = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); }
 
