@@ -217,7 +217,7 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
 
 /* === MODAL (glass) === */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-backdrop.open{display:flex}
+.modal-backdrop.open,.modal-backdrop.show{display:flex}
 .modal{background:rgba(20,15,30,0.85);border:1px solid var(--glass-border);border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:32px;box-shadow:0 24px 60px rgba(0,0,0,.7);backdrop-filter:blur(24px) saturate(180%)}
 .modal h2{font-family:'Space Grotesk',sans-serif;font-size:24px;letter-spacing:-.015em;margin:0 0 8px;font-weight:600}
 .modal .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text-faint);margin-bottom:24px;text-transform:uppercase}
