@@ -363,7 +363,7 @@ footer a:hover{color:var(--pink);border-bottom-color:var(--pink)}
 const ESTRUTURA = {
   gestao: {
     titulo: 'Gestao', eyebrow: '// GESTAO',
-    descricao: 'O cerebro. A primeira tela que voces olham todos os dias - indicadores, metas, planejamento.',
+    descricao: 'O cerebro. Indicadores, metas, planejamento.',
     items: [
       { id: 'okrs', nome: 'OKRs e metas' },
       { id: 'dashboard', nome: 'Dashboard geral' },
@@ -382,86 +382,51 @@ const ESTRUTURA = {
     descricao: 'Como a empresa funciona. Processos e execucao por area funcional.',
     areas: {
       comercial: { titulo: 'Comercial', items: [
-        { id: 'agendamento-1-1', nome: 'Agendamento 1:1', type: 'sheet' },
-        { id: 'captacao', nome: 'Captacao', type: 'section', desc: 'Pontos de entrada de leads' },
-        { id: 'pre-diagnostico', nome: 'Pagina de pre-diagnostico', type: 'doc' },
-        { id: 'pre-diagnostico-form', nome: 'Formulario de pre-diagnostico', type: 'doc' },
-        { id: 'live-quinta', nome: 'Live de quinta-feira', type: 'doc' },
-        { id: 'sessao-fechamento', nome: 'Sessao & Fechamento', type: 'section', desc: 'Aplicacao, sessao 1:1, fechamento' },
-        { id: 'aplicacao', nome: 'Aplicacao (so evento)', type: 'doc' },
-        { id: 'aplicacao-respostas', nome: 'Formulario de aplicacao (respostas)', type: 'sheet' },
-        { id: 'pre-analise-respostas', nome: 'Pre-analise estrategica (respostas)', type: 'sheet' },
-        { id: 'analise-contas-respostas', nome: 'Analise de contas (respostas)', type: 'sheet' },
-        { id: 'checkouts', nome: 'Checkouts de pagamento', type: 'section', desc: 'Links de pagamento - migracao Zouti para Asas' },
-        { id: 'a-vista', nome: 'A vista (Asaas)', type: 'doc' },
-        { id: 'parcelado', nome: 'Parcelado (Zouti)', type: 'doc' },
-        { id: 'contrato-kairos', nome: 'Contrato Mentoria Kairos (PDF)', type: 'doc' },
-        { id: 'produtos-negociacao', nome: 'Produtos e negociacao', type: 'doc' }
+        { id: 'agendamento-1-1', nome: 'Agendamento 1:1' },
+        { id: 'pre-diagnostico', nome: 'Pagina de pre-diagnostico' },
+        { id: 'pre-diagnostico-form', nome: 'Formulario de pre-diagnostico' },
+        { id: 'live-quinta', nome: 'Live de quinta-feira' },
+        { id: 'aplicacao-respostas', nome: 'Formulario de aplicacao (respostas)' },
+        { id: 'pre-analise-respostas', nome: 'Pre-analise estrategica (respostas)' },
+        { id: 'analise-contas-respostas', nome: 'Analise de contas (respostas)' },
+        { id: 'a-vista', nome: 'A vista (Asaas)' },
+        { id: 'parcelado', nome: 'Parcelado (Zouti)' },
+        { id: 'contrato-kairos', nome: 'Contrato Mentoria Kairos (PDF)' },
+        { id: 'produtos-negociacao', nome: 'Produtos e negociacao' }
       ] },
       marketing: { titulo: 'Marketing', items: [
-        { id: 'diagnostico-analise', nome: 'Diagnostico & Analise', type: 'section', desc: 'Raio X, roteiros, pesquisa de mercado' },
-        { id: 'roteiros-kairos', nome: 'Roteiros Kairos', type: 'doc' },
-        { id: 'raio-x-vende', nome: 'Raio X - quem ja vende', type: 'sheet' },
-        { id: 'raio-x-nao-vende', nome: 'Raio X - quem nao vende', type: 'sheet' },
-        { id: 'criacao-conteudo', nome: 'Criacao de conteudo', type: 'section', desc: 'Roteiros, copies, banco de anuncios' },
-        { id: 'roteiros-criativos', nome: 'Roteiros de criativos', type: 'doc' },
-        { id: 'materiais-divulgacao', nome: 'Materiais de divulgacao', type: 'section', desc: 'Galeria, logo, fotos evento, captacoes' },
-        { id: 'galeria-1', nome: 'Galeria 1 - Fotos da Ju', type: 'doc' },
-        { id: 'galeria-2', nome: 'Galeria 2 - Fotos da Ju', type: 'doc' },
-        { id: 'assets-wds', nome: 'Logo WDS e Elementos', type: 'folder' },
-        { id: 'elementos-paginas', nome: 'Elementos das paginas', type: 'folder' },
-        { id: 'fotos-eventos', nome: 'Fotos evento Planejando 2026', type: 'folder' },
-        { id: 'captacoes-juliana', nome: 'Captacoes Juliana Mentoria', type: 'folder' }
-      ] },
-      produto: { titulo: 'Produto', items: [
-        { id: 'mentoria', nome: 'Mentoria' }, { id: 'workshop', nome: 'Workshop' },
-        { id: 'minicursos', nome: 'Minicursos' }, { id: 'comunidade', nome: 'Comunidade' },
-        { id: 'conteudo-aulas', nome: 'Conteudo das aulas' },
-        { id: 'atualizacoes', nome: 'Atualizacoes' }
+        { id: 'roteiros-kairos', nome: 'Roteiros Kairos' },
+        { id: 'raio-x-vende', nome: 'Raio X - quem ja vende' },
+        { id: 'raio-x-nao-vende', nome: 'Raio X - quem nao vende' },
+        { id: 'roteiros-criativos', nome: 'Roteiros de criativos' },
+        { id: 'galeria-1', nome: 'Galeria 1 - Fotos da Ju' },
+        { id: 'galeria-2', nome: 'Galeria 2 - Fotos da Ju' },
+        { id: 'assets-wds', nome: 'Logo WDS e Elementos' },
+        { id: 'elementos-paginas', nome: 'Elementos das paginas' },
+        { id: 'fotos-eventos', nome: 'Fotos evento Planejando 2026' },
+        { id: 'captacoes-juliana', nome: 'Captacoes Juliana Mentoria' }
       ] },
       cs: { titulo: 'Sucesso do Cliente', items: [
-        { id: 'acompanhamento', nome: 'Acompanhamento geral de mentorados', type: 'sheet' },
-        { id: 'onboarding', nome: 'Onboarding' }, { id: 'atendimento', nome: 'Atendimento' },
-        { id: 'financeiro-cs', nome: 'Financeiro' }, { id: 'cobranca', nome: 'Cobranca' },
-        { id: 'suporte', nome: 'Suporte' }, { id: 'nps', nome: 'NPS' },
-        { id: 'comunidade-cs', nome: 'Comunidade' }, { id: 'eventos', nome: 'Eventos' }
+        { id: 'acompanhamento', nome: 'Acompanhamento geral de mentorados' }
       ] },
-      trafego: { titulo: 'Trafego', items: [
-        { id: 'meta', nome: 'Meta' }, { id: 'google', nome: 'Google' },
-        { id: 'tiktok', nome: 'TikTok' }, { id: 'dashboards-trafego', nome: 'Dashboards' },
-        { id: 'pixel', nome: 'Pixel' }, { id: 'publicos', nome: 'Publicos' },
-        { id: 'criativos-vencedores', nome: 'Criativos vencedores' }
-      ] },
-      financeiro: { titulo: 'Financeiro', items: [
-        { id: 'receitas', nome: 'Receitas' }, { id: 'custos', nome: 'Custos' },
-        { id: 'pagamentos', nome: 'Pagamentos' }, { id: 'comissao', nome: 'Comissao' },
-        { id: 'relatorios', nome: 'Relatorios' }
-      ] },
-      rh: { titulo: 'RH', items: [
-        { id: 'sops-rh', nome: 'SOPs' }, { id: 'contratacoes', nome: 'Contratacoes' },
-        { id: 'treinamentos', nome: 'Treinamentos' }, { id: 'manual-cultura', nome: 'Manual da cultura' }
-      ] }
+      produto: { titulo: 'Produto', items: [] },
+      trafego: { titulo: 'Trafego', items: [] },
+      financeiro: { titulo: 'Financeiro', items: [] },
+      rh: { titulo: 'RH', items: [] }
     }
   },
   produtos: {
     titulo: 'Produtos', eyebrow: '// PRODUTOS',
     descricao: 'Tudo de cada oferta num lugar so.',
     items: {
-      kairos: { titulo: 'Mentoria Kairos', items: [
-        { id: 'lp-kairos', nome: 'Landing Page' },
-        { id: 'oferta-kairos', nome: 'Oferta' },
-        { id: 'criativos-kairos', nome: 'Criativos' },
-        { id: 'produto-kairos', nome: 'Produto' },
-        { id: 'dashboards-kairos', nome: 'Dashboards' },
-        { id: 'pesquisa-kairos', nome: 'Pesquisa' },
-        { id: 'financeiro-kairos', nome: 'Financeiro' }
-      ] },
+      kairos: { titulo: 'Mentoria Kairos', items: [] },
       workshop: { titulo: 'Workshop Destrava Shopee', items: [
-        { id: 'dash-1', nome: 'Dashboard 1' }, { id: 'dash-2', nome: 'Dashboard 2' },
+        { id: 'dash-1', nome: 'Dashboard 1' },
+        { id: 'dash-2', nome: 'Dashboard 2' },
         { id: 'dash-3', nome: 'Dashboard 3' }
       ] },
       eventos: { titulo: 'Eventos Presenciais', items: [
-        { id: 'manual-participante', nome: 'Manual do participante', type: 'doc' }
+        { id: 'manual-participante', nome: 'Manual do participante' }
       ] },
       minicurso: { titulo: 'Minicurso', items: [] },
       comunidade: { titulo: 'Comunidade', items: [] }
@@ -471,46 +436,18 @@ const ESTRUTURA = {
     titulo: 'SOPs', eyebrow: '// SOPs',
     descricao: 'Como fazer as coisas. Procedimentos passo-a-passo do time.',
     items: [
-      { id: 'sop-anuncio', nome: 'Como subir um anuncio' },
-      { id: 'sop-campanha', nome: 'Como criar uma campanha' },
-      { id: 'sop-workshop', nome: 'Como lancar um workshop' },
-      { id: 'sop-carrinho', nome: 'Como abrir carrinho' },
-      { id: 'sop-checkout', nome: 'Como criar checkout' },
-      { id: 'sop-resposta', nome: 'Como responder um aluno' },
-      { id: 'sop-boleto', nome: 'Como gerar boleto' },
-      { id: 'sop-caixa', nome: 'Como fechar caixa' },
-      { id: 'sop-onboarding', nome: 'Como fazer onboarding' },
-      { id: 'playbook-kairos', nome: 'Playbook Mentoria Kairos', type: 'doc' }
+      { id: 'playbook-kairos', nome: 'Playbook Mentoria Kairos' }
     ]
   },
   biblioteca: {
     titulo: 'Biblioteca', eyebrow: '// BIBLIOTECA',
     descricao: 'Ativos para consulta. Brandbook, fotos, templates, juridicos.',
-    items: [
-      { id: 'logos', nome: 'Logos' }, { id: 'brandbook', nome: 'Brandbook' },
-      { id: 'fotos-ju', nome: 'Fotos da Ju' }, { id: 'broll', nome: 'Videos B-roll' },
-      { id: 'templates-canva', nome: 'Templates Canva' },
-      { id: 'fontes', nome: 'Fontes' }, { id: 'assets', nome: 'Assets' },
-      { id: 'juridicos', nome: 'Documentos juridicos' },
-      { id: 'contratos', nome: 'Contratos base' },
-      { id: 'certificados', nome: 'Certificados' }
-    ]
+    items: []
   },
   conhecimento: {
     titulo: 'Conhecimento', eyebrow: '// CONHECIMENTO',
     descricao: 'Tudo que a empresa aprendeu. Segundo cerebro da operacao.',
-    items: [
-      { id: 'testes-anuncios', nome: 'Testes de anuncios' },
-      { id: 'criativos-vencedores', nome: 'Criativos vencedores' },
-      { id: 'headlines', nome: 'Headlines vencedoras' },
-      { id: 'cpls', nome: 'CPLs historicos' },
-      { id: 'benchmarks', nome: 'Benchmarks' },
-      { id: 'aprendizados', nome: 'Aprendizados de lancamentos' },
-      { id: 'relatorios', nome: 'Relatorios pos-evento' },
-      { id: 'pesquisa', nome: 'Pesquisa com alunos' },
-      { id: 'icp', nome: 'ICP atualizado' },
-      { id: 'objecoes', nome: 'Objecoes novas' }
-    ]
+    items: []
   }
 };
 
