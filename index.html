@@ -536,7 +536,27 @@ const INITIAL_DATA = {
 };
 let STATE = {};
 const STATE_KEY = 'kronos_state_v1';
-function loadState() { try { const raw = localStorage.getItem(STATE_KEY); if (raw) { STATE = JSON.parse(raw); return; } } catch(e) {} STATE = JSON.parse(JSON.stringify(INITIAL_DATA)); saveState(); }
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STATE_KEY);
+    if (raw) {
+      STATE = JSON.parse(raw);
+      // merge: items do INITIAL_DATA que faltam no STATE local sao adicionados (preserva edicoes)
+      for (const scopeKey of Object.keys(INITIAL_DATA)) {
+        if (!STATE[scopeKey] || typeof STATE[scopeKey] !== 'object') STATE[scopeKey] = {};
+        for (const itemId of Object.keys(INITIAL_DATA[scopeKey])) {
+          if (!STATE[scopeKey][itemId]) {
+            STATE[scopeKey][itemId] = JSON.parse(JSON.stringify(INITIAL_DATA[scopeKey][itemId]));
+          }
+        }
+      }
+      saveState();
+      return;
+    }
+  } catch(e) {}
+  STATE = JSON.parse(JSON.stringify(INITIAL_DATA));
+  saveState();
+}
 function saveState() { try { localStorage.setItem(STATE_KEY, JSON.stringify(STATE)); } catch(e) {} }
 
 // === TOC lateral ===
@@ -866,13 +886,13 @@ function buildResumo() {
 function openResumo() {
   const md = buildResumo();
   const el = document.getElementById('resumo-content');
-  // render como HTML escapado + links
+  // hierarquia: // area (rosa) > o sub-area (item) > · item (link)
   const html = md.split('\n').map(line => {
-    if (line.startsWith('## ')) return '<h3 style="margin:18px 0 8px;font-size:14px;color:var(--pink)">// '+escapeHtml(line.substring(3))+'</h3>';
-    if (line.startsWith('### ')) return '<h4 style="margin:12px 0 6px;font-size:12.5px;color:var(--text)">'+escapeHtml(line.substring(4))+'</h4>';
+    if (line.startsWith('## ')) return '<div style="margin:20px 0 6px;font-size:14px;color:var(--pink);font-weight:600;letter-spacing:.04em">// '+escapeHtml(line.substring(3))+'</div>';
+    if (line.startsWith('### ')) return '<div style="margin:10px 0 4px 12px;font-size:12.5px;color:var(--text);font-weight:500"><span style="color:var(--pink);margin-right:6px">○</span>'+escapeHtml(line.substring(4))+'</div>';
     if (line.startsWith('- [')) {
       const m = line.match(/^\- \[(.+?)\]\((.+?)\)$/);
-      if (m) return '<div style="padding:3px 0 3px 12px;font-size:13px"><a href="'+m[2]+'" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none;border-bottom:1px solid var(--glass-border)">'+escapeHtml(m[1])+'</a> <span style="color:var(--text-faint);font-size:11px">↗</span></div>';
+      if (m) return '<div style="padding:3px 0 3px 32px;font-size:13px"><span style="color:var(--text-faint);margin-right:6px">·</span><a href="'+m[2]+'" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none;border-bottom:1px solid var(--glass-border)">'+escapeHtml(m[1])+'</a> <span style="color:var(--text-faint);font-size:11px">↗</span></div>';
     }
     return '';
   }).join('');
