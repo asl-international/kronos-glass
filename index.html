@@ -1123,7 +1123,7 @@ function bindItemActions() {
   }));
   document.querySelectorAll('[data-f]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setFilter(a.dataset.f); }));
   const tog = document.getElementById('toggle-empty'); if (tog) tog.addEventListener('click', () => { showEmpty = !showEmpty; setFilter(currentFilter); });
-  const addBtn = document.getElementById('add-item'); if (addBtn) addBtn.addEventListener('click', () => openAddEdit('add', currentView));
+  const addBtn = document.getElementById('add-item'); if (addBtn) addBtn.addEventListener('click', () => openAddEdit('add', currentView, null, currentSubScope));
 }
 function setFilter(f) { currentFilter = f; renderScope(); }
 
