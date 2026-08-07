@@ -761,11 +761,15 @@ function collectAllItems(scopeKey) {
   const out = [];
   const skipEmpty = !showEmpty;
   if (scopeKey === 'gestao') {
+    const stateItems = STATE.gestao || {};
+    const seen = new Set();
     ESTRUTURA.gestao.items.forEach(it => {
-      const s = (STATE.gestao || {})[it.id];
+      seen.add(it.id);
+      const s = stateItems[it.id];
       if (s) out.push({ ...s, scopeKey, parentId: it.id, _parentName: it.nome });
       else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
+    Object.values(stateItems).forEach(s => { if (s && s.id && !seen.has(s.id)) out.push({ ...s, scopeKey, parentId: s.id }); });
   } else if (scopeKey === 'operacao') {
     if (!currentSubScope || !ESTRUTURA.operacao.areas[currentSubScope]) {
       Object.entries(ESTRUTURA.operacao.areas).forEach(([subKey, sub]) => {
@@ -774,12 +778,19 @@ function collectAllItems(scopeKey) {
       return out;
     }
     const sub = ESTRUTURA.operacao.areas[currentSubScope];
-    sub.items.forEach(it => {
-      const fullKey = `operacao.${currentSubScope}`;
-      const s = (STATE[fullKey] || {})[it.id];
-      if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome, _subKey: currentSubScope });
-      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _subKey: currentSubScope });
-    });
+    const fullKey = `operacao.${currentSubScope}`;
+    const stateItems = STATE[fullKey] || {};
+    const seen = new Set();
+    if (sub.items) {
+      sub.items.forEach(it => {
+        seen.add(it.id);
+        const s = stateItems[it.id];
+        if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome, _subKey: currentSubScope });
+        else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _subKey: currentSubScope });
+      });
+    }
+    // items custom que estao no STATE mas nao na ESTRUTURA
+    Object.values(stateItems).forEach(s => { if (s && s.id && !seen.has(s.id)) out.push({ ...s, scopeKey, parentId: s.id, _subKey: currentSubScope }); });
   } else if (scopeKey === 'produtos') {
     if (!currentSubScope || !ESTRUTURA.produtos.items[currentSubScope]) {
       Object.entries(ESTRUTURA.produtos.items).forEach(([prodKey, prod]) => {
@@ -788,31 +799,49 @@ function collectAllItems(scopeKey) {
       return out;
     }
     const prod = ESTRUTURA.produtos.items[currentSubScope];
-    if (!prod.items || !prod.items.length) { return out; }
-    prod.items.forEach(it => {
-      const fullKey = `produtos.${currentSubScope}`;
-      const s = (STATE[fullKey] || {})[it.id];
-      if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome, _prodKey: currentSubScope });
-      else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _prodKey: currentSubScope });
-    });
+    const fullKey = `produtos.${currentSubScope}`;
+    const stateItems = STATE[fullKey] || {};
+    const seen = new Set();
+    if (prod.items) {
+      prod.items.forEach(it => {
+        seen.add(it.id);
+        const s = stateItems[it.id];
+        if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome, _prodKey: currentSubScope });
+        else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _prodKey: currentSubScope });
+      });
+    }
+    // items custom que estao no STATE mas nao na ESTRUTURA
+    Object.values(stateItems).forEach(s => { if (s && s.id && !seen.has(s.id)) out.push({ ...s, scopeKey, parentId: s.id, _prodKey: currentSubScope }); });
   } else if (scopeKey === 'sops') {
+    const stateItems = STATE.sops || {};
+    const seen = new Set();
     ESTRUTURA.sops.items.forEach(it => {
-      const s = (STATE.sops || {})[it.id];
+      seen.add(it.id);
+      const s = stateItems[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome });
       else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
+    Object.values(stateItems).forEach(s => { if (s && s.id && !seen.has(s.id)) out.push({ ...s, scopeKey, parentId: s.id }); });
   } else if (scopeKey === 'biblioteca') {
+    const stateItems = STATE.biblioteca || {};
+    const seen = new Set();
     ESTRUTURA.biblioteca.items.forEach(it => {
-      const s = (STATE.biblioteca || {})[it.id];
+      seen.add(it.id);
+      const s = stateItems[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome });
       else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
+    Object.values(stateItems).forEach(s => { if (s && s.id && !seen.has(s.id)) out.push({ ...s, scopeKey, parentId: s.id }); });
   } else if (scopeKey === 'conhecimento') {
+    const stateItems = STATE.conhecimento || {};
+    const seen = new Set();
     ESTRUTURA.conhecimento.items.forEach(it => {
-      const s = (STATE.conhecimento || {})[it.id];
+      seen.add(it.id);
+      const s = stateItems[it.id];
       if (s) out.push({ ...s, nome: s.nome || it.nome, scopeKey, parentId: it.id, _parentName: it.nome });
       else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
+    Object.values(stateItems).forEach(s => { if (s && s.id && !seen.has(s.id)) out.push({ ...s, scopeKey, parentId: s.id }); });
   }
   return out;
 }
