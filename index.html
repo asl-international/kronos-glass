@@ -852,9 +852,25 @@ function navigate(scopeKey, subKey) {
   document.body.dataset.view = scopeKey;
   document.body.dataset.sub = currentSubScope || '';
   document.querySelectorAll('.navlinks a, .nav-drawer-list a').forEach(a => a.classList.toggle('active', a.dataset.nav === scopeKey));
+  // atualiza hash sem disparar hashchange
+  const newHash = scopeKey === 'home' ? '#/' : '#/' + scopeKey + (currentSubScope ? '/' + currentSubScope : '');
+  if (location.hash !== newHash) {
+    history.replaceState(null, '', newHash);
+  }
   if (scopeKey === 'home') renderHome(); else renderScope();
   window.scrollTo({top:0,behavior:'smooth'});
 }
+function parseHashAndNavigate() {
+  const h = location.hash.replace(/^#\/?/, '');
+  if (!h || h === '') { if (currentView !== 'home') navigate('home'); return; }
+  const parts = h.split('/').filter(Boolean);
+  const scope = parts[0];
+  const sub = parts[1];
+  const validScopes = ['gestao','operacao','produtos','sops','biblioteca','conhecimento'];
+  if (!validScopes.includes(scope)) { if (currentView !== 'home') navigate('home'); return; }
+  navigate(scope, sub);
+}
+window.addEventListener('hashchange', parseHashAndNavigate);
 function renderScope(){
   document.getElementById('view-home').hidden=true;
   document.getElementById('view-content').hidden=false;
@@ -1193,7 +1209,12 @@ loadState();
 buildNav();
 document.body.dataset.view = 'home';
 document.body.dataset.sub = '';
-renderHome();
+// se ja tem hash na URL, navega direto
+if (location.hash && location.hash !== '#/' && location.hash !== '#') {
+  parseHashAndNavigate();
+} else {
+  renderHome();
+}
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeNavDrawer(); closeToc(); } });
 </script>
 </body>
