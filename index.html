@@ -599,6 +599,10 @@ function loadState() {
     const raw = localStorage.getItem(STATE_KEY);
     if (raw) {
       STATE = JSON.parse(raw);
+      // cleanup legacy chaves aninhadas (bug antigo: salvava STATE['produtos'] em vez de STATE['produtos.workshop'])
+      for (const k of ['produtos', 'operacao']) {
+        if (STATE[k] && typeof STATE[k] === 'object' && !STATE[k].id) delete STATE[k];
+      }
       // merge: items do INITIAL_DATA que faltam no STATE local sao adicionados (preserva edicoes)
       for (const scopeKey of Object.keys(INITIAL_DATA)) {
         if (!STATE[scopeKey] || typeof STATE[scopeKey] !== 'object') STATE[scopeKey] = {};
@@ -763,7 +767,7 @@ function collectAllItems(scopeKey) {
       else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id });
     });
   } else if (scopeKey === 'operacao') {
-    if (!currentSubScope) {
+    if (!currentSubScope || !ESTRUTURA.operacao.areas[currentSubScope]) {
       Object.entries(ESTRUTURA.operacao.areas).forEach(([subKey, sub]) => {
         out.push({ id: '_sub_'+subKey, nome: sub.titulo, type: 'subhead', scopeKey, parentId: subKey });
       });
@@ -777,7 +781,7 @@ function collectAllItems(scopeKey) {
       else if (!skipEmpty) out.push({ id: it.id, nome: it.nome, type: 'empty', scopeKey, parentId: it.id, _subKey: currentSubScope });
     });
   } else if (scopeKey === 'produtos') {
-    if (!currentSubScope) {
+    if (!currentSubScope || !ESTRUTURA.produtos.items[currentSubScope]) {
       Object.entries(ESTRUTURA.produtos.items).forEach(([prodKey, prod]) => {
         out.push({ id: '_sub_'+prodKey, nome: prod.titulo, type: 'subhead', scopeKey, parentId: prodKey });
       });
