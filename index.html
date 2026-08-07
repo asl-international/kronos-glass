@@ -879,9 +879,6 @@ function renderHome() {
     <div class="eyebrow">// Visão Geral</div>
     <h1>Painel de <span class="l">controle</span></h1>
     <p class="lead">Hub agregador do Instituto Kronos. Tudo é link externo pra Sheets, Docs, Drive, Looker, Zouti, Asaas.</p>
-    <div class="meta">
-      <span class="updated">atualizado ${new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span>
-    </div>
     <div class="layer-grid">
       ${layers.map(l => { const c = getScopeCount(l.key); return `<a class="layer-card" data-nav="${l.key}">
         <div class="lc-eyebrow">${l.eyebrow}</div>
